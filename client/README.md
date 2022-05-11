@@ -5,11 +5,16 @@ This is the frontend client for Cacao DAO.
 The client is written in [TypeScript](https://www.typescriptlang.org/) and uses the [React](https://reactjs.org/) framework.
 We leverage [Tailwind CSS](https://tailwindcss.com/docs/) for styling.
 
+## Installation
+
+To get started with the client, you need to install the needed packages:
+`npm install`
+
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -17,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+### `npm run test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
@@ -31,6 +36,13 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run lint`, `lint:fix`, `format` and `preflight`
+
+- `npm run lint`: will search for problems using eslint, but will not fix
+- `npm run lint:fix`: will search and try to fix the problems using eslint.
+- `npm run format`: will call prettier to fix the code style.
+- `npm run preflight`: will run the lint and format commands.
 
 # Developing Resources
 
