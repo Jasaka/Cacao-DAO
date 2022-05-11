@@ -9,8 +9,44 @@
 * Clean up a merge request (via rebase or squash) before notifying the reviewers for the final review.
 
 ## Setup
+### Initial Steps
+Clone the Repo
 
-tbd.
+Make sure you have installed [node.js](https://nodejs.org/en/) (and [npm, optionally using nvm](https://www.npmjs.com/package/npm))
+Install [Truffle](https://trufflesuite.com/truffle/) and [Ganache](https://trufflesuite.com/ganache/)
+
+Installing truffle globally:
+`npm install truffle -g`
+
+To install Ganache just install the executable under the above link.
+
+> If you use WSL2 on Windows 10, on running Ganache make sure to use the Host `vEthernet (WSL)` setting under "Server"
+
+>The Ganache installation can be a little convoluted. If you aren't able to install the latest version, try [v2.5.4](https://github.com/trufflesuite/ganache-ui/releases/tag/v2.5.4)
+
+### Repo Structure
+Smart Contract Development:
+-   `truffle-config.js`: Truffle configuration file
+-   `contracts/`: Contains the [Solidity](https://solidity.readthedocs.io/) source files for our smart contracts.
+-   `migrations/`: Truffle uses a migration system to handle smart contract deployments. A migration is an additional special smart contract that keeps track of changes. These are stored here
+-   `test/`: Contains both JavaScript and Solidity tests for our smart contracts
+
+Client Development
+-   `client/public/`: The built frontend client
+-   `client/src/`: Client source files
+
+Server Development (?)
+- `server/`: tbd.
+
+### Basic Usage
+Smart contracts are deployed to the network using Truffle.
+They are written in Solidity.
+
+To compile the contracts, run:
+`truffle compile` (in the root directory)
+
+If you have an instance of Ganache running, you can deploy the contracts to it using:
+`truffle migrate` (in the root directory).
 
 
 ## Commits
