@@ -8,6 +8,23 @@
 * Commit as often as possible, even if it is work-in-progress code. This allows you to go back easily and ensures that you have an emergency backup if something goes wrong.
 * Clean up a merge request (via rebase or squash) before notifying the reviewers for the final review.
 
+## API
+
+Currently supported routes are:
+| Route                                         | Type | Body                                                           | Response         |
+| --------------------------------------------- | ---- | -------------------------------------------------------------- | ---------------- |
+| /users                                        | GET  |                                                                |                  |
+| /users/{id}                                   | GET  |                                                                |                  |
+| /login                                        | POST | {userName: string, password: string}                         | {token, expirationDate} |
+| /proposals                                     | GET  |                                                                |                  |
+| /proposals/{id}                               | GET  |                                                                |                  |
+| /proposals                                    | POST | {title: string, description: string, predictedCost?: number}  |                  |
+| /proposals/{id}/flags                     | GET  |                                                                |                  |
+| /proposals/{id}/flags                     | POST | {proposalHash: string, flagMessage: string, flagAuthorId?: uuid} |                  |
+| /proposalFlags                                        | GET  |                                                                |                  |
+
+The API can be reached via https://cacao-dao-api.herokuapp.com/
+
 ## Setup
 ### Initial Steps
 Clone the Repo
@@ -37,6 +54,8 @@ Client Development
 
 Server Development (?)
 - `server/`: tbd.
+
+## Smart Contracts
 
 ### Basic Usage
 Smart contracts are deployed to the network using Truffle.
