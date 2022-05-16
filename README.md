@@ -20,6 +20,9 @@ To install Ganache just install the executable under the above link.
 #### For API development
 Move into `api/` and run `npm install` to install needed packages.
 
+You will need to run the following command to enable the `.env` file:
+`cp .env.dist .env`
+
 For database (sql) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A `PostgreSQL` database dump can be found under `api/cacao-dao-api-db.dump`.
 
 For request-testing against the API you could use [Insomnia](https://insomnia.rest/). An Insomnia request collection can be found under `api/insomnia-api-request-collection.json`.
