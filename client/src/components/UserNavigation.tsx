@@ -10,8 +10,8 @@ const user = {
 };
 
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Your Profile', href: '/profile' },
+  { name: 'Sign out', href: '/sign-out' },
 ];
 
 interface UserNavigationProps {

@@ -3,9 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import ViewHolder from '../components/ViewHolder';
 
 export default function AppRouter() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-
   return (
     <Routes>
       <Route path='/' element={<ViewHolder view={'Townsquare'} />} />
@@ -24,6 +21,8 @@ export default function AppRouter() {
         element={<ViewHolder view={'Funded Projects'} />}
       />
       <Route path='login' element={<ViewHolder view={'Login'} />} />
+      <Route path='sign-out' element={<ViewHolder view={'Sign In'} />} />
+      <Route path='profile' element={<ViewHolder view={'User Profile'} />} />
     </Routes>
   );
 }

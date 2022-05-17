@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import PlaceHolder from './PlaceHolder';
+import Footer from './Footer';
 
 interface ViewHolderProps {
   view: string;
@@ -21,6 +22,7 @@ export default function ViewHolder(props: ViewHolderProps) {
             <PlaceHolder placeholderName={props.view} />
           </div>
         </main>
+        <Footer />
       </div>
     </>
   );
