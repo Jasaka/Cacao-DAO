@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  HashtagIcon,
-  ThumbDownIcon,
-  ThumbUpIcon,
-} from '@heroicons/react/solid';
+import { HashtagIcon } from '@heroicons/react/solid';
 
 interface ProposalListItemProps {
   item: {
@@ -19,6 +15,17 @@ interface ProposalListItemProps {
 
 export default function ProposalListItem(props: ProposalListItemProps) {
   const { item } = props;
+
+  const fullVoteAmount = item.upVotes + item.downVotes;
+  const upVotePercentage = item.upVotes / fullVoteAmount;
+  const downVotePercentage = item.downVotes / fullVoteAmount;
+
+  const voteBarStyle = {
+    backgroundImage: `linear-gradient(to right, #4EB32E ${
+      upVotePercentage * 100
+    }%, #B3501D ${downVotePercentage * 100}%)`,
+  };
+
   return (
     <li key={item.id}>
       <a href='#' className='block hover:bg-gray-50'>
@@ -35,20 +42,10 @@ export default function ProposalListItem(props: ProposalListItemProps) {
           </div>
           <div className='mt-2 sm:flex sm:justify-between'>
             <div className='sm:flex'>
-              <p className='flex items-center text-sm text-gray-500'>
-                <ThumbUpIcon
-                  className='flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400'
-                  aria-hidden='true'
-                />
-                {item.upVotes}
-              </p>
-              <p className='mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6'>
-                <ThumbDownIcon
-                  className='flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400'
-                  aria-hidden='true'
-                />
-                {item.downVotes}
-              </p>
+              <div
+                style={voteBarStyle}
+                className={`mt-2 h-1 w-40 rounded`}
+              ></div>
             </div>
             <div className='mt-2 flex items-center text-sm text-gray-500 sm:mt-0'>
               <HashtagIcon

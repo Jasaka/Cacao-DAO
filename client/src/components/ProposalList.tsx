@@ -18,8 +18,8 @@ const proposalList = [
     description:
       'We want to introduce a smart checkout system to the fridge, enabling logging of access and automation  of bottle space refills.',
     predictedCost: 200,
-    upVotes: 42,
-    downVotes: 13,
+    upVotes: 0,
+    downVotes: 0,
     currentHash:
       'f3168925553f410ff525ec4d7f0b699e1193687e52eed34abe2f39eabce1f394',
     id: 'b8a8b025-267c-4ade-832a-c563c04a21a1',
@@ -30,7 +30,7 @@ const proposalList = [
       "Please try to lobby against teaching promises during all the development courses, so I don't need to deal with them.",
     predictedCost: 360.2,
     upVotes: 1337,
-    downVotes: 0,
+    downVotes: 3,
     currentHash:
       'c8b3964d91ccb4768b992530391a2e865bed935a7345519f58bcc13940a62491',
     id: '01d6269e-7542-4b6e-9c86-3a0dc8bc928c',
