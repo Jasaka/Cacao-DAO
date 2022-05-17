@@ -27,7 +27,7 @@ export default function UserNavigation(props: UserNavigationProps) {
           <NotificationButton displaySize={'large'} />
 
           {/* Profile dropdown */}
-          <Menu as='div' className='ml-3 relative'>
+          <Menu as='div' className='ml-3 relative z-10'>
             <div>
               <Menu.Button className='max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
                 <span className='sr-only'>Open user menu</span>

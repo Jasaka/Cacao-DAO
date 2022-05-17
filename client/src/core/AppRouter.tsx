@@ -3,6 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import ViewHolder from './ViewHolder';
 import ProposalList from '../proposal/ProposalList';
 import PlaceHolder from './PlaceHolder';
+import Login from '../login/Login';
+import Townsquare from '../dashboard/Townsquare';
+import Page404 from '../error/Page404';
+import ProposalMask from '../proposal/ProposalMask';
 
 export default function AppRouter() {
   return (
@@ -10,15 +14,23 @@ export default function AppRouter() {
       <Route
         path='/'
         element={
-          <ViewHolder view={'Townsquare'}>
-            <PlaceHolder placeholderName={'Townsquare'} />
+          <ViewHolder view={'Townsquare'} pageTitle={'Cacao DAO Townsquare'}>
+            <Townsquare />
           </ViewHolder>
         }
       />
       <Route
         path='proposals'
         element={
-          <ViewHolder view={'Proposals'}>
+          <ViewHolder
+            view={'Proposals'}
+            pageTitle={'Cacao DAO Proposals'}
+            pageHeading={'Proposals'}
+            actionButton={{
+              label: 'New Proposal',
+              target: '/proposals/new',
+            }}
+          >
             <ProposalList />
           </ViewHolder>
         }
@@ -26,8 +38,12 @@ export default function AppRouter() {
       <Route
         path='proposals/new'
         element={
-          <ViewHolder view={'New Proposal'}>
-            <PlaceHolder placeholderName={'New Proposal'} />
+          <ViewHolder
+            view={'New Proposal'}
+            pageTitle={'Cacao DAO New Proposal'}
+            pageHeading={'Submit new Proposal'}
+          >
+            <ProposalMask />
           </ViewHolder>
         }
       />
@@ -59,7 +75,7 @@ export default function AppRouter() {
         path='login'
         element={
           <ViewHolder view={'Login'}>
-            <PlaceHolder placeholderName={'Login'} />
+            <Login />
           </ViewHolder>
         }
       />
@@ -79,6 +95,7 @@ export default function AppRouter() {
           </ViewHolder>
         }
       />
+      <Route path={'*'} element={<Page404 />} />
     </Routes>
   );
 }
