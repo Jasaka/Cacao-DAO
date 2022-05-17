@@ -8,8 +8,10 @@ Make sure you have installed [node.js](https://nodejs.org/en/) (and [npm, option
 Install [Truffle](https://trufflesuite.com/truffle/) and [Ganache](https://trufflesuite.com/ganache/)
 
 #### For smart contract development
-Installing truffle globally:
+- Installing truffle globally:
 `npm install truffle -g`
+
+See the [README](https://github.com/Jasaka/Cacao-DAO/blob/main/polygon/README.md) for further information.
 
 To install Ganache just install the executable under the above link.
 
@@ -39,7 +41,8 @@ We leverage [Tailwind CSS](https://tailwindcss.com/docs/) for styling.
 
 ### Repo Structure
 Smart Contract Development:
--   `truffle-config.js`: Truffle configuration file
+-   `truffle-config.js`: Truffle configuration file for Ethereum
+-   `truffle-config.polygon.js`: Truffle configuration file for [Polygon](https://trufflesuite.com/boxes/polygon/)
 -   `contracts/`: Contains the [Solidity](https://solidity.readthedocs.io/) source files for our smart contracts.
 -   `migrations/`: Truffle uses a migration system to handle smart contract deployments. A migration is an additional special smart contract that keeps track of changes. These are stored here
 -   `test/`: Contains both JavaScript and Solidity tests for our smart contracts
@@ -87,6 +90,7 @@ To run the API locally run `npm run start:local`.
 
 tbd.
 
+___
 ## Contributing
 
 ### General
@@ -144,3 +148,7 @@ If you are sure that your merge request will pass muster but still either want f
 
 #### Ship
 For very small localized changes like typos, fast hotfixes or small styling changes, that are ***definitely*** not breaking anything you can directly merge-commit your changes into `main`.
+
+[_Polygon Box_]: https://trufflesuite.com/boxes/polygon/
+
+[Polygon]: https://trufflesuite.com/boxes/polygon/
