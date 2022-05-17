@@ -1,10 +1,10 @@
 import React from 'react';
 import Header from './Header';
-import PlaceHolder from './PlaceHolder';
 import Footer from './Footer';
 
 interface ViewHolderProps {
   view: string;
+  children: React.ReactNode;
 }
 
 export default function ViewHolder(props: ViewHolderProps) {
@@ -19,7 +19,7 @@ export default function ViewHolder(props: ViewHolderProps) {
         </header>
         <main>
           <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
-            <PlaceHolder placeholderName={props.view} />
+            {props.children}
           </div>
         </main>
         <Footer />
