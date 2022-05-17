@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import ViewHolder from '../components/ViewHolder';
-import ProposalList from '../components/ProposalList';
-import PlaceHolder from '../components/PlaceHolder';
+import ViewHolder from './ViewHolder';
+import ProposalList from '../proposal/ProposalList';
+import PlaceHolder from './PlaceHolder';
 
 export default function AppRouter() {
   return (
@@ -10,8 +10,8 @@ export default function AppRouter() {
       <Route
         path='/'
         element={
-          <ViewHolder view={'Proposals'}>
-            <PlaceHolder placeholderName={'Proposals'} />
+          <ViewHolder view={'Townsquare'}>
+            <PlaceHolder placeholderName={'Townsquare'} />
           </ViewHolder>
         }
       />

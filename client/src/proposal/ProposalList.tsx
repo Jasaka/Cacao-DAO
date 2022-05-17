@@ -8,7 +8,7 @@ const proposalList = [
       'We want a nice and trustless consens finding tool, to improve community cohesion and nonviolent communication during voting periods. ',
     predictedCost: 7200,
     upVotes: 10000000,
-    downVotes: -100000,
+    downVotes: 0,
     currentHash:
       '89de048b874189d685b733b9740daed6989f7823c92d2cd93d7cc899edc8f1bf',
     id: 'df2549c5-1675-4b3e-9fc4-c9fca7fc22f9',
@@ -39,7 +39,7 @@ const proposalList = [
     title: 'Stop being dumb',
     description: "We'd get so much more done if you'd just stop being dumb.",
     predictedCost: 0,
-    upVotes: 0,
+    upVotes: 43,
     downVotes: 12,
     currentHash:
       '34c27cb80965dcb3d11f4138f26d2ab66f153a89a2d9f31960583a84c6c4e91c',

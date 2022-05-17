@@ -1,8 +1,8 @@
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import Navigation from './Navigation';
-import UserNavigation from './UserNavigation';
+import Navigation from '../navigation/Navigation';
+import UserNavigation from '../navigation/UserNavigation';
 
 interface HeaderProps {
   currentView: string;
