@@ -10,6 +10,10 @@ export default function AppRouter() {
     <Routes>
       <Route path='/' element={<ViewHolder view={'Townsquare'} />} />
       <Route path='proposals' element={<ViewHolder view={'Proposals'} />} />
+      <Route
+        path='proposals/new'
+        element={<ViewHolder view={'New Proposal'} />}
+      />
       <Route path='voting' element={<ViewHolder view={'Voting'} />} />
       <Route
         path='pending'
@@ -19,6 +23,7 @@ export default function AppRouter() {
         path='projects'
         element={<ViewHolder view={'Funded Projects'} />}
       />
+      <Route path='login' element={<ViewHolder view={'Login'} />} />
     </Routes>
   );
 }
