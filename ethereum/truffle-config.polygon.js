@@ -10,12 +10,12 @@ module.exports = {
   /**
   * contracts_build_directory tells Truffle where to store compiled contracts
   */
-  contracts_build_directory: './build/polygon-contracts',
+  contracts_build_directory: './build/ethereum-contracts',
 
   /**
   * contracts_directory tells Truffle where the contracts you want to compile are located
   */
-  contracts_directory: './contracts/polygon',
+  contracts_directory: './contracts/ethereum',
 
 
   networks: {
@@ -24,7 +24,7 @@ module.exports = {
       port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
     },
-    //polygon Infura mainnet
+    //ethereum Infura mainnet
     polygon_infura_mainnet: {
       provider: () => new HDWalletProvider({
         mnemonic: {
@@ -39,7 +39,7 @@ module.exports = {
       skipDryRun: true,
       chainId: 137
     },
-    //polygon Infura testnet
+    //ethereum Infura testnet
     polygon_infura_testnet: {
       provider: () => new HDWalletProvider({
         mnemonic: {
