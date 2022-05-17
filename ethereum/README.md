@@ -41,7 +41,7 @@ Helpful, but optional:
 ## Installation
 
 ```bash
-$ truffle unbox polygon
+$ truffle unbox ethereum
 ```
 
 ## Setup
