@@ -18,7 +18,7 @@ export default function ProposalDialogDetailView(
       <>
         <Dialog.Title>
           {proposal.title}{' '}
-          <span className={'text-xs text-gray-500'}>
+          <span className={'break-words text-xs text-gray-500'}>
             {proposal.currentHash}
           </span>{' '}
         </Dialog.Title>
