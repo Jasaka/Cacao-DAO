@@ -1,12 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ViewHolder from './ViewHolder';
-import ProposalList from '../proposal/ProposalList';
 import PlaceHolder from './PlaceHolder';
 import Login from '../login/Login';
 import Townsquare from '../dashboard/Townsquare';
 import Page404 from '../error/Page404';
 import ProposalMask from '../proposal/ProposalMask';
+import ProposalDetailView from '../proposal/ProposalDetailView';
+import ProposalList from '../proposal/ProposalList';
+import VoteDashboard from '../voting/VoteDashboard';
+import EmptyStateWithRecommendation from '../components/EmptyStates/EmptyStateWithRecommendation';
 
 export default function AppRouter() {
   return (
@@ -42,16 +45,40 @@ export default function AppRouter() {
             view={'New Proposal'}
             pageTitle={'Cacao DAO New Proposal'}
             pageHeading={'Submit new Proposal'}
+            actionButton={{
+              label: 'Back to Proposals',
+              target: '/proposals',
+            }}
           >
             <ProposalMask />
           </ViewHolder>
         }
       />
       <Route
+        path='proposals/:id'
+        element={
+          <ViewHolder
+            view={'Proposal'}
+            pageTitle={'Cacao DAO Proposal'}
+            pageHeading={'Proposal'}
+            actionButton={{
+              label: 'Back to Proposals',
+              target: '/proposals',
+            }}
+          >
+            <ProposalDetailView />
+          </ViewHolder>
+        }
+      />
+      <Route
         path='voting'
         element={
-          <ViewHolder view={'Voting'}>
-            <PlaceHolder placeholderName={'Voting'} />
+          <ViewHolder
+            view={'Quadratic Voting'}
+            pageTitle={'Cacao DAO Voting'}
+            pageHeading={'Quadratic Voting'}
+          >
+            <VoteDashboard />
           </ViewHolder>
         }
       />
@@ -59,7 +86,7 @@ export default function AppRouter() {
         path='pending'
         element={
           <ViewHolder view={'Proposals pending funding'}>
-            <PlaceHolder placeholderName={'Proposals pending funding'} />
+            <EmptyStateWithRecommendation displayedRecommendations={2} />
           </ViewHolder>
         }
       />
@@ -67,7 +94,7 @@ export default function AppRouter() {
         path='projects'
         element={
           <ViewHolder view={'Funded Projects'}>
-            <PlaceHolder placeholderName={'Funded Projects'} />
+            <EmptyStateWithRecommendation displayedRecommendations={3} />
           </ViewHolder>
         }
       />

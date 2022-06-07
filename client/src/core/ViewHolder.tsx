@@ -1,7 +1,8 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import { useTitle } from '../hooks/useTitle';
+import LinkButton from '../components/Button/LinkButton';
 
 interface ViewHolderProps {
   view: string;
@@ -26,12 +27,10 @@ export default function ViewHolder(props: ViewHolderProps) {
             <div className='flex justify-between max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
               <h1 className='text-3xl font-bold text-gray-900'>{props.view}</h1>
               {props.actionButton ? (
-                <a
-                  href={props.actionButton.target}
-                  className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                >
-                  {props.actionButton.label}
-                </a>
+                <LinkButton
+                  target={props.actionButton.target}
+                  label={props.actionButton.label}
+                />
               ) : null}
             </div>
           </header>

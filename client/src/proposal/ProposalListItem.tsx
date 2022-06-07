@@ -10,7 +10,7 @@ interface ProposalListItemProps {
     downVotes: number;
     currentHash: string;
   };
-  onClick: () => void;
+  clickHandler: () => void;
 }
 
 export default function ProposalListItem(props: ProposalListItemProps) {
@@ -18,13 +18,6 @@ export default function ProposalListItem(props: ProposalListItemProps) {
 
   const fullVoteAmount: number = item.upVotes + item.downVotes;
   const upVotePercentage: number = item.upVotes / fullVoteAmount;
-
-  console.log(item.title);
-
-  console.log(
-    'Full Votes: ' + fullVoteAmount,
-    'Upvotepercentage: ' + upVotePercentage,
-  );
 
   let leftSize = 0;
   let rightSize = 0;
@@ -35,9 +28,6 @@ export default function ProposalListItem(props: ProposalListItemProps) {
     leftSize = 39;
     rightSize = 1;
   }
-
-  console.log('leftSize: ' + leftSize);
-  console.log('rightSize: ' + rightSize);
 
   const variableWidthStyle = (part: number) => {
     return {
@@ -75,8 +65,8 @@ export default function ProposalListItem(props: ProposalListItemProps) {
   };
 
   return (
-    <li key={item.id}>
-      <a href={`/proposals/${item.id}`} className='block hover:bg-gray-50'>
+    <li onClick={props.clickHandler} key={item.id}>
+      <div className='block hover:bg-gray-50 cursor-pointer'>
         <div className='px-4 py-4 sm:px-6'>
           <div className='flex items-center justify-between'>
             <p className='text-sm font-medium text-indigo-600 truncate'>
@@ -99,7 +89,7 @@ export default function ProposalListItem(props: ProposalListItemProps) {
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </li>
   );
 }
