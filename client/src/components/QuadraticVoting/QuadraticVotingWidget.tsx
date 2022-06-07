@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import './voting.css';
 import { useRecoilState } from 'recoil';
 import { openVoteCredits } from '../../voting/votingAtom';
-import { ChangedVoteProps } from '../../voting/VoteListItem';
 
 interface QuadraticVotingWidgetProps {
   id: string;
   currentVote: number;
   openVoteCredits: number;
-  handleVoteChange: (changedVote: ChangedVoteProps) => void;
 }
 
 export default function QuadraticVotingWidget(
@@ -20,7 +18,6 @@ export default function QuadraticVotingWidget(
   );
   const [currentOpenVoteCredits, setOpenVoteCredits] =
     useRecoilState(openVoteCredits);
-  const [dragging, setDragging] = useState(false);
 
   const handleVote = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVote = parseInt(e.target.value);
@@ -35,28 +32,7 @@ export default function QuadraticVotingWidget(
       setCurrentVote(newVote);
       setCurrentVoteCost(newCost);
       setOpenVoteCredits(newOpenVoteCredits);
-      if (dragging) {
-        props.handleVoteChange({
-          inFluxCredits: newCost,
-          previouslyReservedCredits: 100 - newOpenVoteCredits,
-        });
-      } else {
-        props.handleVoteChange({
-          inFluxCredits: 0,
-          previouslyReservedCredits: 100 - newOpenVoteCredits,
-        });
-      }
     }
-  };
-
-  const handleDragStart = () => {
-    console.log('drag start');
-    setDragging(true);
-  };
-
-  const handleDragEnd = () => {
-    console.log('drag end');
-    setDragging(false);
   };
 
   return (
@@ -72,8 +48,6 @@ export default function QuadraticVotingWidget(
         step='1'
         value={currentVote}
         onChange={handleVote}
-        onMouseUp={handleDragEnd}
-        onMouseDown={handleDragStart}
       />
 
       <datalist id={`${props.id}-tickmarks`}>

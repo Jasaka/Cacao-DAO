@@ -24,7 +24,6 @@ interface VoteListItemProps {
   vote: number;
   openVoteCredits: number;
   handleModalOpen: (id: string) => void;
-  handleVoteChange: (changedVote: ChangedVoteProps) => void;
 }
 
 export default function VoteListItem(props: VoteListItemProps) {
@@ -58,7 +57,6 @@ export default function VoteListItem(props: VoteListItemProps) {
                 id={proposal.id}
                 currentVote={vote}
                 openVoteCredits={openVoteCredits}
-                handleVoteChange={props.handleVoteChange}
               />
             </div>
           </div>

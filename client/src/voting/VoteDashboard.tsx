@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import VoteListItem, { ChangedVoteProps } from './VoteListItem';
+import VoteListItem from './VoteListItem';
 import '../components/QuadraticVoting/voting.css';
 import { useRecoilState } from 'recoil';
 import { openVoteCredits, votes } from './votingAtom';
@@ -52,48 +52,6 @@ export default function VoteDashboard() {
     );
   }
 
-  const [barValues, setBarValues] = useState({
-    maxCredits: 100,
-    reservedCredits: 0,
-    inFluxCredits: 0,
-  });
-
-  const [visualisationBarStyles, setVisualisationBarStyles] = useState({
-    reservedStyle: {
-      width: `0px`,
-    },
-    inFluxStyle: {
-      width: `0px`,
-    },
-  });
-
-  useEffect(() => {
-    const barSize = 158;
-
-    console.log('updating styles');
-    const reservedWidth =
-      (barSize * barValues.reservedCredits) / barValues.maxCredits;
-    const inFluxWidth =
-      (barSize * barValues.inFluxCredits) / barValues.maxCredits;
-
-    setVisualisationBarStyles({
-      reservedStyle: {
-        width: `${reservedWidth}px`,
-      },
-      inFluxStyle: {
-        width: `${inFluxWidth}px`,
-      },
-    });
-  }, [barValues]);
-
-  const updateCreditBar = (changedVote: ChangedVoteProps) => {
-    setBarValues({
-      maxCredits: barValues.maxCredits,
-      reservedCredits: barValues.maxCredits - currentlyOpenVoteCredits,
-      inFluxCredits: changedVote.inFluxCredits,
-    });
-  };
-
   return (
     <>
       <Modal onClose={closeModal} isOpen={modal.open}>
@@ -107,18 +65,6 @@ export default function VoteDashboard() {
             }
           >
             Open Vote Credits: {currentlyOpenVoteCredits}
-            <div className={'w-full h-8 flex flex-row mt-4'}>
-              <div className={'w-full h-6 bg-blue-300 flex flex-row'}>
-                <div
-                  style={visualisationBarStyles.reservedStyle}
-                  className={'h6 bg-gray-500'}
-                />
-                <div
-                  style={visualisationBarStyles.inFluxStyle}
-                  className={'w-8 h6 bg-red-600'}
-                />
-              </div>
-            </div>
           </div>
         </div>
 
@@ -132,7 +78,6 @@ export default function VoteDashboard() {
               vote={vote.vote}
               openVoteCredits={currentlyOpenVoteCredits}
               handleModalOpen={(id) => openModal(id)}
-              handleVoteChange={(changedVote) => updateCreditBar(changedVote)}
             />
           );
         })}
