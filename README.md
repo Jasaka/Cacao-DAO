@@ -19,6 +19,12 @@ To install Ganache just install the executable under the above link.
 
 >The Ganache installation can be a little convoluted. If you aren't able to install the latest version, try [v2.5.4](https://github.com/trufflesuite/ganache-ui/releases/tag/v2.5.4)
 
+Installing open zeppelin security audited smart contracts:
+`$ npm install @openzeppelin/contracts`
+
+Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
+
+
 #### For API development
 Move into `api/` and run `npm install` to install needed packages.
 
