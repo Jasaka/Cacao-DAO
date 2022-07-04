@@ -11,7 +11,7 @@ export const getProposalList = () => {
       description:
         'We want a nice and trustless consens finding tool, to improve community cohesion and nonviolent communication during voting periods. ',
       predictedCost: 7200,
-      upVotes: 10000000,
+      upVotes: 100,
       downVotes: 0,
       currentHash:
         '89de048b874189d685b733b9740daed6989f7823c92d2cd93d7cc899edc8f1bf',
@@ -29,9 +29,9 @@ export const getProposalList = () => {
       id: 'b8a8b025-267c-4ade-832a-c563c04a21a1',
     },
     {
-      title: 'I hate Promises',
+      title: 'Buy new tabletennis rackets',
       description:
-        "Please try to lobby against teaching promises during all the development courses, so I don't need to deal with them.",
+        "To facilitate more tabletennis usage, we want to buy new rackets. We'll be able to use them for a long time.",
       predictedCost: 360.2,
       upVotes: 1337,
       downVotes: 3,
@@ -40,8 +40,9 @@ export const getProposalList = () => {
       id: '01d6269e-7542-4b6e-9c86-3a0dc8bc928c',
     },
     {
-      title: 'Stop being dumb',
-      description: "We'd get so much more done if you'd just stop being dumb.",
+      title: 'We need a starting week for the new semester',
+      description:
+        "We need to have a starting week for the new semester to make sure they don't miss anything and as a bonding activity.",
       predictedCost: 0,
       upVotes: 43,
       downVotes: 12,
@@ -50,9 +51,9 @@ export const getProposalList = () => {
       id: '3117a369-de2e-4c34-acd2-a465396b15a7',
     },
     {
-      title: 'I hate Promises',
+      title: 'Add a basic programming course at the start of the semester',
       description:
-        "Please try to lobby against teaching promises during all the development courses, so I don't need to deal with them.",
+        'We need to add a basic programming course at the start of the semester to better teach the students the basics of programming.',
       predictedCost: 360.2,
       upVotes: 1337,
       downVotes: 3,
@@ -61,8 +62,9 @@ export const getProposalList = () => {
       id: '01d6269e-7542-4b6e-9c86-3a0dc8bc938c',
     },
     {
-      title: 'Stop being dumb',
-      description: "We'd get so much more done if you'd just stop being dumb.",
+      title: 'Let the students vote on course order',
+      description:
+        "It'd be smart to let the students themselves Vote on course order, so everyone has a say in how the program develops.",
       predictedCost: 0,
       upVotes: 43,
       downVotes: 12,

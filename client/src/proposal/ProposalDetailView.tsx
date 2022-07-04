@@ -21,7 +21,7 @@ export default function ProposalDetailView() {
   // return view of proposal using tailwind classes
   if (proposal !== undefined) {
     return (
-      <div className={'xl:px-40'}>
+      <div className={'xl:px-40 px-8'}>
         <div className='relative pb-64 sm:pb-64 xl:col-start-1 xl:pb-24'>
           <h2 className='break-words text-sm font-semibold text-indigo-300 tracking-wide uppercase'>
             {proposal.currentHash}

@@ -17,11 +17,7 @@ export default function Header(props: HeaderProps) {
             <div className='flex items-center justify-between h-16'>
               <div className='flex items-center'>
                 <div className='flex-shrink-0'>
-                  <img
-                    className='h-8 w-8'
-                    src='https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg'
-                    alt='Workflow'
-                  />
+                  <img className='h-8 w-8' src='/logo.svg' alt='Workflow' />
                 </div>
                 <Navigation
                   currentView={props.currentView}

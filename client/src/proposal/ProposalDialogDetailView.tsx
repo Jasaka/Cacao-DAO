@@ -27,7 +27,7 @@ export default function ProposalDialogDetailView(
             <div className={'flex flex-row justify-between my-8 mr-4'}>
               <div className={'flex flex-col p-2 border-2 rounded text-center'}>
                 <span className={'text-xs'}>est. cost</span>
-                <span className={'text-lg'}>{proposal.predictedCost}</span>
+                <span className={'text-lg'}>{proposal.predictedCost} €</span>
               </div>
 
               <div className={'flex flex-col p-2 border-2 rounded text-center'}>

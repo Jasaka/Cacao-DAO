@@ -41,11 +41,11 @@ export default function VoteListItem(props: VoteListItemProps) {
     return <div>No proposal</div>;
   } else {
     return (
-      <div className='flex flex-col items-center'>
-        <div className='w-4/6 bg-white shadow sm:rounded-lg mb-4'>
+      <div className='w-full flex flex-col items-center mb-4'>
+        <div className='bg-white shadow sm:rounded-lg mb-4'>
           <div className='px-4 py-5 sm:p-6'>
             <div className='sm:flex sm:items-start sm:justify-between'>
-              <div>
+              <div className={''}>
                 <h3 className='text-lg leading-6 font-medium text-gray-900'>
                   {proposal.title}
                 </h3>

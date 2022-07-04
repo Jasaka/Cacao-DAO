@@ -15,6 +15,19 @@ export default function VoteDashboard() {
   const [currentlyOpenVoteCredits] = useRecoilState(openVoteCredits);
   const [voteList, setVoteList] = useRecoilState(votes);
   const [voted, setVoted] = useState(false);
+  const [openCreditStyle, setOpenCreditStyle] = useState({
+    background: `rgb(45, 45, 45)`,
+    transition: 'background 0.5s ease-out',
+  });
+
+  useEffect(() => {
+    const colorBorder = 100 - currentlyOpenVoteCredits;
+
+    setOpenCreditStyle({
+      background: `linear-gradient(90deg, rgba(45, 45, 45, 1) ${colorBorder}%, rgba(65, 202, 56,1) ${colorBorder}%)`,
+      transition: 'background 0.5s ease-out',
+    });
+  }, [currentlyOpenVoteCredits]);
 
   useEffect(() => {
     const newVoteList = [...voteList];
@@ -57,52 +70,54 @@ export default function VoteDashboard() {
       <Modal onClose={closeModal} isOpen={modal.open}>
         <ProposalDialogDetailView proposalId={modal.id} />
       </Modal>
-      <div className={'relative'}>
-        <div className={'w-3/5 mx-12 my-8'}>
-          <p>
-            Quadratic voting is a collective decision-making procedure which
-            involves individuals allocating votes to express the degree of their
-            preferences, rather than just the direction of their preferences. By
-            doing so, quadratic voting seeks to address issues of voting paradox
-            and majority rule.
-          </p>
-          <br />
-          <p>
-            You can vote on any proposal you want. Casting more votes on a
-            single proposal will increase the price of voting on that proposal
-            exponentially. Specifically the price of voting on a proposal will
-            increase by the square of the number of votes you have cast on that
-            proposal.
-          </p>
-        </div>
-        <div className={'flex justify-end m-8 top-8 sticky'}>
+      <div className={'rounded p-16 mx-12 mt-4 bg-gray-100'}>
+        <p>
+          Quadratic voting is a collective decision-making procedure which
+          involves individuals allocating votes to express the degree of their
+          preferences, rather than just the direction of their preferences. By
+          doing so, quadratic voting seeks to address issues of voting paradox
+          and majority rule.
+        </p>
+        <br />
+        <p>
+          You can vote on any proposal you want. You do not need to spend all
+          points and there might be instances where you won't be able to spend
+          all points. Casting more votes on a single proposal will increase the
+          price of voting on that proposal exponentially. Specifically the price
+          of voting on a proposal will increase by the square of the number of
+          votes you have cast on that proposal.
+        </p>
+      </div>
+      <div className={'relative flex flex-row flex-row-reverse my-8 lg:mx-24'}>
+        <div className={'flex justify-end ml-8 top-8 right-8 sticky h-16'}>
           <div
+            style={openCreditStyle}
             className={
-              'w-32 py-4 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 text-center'
+              'w-32 p-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 text-center'
             }
           >
             Open Vote Credits: {currentlyOpenVoteCredits}
           </div>
         </div>
-
-        {voteList.map((vote) => {
-          return (
-            <VoteListItem
-              key={vote.id}
-              proposal={proposalList.find(
-                (proposal: ProposalProps) => vote.id === proposal.id,
-              )}
-              vote={vote.vote}
-              openVoteCredits={currentlyOpenVoteCredits}
-              handleModalOpen={(id) => openModal(id)}
-            />
-          );
-        })}
-
-        {/* Submit votes */}
-        <div className={'flex justify-end'}>
-          <Button onClick={() => setVoted(true)} label={'Submit Votes'} />
+        <div className={'flex flex-col w-full'}>
+          {voteList.map((vote) => {
+            return (
+              <VoteListItem
+                key={vote.id}
+                proposal={proposalList.find(
+                  (proposal: ProposalProps) => vote.id === proposal.id,
+                )}
+                vote={vote.vote}
+                openVoteCredits={currentlyOpenVoteCredits}
+                handleModalOpen={(id) => openModal(id)}
+              />
+            );
+          })}
         </div>
+      </div>
+      {/* Submit votes */}
+      <div className={'flex justify-end'}>
+        <Button onClick={() => setVoted(true)} label={'Submit Votes'} />
       </div>
     </>
   );
