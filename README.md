@@ -2,27 +2,25 @@
 
 ## Setup
 ### Initial Steps
-Clone the Repo
+1. Clone the Repo
+2. Make sure you have installed [node.js](https://nodejs.org/en/) (and [npm, optionally using nvm](https://www.npmjs.com/package/npm))
 
-Make sure you have installed [node.js](https://nodejs.org/en/) (and [npm, optionally using nvm](https://www.npmjs.com/package/npm))
-Install [Truffle](https://trufflesuite.com/truffle/) and [Ganache](https://trufflesuite.com/ganache/)
-
-#### For smart contract development
-- Installing truffle globally:
+#### For Smart contract development: 
+1. Install truffle globally:
 `npm install truffle -g`
-
-See the [README](https://github.com/Jasaka/Cacao-DAO/blob/main/polygon/README.md) for further information.
-
-To install Ganache just install the executable under the above link.
+2. Install [Ganache](https://trufflesuite.com/ganache/)
 
 > If you use WSL2 on Windows 10, on running Ganache make sure to use the Host `vEthernet (WSL)` setting under "Server"
 
 >The Ganache installation can be a little convoluted. If you aren't able to install the latest version, try [v2.5.4](https://github.com/trufflesuite/ganache-ui/releases/tag/v2.5.4)
 
-Installing open zeppelin security audited smart contracts:
-`$ npm install @openzeppelin/contracts`
+3. Install open zeppelin security audited smart contracts:
+  `$ npm install @openzeppelin/contracts`
 
-Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
+4. Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
+
+
+See the [README](https://github.com/Jasaka/Cacao-DAO/blob/main/polygon/README.md) & The [Truffle Suite Homepage](https://trufflesuite.com/) for further information.
 
 
 #### For API development
@@ -45,6 +43,8 @@ We leverage [Tailwind CSS](https://tailwindcss.com/docs/) for styling.
 
 [Further Information on Client development can be found here.](https://github.com/Jasaka/Cacao-DAO/blob/main/client/README.md)
 
+---
+
 ### Repo Structure
 Smart Contract Development:
 -   `truffle-config.js`: Truffle configuration file for Ethereum
@@ -63,6 +63,8 @@ API Development
 - `api/dbQueries.mjs`: All `SQL` code for off-chain-persistance
 - `api/arweaveQueries.mjs`: All `GraphQL` queries for Arweave interaction
 
+---
+
 ## Smart Contracts
 ### Basic Usage
 Smart contracts are deployed to the network using Truffle.
@@ -73,6 +75,7 @@ To compile the contracts, run:
 
 If you have an instance of Ganache running, you can deploy the contracts to it using:
 `truffle migrate` (in the root directory).
+
 
 ## API
 Currently supported routes are:
@@ -95,8 +98,8 @@ To run the API locally run `npm run start:local`.
 ## Client
 
 tbd.
-
 ___
+
 ## Contributing
 
 ### General
