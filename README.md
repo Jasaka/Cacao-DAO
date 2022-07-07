@@ -14,12 +14,6 @@
 
 >The Ganache installation can be a little convoluted. If you aren't able to install the latest version, try [v2.5.4](https://github.com/trufflesuite/ganache-ui/releases/tag/v2.5.4)
 
-3. Install open zeppelin security audited smart contracts:
-  `$ npm install @openzeppelin/contracts`
-
-4. Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
-
-
 See the [README](https://github.com/Jasaka/Cacao-DAO/blob/main/polygon/README.md) & The [Truffle Suite Homepage](https://trufflesuite.com/) for further information.
 
 
@@ -68,13 +62,34 @@ API Development
 ## Smart Contracts
 ### Basic Usage
 Smart contracts are deployed to the network using Truffle.
-They are written in Solidity.
+They are written in [Solidity](https://docs.soliditylang.org/en/v0.8.15/).
+
+#### Initial Steps
+1. Install open zeppelin security audited smart contracts:
+  `$ npm install @openzeppelin/contracts`
+  
+2. Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
+
+3. Run Ganache
+
+4. Create New Project
+
+5. Add Truffle Project by linking the `truffle-config.js`
+
+6. Save & Launch Workspace
+
+7. change the port number in `truffle-config.js` to match the Ganache RPC Server one (Default: HTTP://127.0.0.1:7545)
+
 
 To compile the contracts, run:
 `truffle compile` (in the root directory)
 
 If you have an instance of Ganache running, you can deploy the contracts to it using:
 `truffle migrate` (in the root directory).
+
+To run solidity tests, run:
+`truffle test` (in the root directory)
+
 
 
 ## API
@@ -98,6 +113,35 @@ To run the API locally run `npm run start:local`.
 ## Client
 
 tbd.
+
+
+### Connecting Client with Web3
+
+#### Instatiating Web3
+`// Modern dapp browsers...  
+if (window.ethereum) {  
+  App.web3Provider = window.ethereum; 
+  try {  
+    // Request account access 
+    await window.ethereum.request({ method: "eth_requestAccounts" });; 
+  } catch (error) {  
+    // User denied account access...
+    console.error("User denied account access")
+  }
+}
+// Legacy dapp browsers...
+else if (window.web3) {
+  App.web3Provider = window.web3.currentProvider;
+}
+// If no injected web3 instance is detected, fall back to Ganache
+else {
+  App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+}
+web3 = new Web3(App.web3Provider);`
+
+
+For further Information on Frontend development, check the [Pet Shop tutorial](https://trufflesuite.com/tutorial/#creating-a-user-interface-to-interact-with-the-smart-contract) from Truffle.
+
 ___
 
 ## Contributing
