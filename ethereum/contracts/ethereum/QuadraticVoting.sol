@@ -62,7 +62,7 @@ contract QuadraticVoting is Ownable, AccessControl {
         emit VotingRoundCreated(_votingRoundHash);
     }
 
-    function createProposal(string calldata _votingRoundHash, string calldata _proposalHash) external onlyOwner returns (uint256) {
+    function createProposal(string calldata _votingRoundHash, string calldata _proposalHash) external onlyOwner {
         require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.COLLECTING_PROPOSALS, "Proposal collection phase has been closed or was not yet initiated"); //TODO: check gas fees of require?
         require(keccak256(bytes(votingRounds[_votingRoundHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existance");
 
@@ -74,7 +74,6 @@ contract QuadraticVoting is Ownable, AccessControl {
         proposal.proposalHash = _proposalHash;
 
         emit ProposalCreated(_votingRoundHash, _proposalHash, proposal.proposalNumber);
-        return proposal.proposalNumber;
     }
 
     // expirationTime in minutes
