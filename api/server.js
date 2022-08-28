@@ -6,6 +6,7 @@ import pkg from 'pg';
 import * as dbQueries from './dbQueries.mjs';
 import * as crypto from 'crypto';
 import * as uuid from 'uuid';
+import Arweave from 'arweave';
 
 const port = process.env.PORT || 5000;
 const { Pool } = pkg;
@@ -15,6 +16,61 @@ const upload = multer();
 const server = express();
 const urlParser = bodyParser.urlencoded({ extended: false });
 const jsonParser = bodyParser.json();
+
+// const arweaveWalletKey = process.env.ARW_WALLET_KEY;
+// const arweave = Arweave.init({
+//   host: 'arweave.net',
+//   port: 443,
+//   protocol: 'https',
+//   timeout: 20000,
+//   logging: false,
+// });
+//
+// // read the wallet from wallet.json
+// const wallet = JSON.parse(arweaveWalletKey);
+// const walletAddress = await arweave.wallets.jwkToAddress(wallet);
+// console.log(`Wallet: ${walletAddress}`);
+// const balance = await arweave.wallets.getBalance(wallet);
+// console.log(`Balance: ${balance}`);
+//
+// const testProposal = {
+//   title: 'Smart Fridge',
+//   description:
+//     'We want to introduce a smart checkout system to the fridge, enabling logging of access and automation  of bottle space refills.',
+//   predictedCost: 200,
+//   currentHash:
+//     'f3168925553f410ff525ec4d7f0b699e1193687e52eed34abe2f39eabce1f394',
+//   id: 'b8a8b025-267c-4ade-832a-c563c04a21a1',
+// };
+//
+// const transaction = await arweave.createTransaction(
+//   {
+//     data: JSON.stringify(testProposal),
+//   },
+//   wallet,
+// );
+//
+// await arweave.transactions.sign(transaction, wallet).then(() => {
+//   console.log('Transaction successfully signed');
+//   const transactionId = transaction.id;
+//   console.log(`Transaction ID: ${transactionId}`);
+//   const transactionData = transaction.get('data', {
+//     decode: true,
+//     string: true,
+//   });
+//   console.log(`Transaction Data: ${transactionData}`);
+// });
+//
+// await arweave.transactions.post(transaction).then(() => {
+//   console.log('Transaction posted successfully');
+//   const transactionId = transaction.id;
+//   console.log(`Transaction ID: ${transactionId}`);
+//   const transactionData = transaction.get('data', {
+//     decode: true,
+//     string: true,
+//   });
+//   console.log(`Transaction Data: ${transactionData}`);
+// });
 
 const pool = () => {
   if (process.env.NODE_ENV === 'local') {

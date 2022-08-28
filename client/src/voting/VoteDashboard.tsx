@@ -70,7 +70,7 @@ export default function VoteDashboard() {
       <Modal onClose={closeModal} isOpen={modal.open}>
         <ProposalDialogDetailView proposalId={modal.id} />
       </Modal>
-      <div className={'rounded p-16 mx-12 mt-4 bg-gray-100'}>
+      <div className={'rounded p-16 mx-12 mt-4 bg-gray-100 border'}>
         <p>
           Quadratic voting is a collective decision-making procedure which
           involves individuals allocating votes to express the degree of their
@@ -79,6 +79,12 @@ export default function VoteDashboard() {
           and majority rule.
         </p>
         <br />
+        <h2 className={'text-xl'}>How it works</h2>
+        <img
+          src={'voting_interaction.gif'}
+          alt='logo'
+          className={'w-auto h-16 rounded my-4'}
+        />
         <p>
           You can vote on any proposal you want. You do not need to spend all
           points and there might be instances where you won't be able to spend

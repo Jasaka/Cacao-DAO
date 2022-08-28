@@ -41,7 +41,7 @@ export default function ProposalMask() {
               id='proposal-description-description'
               className='text-sm text-gray-500'
             >
-              Try to stay below 1000 characters
+              Try to stay above 500 characters.
             </span>
           </div>
           <div className='mt-1'>
