@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract QuadraticVoting is Ownable, AccessControl {
     using SafeMath for uint256;
 
-    string public symbol;   //TODO: name & symbol - necessary?
+    string public symbol;
     string public name;
 
     mapping(string => uint256) private balances;
@@ -39,10 +39,10 @@ contract QuadraticVoting is Ownable, AccessControl {
         string votingRoundHash;
         VotingRoundStatus status;
         uint256 expirationTime;
-        uint256 votingCredits;
+        uint256 votingCredits;                      //TODO: later calculate votingCredits automatically based on proposalCount?
         mapping(string => Proposal) proposals;
 
-        uint256 proposalCount;                      //TODO: later calculate votingCredits automatically?
+        uint256 proposalCount;
         mapping(uint256 => string) proposalHashes;
         mapping(string => bool) creditSuppliedUsers;
     }
@@ -62,9 +62,9 @@ contract QuadraticVoting is Ownable, AccessControl {
         emit VotingRoundCreated(_votingRoundHash);
     }
 
-    function createProposal(string calldata _votingRoundHash, string calldata _proposalHash) external onlyOwner {
+    function createProposal(string calldata _votingRoundHash, string calldata _proposalHash) external onlyOwner returns (uint256) {
         require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.COLLECTING_PROPOSALS, "Proposal collection phase has been closed or was not yet initiated"); //TODO: check gas fees of require?
-        require(keccak256(bytes(votingRounds[_votingRoundHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existance");
+        require(keccak256(bytes(votingRounds[_votingRoundHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existence");
 
         votingRounds[_votingRoundHash].proposalHashes[votingRounds[_votingRoundHash].proposalCount] = _proposalHash;
         votingRounds[_votingRoundHash].proposalCount++;
@@ -74,6 +74,7 @@ contract QuadraticVoting is Ownable, AccessControl {
         proposal.proposalHash = _proposalHash;
 
         emit ProposalCreated(_votingRoundHash, _proposalHash, proposal.proposalNumber);
+        return proposal.proposalNumber;
     }
 
     // expirationTime in minutes
