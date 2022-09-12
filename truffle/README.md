@@ -1,8 +1,8 @@
-#Smart Contract Quadratic Voting
+# Smart Contract Quadratic Voting
 
 >The underlying structure for the quadratic voting smart contract consists of several elements of which parts will be written on the blockchain to make the voting process transparent and immutable.
 
-###Voting round:
+### Voting round:
 A voting round symbolises a collection of competing proposals on which users will vote quadratically with a fixed amount of voting credits. The struct can assume several statuses in the given order with different functionalities:
 
 **collecting proposals:**
@@ -21,11 +21,11 @@ When the voting period has ended, the status changes to tally. Votes can be coun
 
 Last state to implicate a completed voting cycle.
 
-###Proposal:
+### Proposal:
 A proposal always needs to belong to a voting round. Proposals are created and stored by their hashed value to reduce the size of data written on the blockchain and keep gas fees as low as possible. Since proposals are stored in their complete form on Arweave (including their hash) they can easily be validated by any user.
 
-###Voter:
+### Voter:
 Every signed up user is eligible for casting votes on proposals of a voting round. Each voter will be given the same amount of voting credits as soon as they cast their vote. When a user has voted, the information will be tracked, to exclude multiple vote casts.
 
-###Balances:
+### Balances:
 Since users are currently stored within a database (instead of connecting with a separate wallet), there are no other accounts than the one owner account. This fact leads to balances being mapped from strings (user IDs) instead of accounts.

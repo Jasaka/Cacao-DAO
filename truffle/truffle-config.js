@@ -33,7 +33,7 @@ module.exports = {  /**
   /**
   * contracts_directory tells Truffle where the contracts you want to compile are located
   */
-  contracts_directory: './contracts/ethereum',
+  contracts_directory: './contracts/',
 
   /**
    * Networks define how you connect to your ethereum client and let you set the
