@@ -110,38 +110,6 @@ The API can be reached via https://cacao-dao-api.herokuapp.com/
 
 To run the API locally run `npm run start:local`.
 
-## Client
-
-tbd.
-
-
-### Connecting Client with Web3
-
-#### Instatiating Web3
-`// Modern dapp browsers...  
-if (window.ethereum) {  
-  App.web3Provider = window.ethereum; 
-  try {  
-    // Request account access 
-    await window.ethereum.request({ method: "eth_requestAccounts" });; 
-  } catch (error) {  
-    // User denied account access...
-    console.error("User denied account access")
-  }
-}
-// Legacy dapp browsers...
-else if (window.web3) {
-  App.web3Provider = window.web3.currentProvider;
-}
-// If no injected web3 instance is detected, fall back to Ganache
-else {
-  App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
-}
-web3 = new Web3(App.web3Provider);`
-
-
-For further Information on Frontend development, check the [Pet Shop tutorial](https://trufflesuite.com/tutorial/#creating-a-user-interface-to-interact-with-the-smart-contract) from Truffle.
-
 ___
 
 ## Contributing
@@ -201,7 +169,3 @@ If you are sure that your merge request will pass muster but still either want f
 
 #### Ship
 For very small localized changes like typos, fast hotfixes or small styling changes, that are ***definitely*** not breaking anything you can directly merge-commit your changes into `main`.
-
-[_Polygon Box_]: https://trufflesuite.com/boxes/polygon/
-
-[Polygon]: https://trufflesuite.com/boxes/polygon/
