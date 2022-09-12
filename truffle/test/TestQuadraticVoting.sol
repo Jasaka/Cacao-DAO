@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
 import "truffle/Assert.sol";
-import "../contracts/ethereum/QuadraticVoting.sol";
+import "../contracts/QuadraticVoting.sol";
 
 contract TestQuadraticVoting {
 
@@ -12,7 +12,7 @@ contract TestQuadraticVoting {
     uint256 votingCredits = 100;
     string [] userIDs = ["001", "002","003", "004"];
 
-    // Run before every test function
+    // Run before every truffle function
     function beforeEach() public {
         qv = new QuadraticVoting();
         qv.createVotingRound(votingRoundHash);
