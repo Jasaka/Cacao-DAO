@@ -47,6 +47,22 @@ Will be used to run the tests.
 - `npm run format`: will call prettier to fix the code style.
 - `npm run preflight`: will run the lint and format commands.
 
+
+# Interacting with deployed Smart Contracts
+
+## Getting Started
+Interacting with any contracts currently only occurs through the API. 
+It currently serves as an intermediary between the client and the blockchain to handle user authentication & interactions with the QV contract: 
+- Reading Contract State 
+- Transacting with the EVM using the "global wallet".
+
+We chose this as a temporary solution to be able to test the prototype on users that don't have their own wallet. This is a temporary solution until we have a frontend client that can interact with the contracts using on-chain user authentication via a (self-custodial) [crypto wallet](https://ethereum.org/en/wallets/)
+which is necessary to establish a secure connection between the user and the smart contracts in a trust-less manner.
+
+- The API is automatically connected after spinning up a local _Ganache network_ using ganache's default settings.
+- The API's "global wallet" is used to make contract calls ob behalf of the Client. By default, this wallet is the first account in your local Ganache network.
+
+
 # Developing Resources
 
 To learn more about node.js, check out the [node.js documentation](https://nodejs.org/en/docs/).

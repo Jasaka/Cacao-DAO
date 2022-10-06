@@ -44,6 +44,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 - `npm run format`: will call prettier to fix the code style.
 - `npm run preflight`: will run the lint and format commands.
 
+# Interacting with deployed Smart Contracts
+This is still work in progress. 
+
+We're planning to refactor the API and move user authentication to the client with support for self-custodial wallet authentication.
+This minimizes trust in the system and maximizes sovereignty for users.
+
+
 # Developing Resources
 
 To learn React, check out the [React documentation](https://reactjs.org/).
