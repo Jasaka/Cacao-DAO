@@ -8,14 +8,11 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract QuadraticVoting is Ownable, AccessControl {
     using SafeMath for uint256;
 
-    string public symbol;
-    string public name;
-
-    mapping(string => uint256) private balances;
+    mapping(address => uint256) private voteCredits;
     mapping(string => VotingRound) public votingRounds;
 
-    event VoteCasted(string userID, string proposalHash, bool voteDirection, uint256 castVotes);
-    event ProposalCreated(string votingRoundHash, string proposalHash, uint256 proposalNumber);
+    event VoteCast(address voter, string proposalHash, bool voteDirection, uint256 castVotes);
+    event ProposalCreated(string votingRoundHash, string proposalHash, uint256 proposalNumber); //proposalNumber?!
     event VotingRoundCreated(string votingRoundHash);
 
     enum VotingRoundStatus {UNINITIATED, COLLECTING_PROPOSALS, ACTIVE_VOTING, TALLY, ENDED}
@@ -25,8 +22,8 @@ contract QuadraticVoting is Ownable, AccessControl {
         uint256 yesVotes;
         uint256 noVotes;
         string proposalHash;
-        string[] voters;
-        mapping(string => Voter) voterInfo;
+        address[] voters;
+        mapping(address => Voter) voterInfo;
     }
 
     struct Voter {
@@ -44,14 +41,8 @@ contract QuadraticVoting is Ownable, AccessControl {
 
         uint256 proposalCount;
         mapping(uint256 => string) proposalHashes;
-        mapping(string => bool) creditSuppliedUsers;
+        mapping(address => bool) creditSuppliedUsers;
     }
-
-    constructor()  {
-        symbol = "CQV";
-        name = "CacaoDAO Quadratic Voting";
-    }
-
 
     function createVotingRound(string calldata _votingRoundHash) external onlyOwner {
         VotingRound storage round = votingRounds[_votingRoundHash];
@@ -124,9 +115,9 @@ contract QuadraticVoting is Ownable, AccessControl {
         uint256 yesVotes = 0;
         uint256 noVotes = 0;
 
-        string[] memory voters = votingRounds[_votingRoundHash].proposals[_proposalHash].voters;    //TODO: why memory? -> research
+        address[] memory voters = votingRounds[_votingRoundHash].proposals[_proposalHash].voters;    //TODO: why memory? -> research
         for (uint256 i = 0; i < voters.length; i++) {
-            string memory voter = voters[i];                                                        //TODO: why memory? -> research
+            address voter = voters[i];
             bool voteDirection = votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[voter].voteDirection;
             uint256 castVotes = votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[voter].castVotes;
             if (voteDirection == true) {
@@ -141,37 +132,37 @@ contract QuadraticVoting is Ownable, AccessControl {
     }
 
     //_voteDirection: true for positive votes, false for negative votes
-    function castVote(string calldata _userID, string calldata _votingRoundHash, string calldata _proposalHash, uint256 _numTokens, bool _voteDirection) external {
-        if (votingRounds[_votingRoundHash].creditSuppliedUsers[_userID] == false) {
-            mint(_votingRoundHash, _userID);
+    function castVote(string calldata _votingRoundHash, string calldata _proposalHash, uint256 _numTokens, bool _voteDirection) external {
+        if (votingRounds[_votingRoundHash].creditSuppliedUsers[msg.sender] == false) {
+            mint(_votingRoundHash);
         }
         require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.ACTIVE_VOTING, "proposal has not yet started or expired");
-        require(!userHasVotedOnProposal(_votingRoundHash, _proposalHash, _userID), "user already voted on this proposal");
+        require(!userHasVotedOnProposal(_votingRoundHash, _proposalHash), "user already voted on this proposal");
         require(getVotingRoundExpirationTime(_votingRoundHash) > block.timestamp, "for this proposal, the voting time expired");
 
         bool a;
         uint256 b;
-        (a,b) = balances[_userID].trySub(_numTokens);
+        (a,b) = voteCredits[msg.sender].trySub(_numTokens);
         require(a == true, "not enough credits available");
-        balances[_userID] = b;
+        voteCredits[msg.sender] = b;
 
         uint256 castVotes = sqrt(_numTokens);
 
         Proposal storage proposal = votingRounds[_votingRoundHash].proposals[_proposalHash];
-        proposal.voterInfo[_userID] = Voter({
+        proposal.voterInfo[msg.sender] = Voter({
             hasVoted: true,
             voteDirection: _voteDirection,
             castVotes: castVotes
         });
 
-        proposal.voters.push(_userID);
+        proposal.voters.push(msg.sender);
 
-        emit VoteCasted(_userID, _votingRoundHash, _voteDirection, castVotes);
+        emit VoteCast(msg.sender, _votingRoundHash, _voteDirection, castVotes);
     }
 
 
-    function userHasVotedOnProposal(string calldata _votingRoundHash, string calldata _proposalHash, string calldata _userID) internal view returns (bool) {
-        return (votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[_userID].hasVoted);
+    function userHasVotedOnProposal(string calldata _votingRoundHash, string calldata _proposalHash) internal view returns (bool) {
+        return (votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[msg.sender].hasVoted);
     }
 
 
@@ -185,13 +176,13 @@ contract QuadraticVoting is Ownable, AccessControl {
     }
 
 
-    function mint(string calldata _votingRoundHash, string calldata _userID) internal {
-        balances[_userID] = votingRounds[_votingRoundHash].votingCredits;   //balances = global variable. potential remainders get overridden as soon as user votes in different round.
-        votingRounds[_votingRoundHash].creditSuppliedUsers[_userID] = true;
+    function mint(string calldata _votingRoundHash) internal {
+        voteCredits[msg.sender] = votingRounds[_votingRoundHash].votingCredits;   //balances = global variable. potential remainders get overridden as soon as user votes in different round.
+        votingRounds[_votingRoundHash].creditSuppliedUsers[msg.sender] = true;
     }
 
-    function getUserCredits (string calldata _userID) external view returns (uint256) {
-        return balances[_userID];
+    function getUserCredits () external view returns (uint256) {
+        return voteCredits[msg.sender];
     }
 
 }
