@@ -1,21 +1,18 @@
 # Cacao-DAO
-
 ## Setup
+> If you are using Windows, it is strongly recommended to use WSL 2 to follow this guide.
 ### Initial Steps
 1. Clone the Repo
 2. Make sure you have installed [node.js](https://nodejs.org/en/) (and [npm, optionally using nvm](https://www.npmjs.com/package/npm))
 
-#### For Smart contract development: 
-1. Install truffle globally:
-`npm install truffle -g`
-2. Install [Ganache](https://trufflesuite.com/ganache/)
+#### For Smart contract development:
 
-> If you use WSL2 on Windows 10, on running Ganache make sure to use the Host `vEthernet (WSL)` setting under "Server"
+Install hardhat: 
 
->The Ganache installation can be a little convoluted. If you aren't able to install the latest version, try [v2.5.4](https://github.com/trufflesuite/ganache-ui/releases/tag/v2.5.4)
+- Via npm: `npm install --save-dev hardhat`
+- Via yarn: `yarn add --dev hardhat`
 
-See the [README](https://github.com/Jasaka/Cacao-DAO/blob/main/polygon/README.md) & The [Truffle Suite Homepage](https://trufflesuite.com/) for further information.
-
+For further information see the official [installation guide](https://hardhat.org/hardhat-runner/docs/getting-started#installation).
 
 #### For API development
 Move into `api/` and run `npm install` to install needed packages.
@@ -41,11 +38,10 @@ We leverage [Tailwind CSS](https://tailwindcss.com/docs/) for styling.
 
 ### Repo Structure
 Smart Contract Development:
--   `truffle-config.js`: Truffle configuration file for Ethereum
--   `truffle-config.polygon.js`: Truffle configuration file for [Polygon](https://trufflesuite.com/boxes/polygon/)
+-   `hardhat.config.ts`: Hardhat configuration file
 -   `contracts/`: Contains the [Solidity](https://solidity.readthedocs.io/) source files for our smart contracts.
--   `migrations/`: Truffle uses a migration system to handle smart contract deployments. A migration is an additional special smart contract that keeps track of changes. These are stored here
--   `test/`: Contains both JavaScript and Solidity tests for our smart contracts
+-   `scripts/`: Contains scripts for deployment of smart contracts.
+-   `test/`: Contains both JavaScript and Solidity tests for our smart contracts.
 
 Client Development
 -   `client/public/`: The built frontend client
@@ -67,19 +63,7 @@ They are written in [Solidity](https://docs.soliditylang.org/en/v0.8.15/).
 #### Initial Steps
 1. Install open zeppelin security audited smart contracts:
   `$ npm install @openzeppelin/contracts`
-  
 2. Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
-
-3. Run Ganache
-
-4. Create New Project
-
-5. Add Truffle Project by linking the `truffle-config.js`
-
-6. Save & Launch Workspace
-
-7. change the port number in `truffle-config.js` to match the Ganache RPC Server one (Default: HTTP://127.0.0.1:7545)
-
 
 To compile the contracts, run:
 `truffle compile` (in the root directory)
