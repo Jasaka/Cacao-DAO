@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 import "truffle/Assert.sol";
 import "../contracts/QuadraticVoting.sol";
 
+//TODO: Sol vs TS tests
+//TODO: Solidity Test -> TS
 contract TestQuadraticVoting {
 
     QuadraticVoting public qv;
