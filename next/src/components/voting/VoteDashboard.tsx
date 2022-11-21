@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import VoteListItem from './VoteListItem';
 import { useRecoilState } from 'recoil';
 import { openVoteCredits, votes } from './votingAtom';
-import { getProposalList } from '../proposal/ProposalList';
 import { ProposalProps } from '../proposal/ProposalDetailView';
 import ProposalDialogDetailView from '../proposal/ProposalDialogDetailView';
 import Modal from "../base/Modal/Modal";
 import Button from "../base/Button/Button";
+import { useFetch } from "../../hooks/useFetch"
 
-const proposalList = getProposalList();
 
 export default function VoteDashboard() {
+  const proposalList = useFetch('http://localhost:3000/api/proposals').data
   const [currentlyOpenVoteCredits] = useRecoilState(openVoteCredits);
   const [voteList, setVoteList] = useRecoilState(votes);
   const [voted, setVoted] = useState(false);
