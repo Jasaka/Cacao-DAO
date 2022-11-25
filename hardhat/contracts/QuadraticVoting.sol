@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 
-contract QuadraticVoting is Ownable, AccessControl {
+contract QuadraticVoting is Ownable {
     using SafeMath for uint256;
 
     mapping(address => uint256) private voteCredits;
@@ -29,7 +29,7 @@ contract QuadraticVoting is Ownable, AccessControl {
 
     struct Voter {
         bool hasVoted;
-        bool voteDirection;
+        bool voteDirection;                                 //TODO: negative castVotes instead direction?
         uint256 castVotes;
     }
 
@@ -37,8 +37,7 @@ contract QuadraticVoting is Ownable, AccessControl {
         string votingRoundHash;
         VotingRoundStatus status;
         uint256 expirationTime;
-        uint256 votingCredits;
-        // TODO: later calculate votingCredits automatically based on proposalCount?
+        uint256 votingCredits;                              // TODO: later calculate votingCredits automatically based on proposalCount?
         mapping(string => Proposal) proposals;
 
         uint256 proposalCount;
