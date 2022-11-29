@@ -5,24 +5,36 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 
-contract QuadraticVoting is Ownable, AccessControl {
-    using SafeMath for uint256;
+contract QuadraticVoting is Ownable {
+    using SafeMath for uint256;     //TODO: add safe math
 
     mapping(address => uint256) private voteCredits;
-    mapping(string => VotingRound) public votingRounds;
+    mapping(string => Cycle) public cycles;
 
     event VoteCast(address voter, string proposalHash, bool voteDirection, uint256 castVotes);
-    event ProposalCreated(string votingRoundHash, string proposalHash, uint256 proposalNumber); //proposalNumber?!
-    event VotingRoundCreated(string votingRoundHash);
+    event ProposalCreated(string cycleHash, string proposalHash, uint256 proposalNumber); //TODO: proposalNumber necessary?!
+    event CycleCreated(string cycleHash);
 
     //Iteration2: nicht setzbar, nur abrufbar, siehe Governor
-    enum VotingRoundStatus {UNINITIATED, COLLECTING_PROPOSALS, ACTIVE_VOTING, TALLY, ENDED}
+    enum CycleStatus {UNINITIATED, COLLECTING_PROPOSALS, ACTIVE_VOTING, TALLY, ENDED}
+
+
+    struct Cycle {
+        string cycleHash;
+        uint256 proposingDeadline;
+        uint256 votingCredits;      // TODO: calculate automatically based on proposalCount?
+
+        mapping(string => Proposal) proposals;
+        uint256 proposalCount;
+        mapping(uint256 => string) proposalHashes;  //TODO: don't need  //for iteration purposes. Array?
+        mapping(address => bool) creditSuppliedUsers;
+    }
 
     struct Proposal {
+        string proposalHash;
         uint256 proposalNumber;
         uint256 yesVotes;
         uint256 noVotes;
-        string proposalHash;
         address[] voters;
         mapping(address => Voter) voterInfo;
     }
@@ -33,101 +45,108 @@ contract QuadraticVoting is Ownable, AccessControl {
         uint256 castVotes;
     }
 
-    struct VotingRound {
-        string votingRoundHash;
-        VotingRoundStatus status;
-        uint256 expirationTime;
-        uint256 votingCredits;
-        // TODO: later calculate votingCredits automatically based on proposalCount?
-        mapping(string => Proposal) proposals;
+    //uint256 proposingDeadline;
+    uint256 votingDeadline; // TODO: Global or within struct
 
-        uint256 proposalCount;
-        mapping(uint256 => string) proposalHashes;
-        mapping(address => bool) creditSuppliedUsers;
-    }
+    string currentCycleHash;
+    string previousCycleHash;
 
     //Iteration2: internal. automatisch, wenn erstes proposal erstellt wird
     //Iteration2: zeit automatisch draufrechnen, nicht setzen (andere funktion)
-    function createVotingRound(string calldata _votingRoundHash) external onlyOwner {
-        VotingRound storage round = votingRounds[_votingRoundHash];
-        round.status = VotingRoundStatus.COLLECTING_PROPOSALS;
-        round.votingRoundHash = _votingRoundHash;
-        round.proposalCount = 0;
+    function createCycle(string memory _proposalHash) internal {
+        bytes32 cycleHash = keccak256(bytes(_proposalHash));
+        Cycle storage round = cycles["cycleHash"];      //TODO: string to bytes32
+        round.cycleHash = "cycleHash";                  //TODO: same
+        round.proposingDeadline = block.number.add(50400 * 2);    // 2 weeks (with 12 sec/block)
+        round.proposalCount = 0;    // TODO: auf 1 oder 0 setzen? im createProposal dann eine if else?
 
-        emit VotingRoundCreated(_votingRoundHash);
+        emit CycleCreated("cycleHash");
     }
 
+    function getCycleStatus(string calldata _cycleHash) public view returns (CycleStatus) {
+        //if (cycles[_cycleHash].proposingDeadline <= 0)       //TODO: implement
+            return CycleStatus.ACTIVE_VOTING;
+    }
+
+    /*
+    function state(uint256 proposalId) public view virtual override returns (ProposalState) {
+        ProposalCore storage proposal = _proposals[proposalId];
+
+        if (proposal.executed) { return ProposalState.Executed; }
+        if (proposal.canceled) { return ProposalState.Canceled; }
+        uint256 snapshot = proposalSnapshot(proposalId);
+        if (snapshot == 0) { revert("Governor: unknown proposal id"); }
+        if (snapshot >= block.number) { return ProposalState.Pending; }
+        uint256 deadline = proposalDeadline(proposalId);
+        if (deadline >= block.number) { return ProposalState.Active; }
+        if (_quorumReached(proposalId) && _voteSucceeded(proposalId)) { return ProposalState.Succeeded; }
+        else { return ProposalState.Defeated; }
+    }
+    */
+
+
     //Iteration2: automatisch der aktuellen Voting round zufügen, wenn noch collecting. sonst neue starten.
-    function createProposal(string calldata _votingRoundHash, string calldata _proposalHash) external onlyOwner returns (uint256) {
-        require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.COLLECTING_PROPOSALS, "Proposal collection phase has been closed or was not yet initiated"); //TODO: check gas fees of require?
-        require(keccak256(bytes(votingRounds[_votingRoundHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existence");
+    function createProposal(string calldata _cycleHash, string calldata _proposalHash) external onlyOwner returns (uint256) {
+        require(getCycleStatus(_cycleHash) == CycleStatus.COLLECTING_PROPOSALS, "Proposal collection phase has been closed or was not yet initiated"); //TODO: check gas fees of require?
+        require(keccak256(bytes(cycles[_cycleHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existence");
 
-        votingRounds[_votingRoundHash].proposalHashes[votingRounds[_votingRoundHash].proposalCount] = _proposalHash;
-        votingRounds[_votingRoundHash].proposalCount++;
+        cycles[_cycleHash].proposalHashes[cycles[_cycleHash].proposalCount] = _proposalHash;
+        cycles[_cycleHash].proposalCount++;
 
-        Proposal storage proposal = votingRounds[_votingRoundHash].proposals[_proposalHash];     //TODO: storage/memory - necessary here? research.
-        proposal.proposalNumber = votingRounds[_votingRoundHash].proposalCount;
+        Proposal storage proposal = cycles[_cycleHash].proposals[_proposalHash];     //TODO: storage/memory - necessary here? research.
+        proposal.proposalNumber = cycles[_cycleHash].proposalCount;
         proposal.proposalHash = _proposalHash;
 
-        emit ProposalCreated(_votingRoundHash, _proposalHash, proposal.proposalNumber);
+        emit ProposalCreated(_cycleHash, _proposalHash, proposal.proposalNumber);
         return proposal.proposalNumber;
     }
 
-    //Iteration2: delete
-    // expirationTime in minutes
-    function setRoundToActiveVoting (string calldata _votingRoundHash, uint256 _expirationTime, uint256 _votingCredits) external onlyOwner {
-        require(_expirationTime > 0, "Voting period cannot be 0");
-        require(_votingCredits > 0, "Voting credits cannot be 0");
-        require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.COLLECTING_PROPOSALS);
-
-        votingRounds[_votingRoundHash].votingCredits = _votingCredits;
-        votingRounds[_votingRoundHash].expirationTime = block.timestamp + 60 * _expirationTime * 1 seconds;
-        votingRounds[_votingRoundHash].status = VotingRoundStatus.ACTIVE_VOTING;
-    }
 
     //Iteration2: automatisiert, wenn nicht genügend proposals für voting da sind. check automatisiert vom Frontend?
     // additionalTime in minutes
-    function extendVotingRound (string calldata _votingRoundHash, uint256 _additionalTime) external onlyOwner {
-        require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.ACTIVE_VOTING, "proposal has not yet started or expired");
-        require(getVotingRoundExpirationTime(_votingRoundHash) > block.timestamp, "voting time already expired");
+    function extendCycle(string calldata _cycleHash, uint256 _additionalTime) external onlyOwner {
+        require(getCycleStatus(_cycleHash) == CycleStatus.ACTIVE_VOTING, "proposal has not yet started or expired");
+        require(getCycleProposingDeadline(_cycleHash) > block.timestamp, "voting time already expired");
 
-        votingRounds[_votingRoundHash].expirationTime += 60 * _additionalTime * 1 seconds;
+        cycles[_cycleHash].proposingDeadline += 60 * _additionalTime * 1 seconds;
     }
+
+    /*
     //Iteration2: delete
-    function setRoundToTally(string calldata _votingRoundHash) external onlyOwner {
-        require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.ACTIVE_VOTING, "Vote is not in progress");
-        require(block.timestamp >= getVotingRoundExpirationTime(_votingRoundHash), "voting period has not expired");
+    function setRoundToTally(string calldata _cycleHash) external onlyOwner {
+        require(getCycleStatus(_cycleHash) == CycleStatus.ACTIVE_VOTING, "Vote is not in progress");
+        require(block.timestamp >= getCycleExpirationTime(_cycleHash), "voting period has not expired");
 
-        votingRounds[_votingRoundHash].status = VotingRoundStatus.TALLY;
+        cycles[_cycleHash].status = CycleStatus.TALLY;
     }
+
     //Iteration2: delete
-    function setRoundToEnded(string calldata _votingRoundHash) external onlyOwner {
-        require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.TALLY, "Proposal should be in tally");
+    function setRoundToEnded(string calldata _cycleHash) external onlyOwner {
+        require(getCycleStatus(_cycleHash) == CycleStatus.TALLY, "Proposal should be in tally");
 
-        votingRounds[_votingRoundHash].status = VotingRoundStatus.ENDED;
+        cycles[_cycleHash].status = CycleStatus.ENDED;
     }
+    */
 
-    //Iteration2: logik für automatische zuweisung, je nach expirationsdauer
-    function getVotingRoundStatus(string calldata _votingRoundHash) public view returns (VotingRoundStatus) {
-        return votingRounds[_votingRoundHash].status;
+    function getCycleProposingDeadline(string calldata _cycleHash) public view returns (uint256) {
+        return cycles[_cycleHash].proposingDeadline;
     }
-
-    function getVotingRoundExpirationTime(string calldata _votingRoundHash) public view returns (uint256) {
-        return votingRounds[_votingRoundHash].expirationTime;
+    function getCycleVotingDeadline(string calldata _cycleHash) public view returns (uint256) {
+        return cycles[_cycleHash].proposingDeadline;
     }
 
     //reason f. no requirements -> call anytime, e.g. statistical analysis
-    function countVotesForProposal(string calldata _votingRoundHash, string calldata _proposalHash) public view returns (uint256, uint256) {
+    function countVotesForProposal(string calldata _cycleHash, string calldata _proposalHash) public view returns (uint256, uint256) {
         uint256 yesVotes = 0;
         uint256 noVotes = 0;
 
-        address[] memory voters = votingRounds[_votingRoundHash].proposals[_proposalHash].voters;
+        address[] memory voters = cycles[_cycleHash].proposals[_proposalHash].voters;
         for (uint256 i = 0; i < voters.length; i++) {
             address voter = voters[i];
-            bool voteDirection = votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[voter].voteDirection;
-            uint256 castVotes = votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[voter].castVotes;
+            bool voteDirection = cycles[_cycleHash].proposals[_proposalHash].voterInfo[voter].voteDirection;
+            uint256 castVotes = cycles[_cycleHash].proposals[_proposalHash].voterInfo[voter].castVotes;
             if (voteDirection == true) {
-                yesVotes += castVotes;
+                 yesVotes += castVotes;
             } else {
                 noVotes += castVotes;
             }
@@ -138,13 +157,13 @@ contract QuadraticVoting is Ownable, AccessControl {
     //Iteration2: adopt
     //TODO: Achtung: nur einmal voten möglich --> UI Hinweis. Warum nur einmal möglich? 3. Require. Umstellen nicht möglich. Könnte irgendwie..?
     //_voteDirection: true for positive votes, false for negative votes
-    function castVote(string calldata _votingRoundHash, string calldata _proposalHash, uint256 _numTokens, bool _voteDirection) external {
-        require(getVotingRoundStatus(_votingRoundHash) == VotingRoundStatus.ACTIVE_VOTING, "proposal not yet started or expired");
-        require(getVotingRoundExpirationTime(_votingRoundHash) > block.timestamp, "voting time expired for this proposal");
-        require(!userHasVotedOnProposal(_votingRoundHash, _proposalHash), "user already voted on this proposal"); //TODO: necessary?
+    function castVote(string calldata _cycleHash, string calldata _proposalHash, uint256 _numTokens, bool _voteDirection) external {
+        require(getCycleStatus(_cycleHash) == CycleStatus.ACTIVE_VOTING, "proposal not yet started or expired");
+        require(getCycleProposingDeadline(_cycleHash) > block.timestamp, "voting time expired for this proposal");
+        require(!userHasVotedOnProposal(_cycleHash, _proposalHash), "user already voted on this proposal"); //TODO: necessary?
 
-        if (votingRounds[_votingRoundHash].creditSuppliedUsers[msg.sender] == false) {
-            mint(_votingRoundHash);
+        if (cycles[_cycleHash].creditSuppliedUsers[msg.sender] == false) {
+            mint(_cycleHash);
         }
 
         bool a;
@@ -155,7 +174,7 @@ contract QuadraticVoting is Ownable, AccessControl {
 
         uint256 castVotes = sqrt(_numTokens);
 
-        Proposal storage proposal = votingRounds[_votingRoundHash].proposals[_proposalHash];
+        Proposal storage proposal = cycles[_cycleHash].proposals[_proposalHash];
         proposal.voterInfo[msg.sender] = Voter({
             hasVoted: true,
             voteDirection: _voteDirection,
@@ -164,12 +183,12 @@ contract QuadraticVoting is Ownable, AccessControl {
 
         proposal.voters.push(msg.sender);
 
-        emit VoteCast(msg.sender, _votingRoundHash, _voteDirection, castVotes);
+        emit VoteCast(msg.sender, _cycleHash, _voteDirection, castVotes);
     }
 
     //TODO: necessary?
-    function userHasVotedOnProposal(string calldata _votingRoundHash, string calldata _proposalHash) internal view returns (bool) {
-        return (votingRounds[_votingRoundHash].proposals[_proposalHash].voterInfo[msg.sender].hasVoted);
+    function userHasVotedOnProposal(string calldata _cycleHash, string calldata _proposalHash) internal view returns (bool) {
+        return (cycles[_cycleHash].proposals[_proposalHash].voterInfo[msg.sender].hasVoted);
     }
 
     function sqrt(uint256 x) internal pure returns (uint256 y) {
@@ -181,9 +200,10 @@ contract QuadraticVoting is Ownable, AccessControl {
         }
     }
 
-    function mint(string calldata _votingRoundHash) internal {
-        voteCredits[msg.sender] = votingRounds[_votingRoundHash].votingCredits;   //balances = global variable. potential remainders get overridden as soon as user votes in different round.
-        votingRounds[_votingRoundHash].creditSuppliedUsers[msg.sender] = true;
+    function mint(string calldata _cycleHash) internal {
+        //voteCredits = global variable. potential remainders get overridden as soon as user votes in different round.
+        voteCredits[msg.sender] = cycles[_cycleHash].votingCredits;
+        cycles[_cycleHash].creditSuppliedUsers[msg.sender] = true;
     }
 
     //only relevant if already voted in current round. if voting only possible once, not really useful.
