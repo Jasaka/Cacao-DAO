@@ -28,19 +28,19 @@ export const getProposalFlagsByProposalId =
 
 // validate Login select true if username and passwordHash match provided values
 export const validateLogin =
-  'SELECT * FROM users WHERE username = $1 AND "passwordHash" = $2';
+  'SELECT * FROM users WHERE name = $1 AND "secret" = $2';
 
 export const createProposal =
-  'INSERT INTO "proposals" (id, title, description, "predictedCost", "currentHash", "arweaveId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  'INSERT INTO "proposals" (id, title, description, "author", "predictedCost", "currentHash") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
 export const createProposalFlag =
-  'INSERT INTO "proposalFlags" (id, "proposalId", "proposalHash", "flagMessage", "flagAuthorId") VALUES ($1, $2, $3, $4, $5) RETURNING *';
+  'INSERT INTO "proposalFlags" (id, "reason", "author", "authorIsPublic", "proposalHash") VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
 export const initiateNewSession =
-  'INSERT INTO "openSessions" ("sessionToken", "userId", "expirationDate") VALUES ($1, $2, $3) RETURNING *';
+  'INSERT INTO "openSessions" ("token", "userId", "expires") VALUES ($1, $2, $3) RETURNING *';
 
 export const validateSession =
-  'SELECT * FROM "openSessions" WHERE "sessionToken" = $1';
+  'SELECT * FROM "openSessions" WHERE "token" = $1';
 
 export const deleteSession =
-  'DELETE FROM "openSessions" WHERE "sessionToken" = $1';
+  'DELETE FROM "openSessions" WHERE "token" = $1';

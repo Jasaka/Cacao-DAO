@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { classNames } from '../../util/util';
+import { classNames } from '../../util/classNames';
 import NotificationButton from './NotificationButton';
 
 const user = {

@@ -5,7 +5,7 @@ import {
   CashIcon,
   DocumentAddIcon,
 } from '@heroicons/react/outline';
-import {classNames} from "../../../util/util";
+import {classNames} from "../../../util/classNames";
 
 const items = [
   {

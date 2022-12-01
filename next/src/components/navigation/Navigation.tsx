@@ -1,6 +1,6 @@
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
-import {classNames} from "../../util/util";
+import {classNames} from "../../util/classNames";
 
 const navigation = [
   { name: 'Townsquare', href: '/', current: false },

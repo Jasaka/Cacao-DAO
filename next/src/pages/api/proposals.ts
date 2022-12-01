@@ -51,6 +51,11 @@ export default function handler(
       description: description,
       predictedCost: predictedCost,
       currentHash: proposalHash,
+      user: {
+        id: "1",
+        username: "test",
+        walletAddress: "test",
+      }
     }).then(arweaveResult => {
       connection
         .query(createProposal, [proposalId, title, description, predictedCost, proposalHash, arweaveResult!.transactionId])

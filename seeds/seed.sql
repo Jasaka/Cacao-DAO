@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "proposals"
     "author"        uuid NOT NULL,
     "currentHash"   text NOT NULL,
     "predictedCost" numeric,
-    "upvotes"       numeric,
-    "downvotes"     numeric,
+    "upVotes"       numeric,
+    "downVotes"     numeric,
 
     PRIMARY KEY ("id")
 );
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS "versionHistory"
     PRIMARY KEY ("hash")
 );
 
-CREATE TABLE IF NOT EXISTS "openSession"
+CREATE TABLE IF NOT EXISTS "openSessions"
 (
     "token"   text      NOT NULL,
     "userId"  uuid      NOT NULL,
@@ -84,7 +84,7 @@ ALTER TABLE "proposalFlags"
 ALTER TABLE "versionHistory"
     ADD FOREIGN KEY ("proposalId") REFERENCES "proposals" ("id");
 
-ALTER TABLE "openSession"
+ALTER TABLE openSessions
     ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
 ALTER TABLE "projects"
