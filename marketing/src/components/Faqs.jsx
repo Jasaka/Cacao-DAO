@@ -59,6 +59,7 @@ const faqs = [
 
 export function Faqs() {
   return (
+    <>
     <section
       id="faq"
       aria-labelledby="faq-title"
@@ -106,5 +107,6 @@ export function Faqs() {
         </ul>
       </Container>
     </section>
+    </>
   )
 }
