@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 import axios from "axios"
-import { contextState } from "../../atoms/ContextAtom"
+import { contextState } from "../../../atoms/ContextAtom"
 import { useRecoilValue } from "recoil"
 
 interface UseQueryProps {
@@ -12,7 +12,7 @@ interface UseQueryProps {
   payload?: any;
 }
 
-export default function useAxiosQuery({ url, queryKey, responseType = "json", needsAuth, method, payload }: UseQueryProps): any {
+export default function useAxiosQuery({ url, queryKey, responseType, needsAuth, method, payload }: UseQueryProps): any {
   const context = useRecoilValue(contextState)
 
   let config: any
@@ -67,18 +67,12 @@ export default function useAxiosQuery({ url, queryKey, responseType = "json", ne
       break
   }
 
-  console.log("queryKey", queryKey)
-  console.log("queryFunction", queryFunction)
-
   const {
     isLoading,
     error,
     data
   } = useQuery(queryKey, queryFunction)
 
-  console.log("isLoading", isLoading)
-  console.log("error", error)
-  console.log("data", data)
 
   return [isLoading, error, data]
 }

@@ -1,12 +1,7 @@
-import { useQuery } from "react-query"
-import axios from "axios"
+import useGet from "../core/query/useGet"
 
 export default function useProposals() {
-  const { data, error, isLoading } = useQuery("proposals", () => {
-    // axios call here
-    axios.get(process.env.REACT_APP_API_HOST + "/proposals").then(res => res.data)
-  })
+  const [ isLoading, error,  data] = useGet({"url":"/proposals","queryKey":"proposals","responseType":"json"})
 
-  console.log("useProposals", isLoading, error, data)
   return [isLoading, error, data]
 }

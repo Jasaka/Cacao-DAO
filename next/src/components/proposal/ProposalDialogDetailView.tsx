@@ -1,8 +1,6 @@
 import React from 'react';
-
-import { getProposalById } from './ProposalList';
-import { ProposalProps } from './ProposalDetailView';
 import { Dialog } from '@headlessui/react';
+import useProposal from "../../hooks/proposals/useProposal"
 
 interface ProposalDetailViewProps {
   proposalId: string;
@@ -11,7 +9,7 @@ interface ProposalDetailViewProps {
 export default function ProposalDialogDetailView(
   props: ProposalDetailViewProps,
 ) {
-  const proposal: ProposalProps | undefined = getProposalById(props.proposalId);
+  const [proposalIsLoading, proposalError, proposal] = useProposal(props.proposalId);
 
   if (proposal !== undefined) {
     return (

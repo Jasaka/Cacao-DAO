@@ -3,18 +3,12 @@ import ProposalListItem from "./ProposalListItem"
 import { ProposalProps } from "./ProposalDetailView"
 import EmptyListState from "../layout/EmptyStates/EmptyListState"
 import useProposals from "../../hooks/proposals/useProposals"
-import { useQuery } from "react-query"
-import axios from "axios"
 
 
 export default function ProposalList() {
-  const {isLoading: proposalsAreLoading, error: proposalError, data: proposals} = useQuery("proposals", () => {
-    // axios call here
-    axios.get(process.env.NEXT_PUBLIC_API_HOST + "/proposals").then(res => res.data)
-  })
+  const [proposalsAreLoading, proposalError, proposals] = useProposals()
 
   if (proposalsAreLoading || !proposals || (proposals && proposals.length === 0)) {
-    console.log("proposals - empty", proposalsAreLoading, proposalError, proposals)
     return (
       <EmptyListState
         icon={"document"}

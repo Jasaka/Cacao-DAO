@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getProposalById } from './ProposalList';
 import {useRouter} from "next/router";
+import useProposal from "../../hooks/proposals/useProposal"
 
 export interface ProposalProps {
   title: string;
@@ -18,7 +18,7 @@ export default function ProposalDetailView() {
   const { proposalId } = router.query;
   let id = proposalId as string;
 
-  const proposal = getProposalById(id);
+  const [proposalIsLoading, proposalError, proposal] = useProposal(id);
 
   // return view of proposal using tailwind classes
   if (proposal !== undefined) {

@@ -4,7 +4,7 @@ import EmptyStateWithRecommendation from "../components/layout/EmptyStates/Empty
 
 const Home: NextPage = () => {
   return (
-    <Layout view={"Funded Projects"} pageTitle={"dOrg Funded Projects"}>
+    <Layout view={"Funded Projects"} pageTitle={"dOrg Decisions"}>
       <EmptyStateWithRecommendation displayedRecommendations={3} />
     </Layout>
   )

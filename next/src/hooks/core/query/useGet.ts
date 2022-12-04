@@ -8,22 +8,17 @@ interface UseGetProps {
 }
 
 export default function useGet({ url, queryKey, needsAuth = false, responseType = "json" }: UseGetProps) {
-  const {
+  const [
     isLoading,
     error,
     data
-  } = useAxiosQuery({
+  ] = useAxiosQuery({
     url: url,
     queryKey: queryKey,
     responseType: responseType,
     needsAuth: needsAuth,
     method: "get"
   })
-
-  console.log("useGet", isLoading, error, data)
-  console.log("isLoading", isLoading)
-  console.log("error", error)
-  console.log("data", data)
 
   return [isLoading, error, data]
 }

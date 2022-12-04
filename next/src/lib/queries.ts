@@ -31,7 +31,7 @@ export const validateLogin =
   'SELECT * FROM users WHERE name = $1 AND "secret" = $2';
 
 export const createProposal =
-  'INSERT INTO "proposals" (id, title, description, "author", "predictedCost", "currentHash") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  'INSERT INTO "proposals" (title, description, "author", "predictedCost", "currentHash", "cycleId", "status") VALUES ($1, $2, $3, $4, $5, $6, 1) RETURNING *';
 
 export const createProposalFlag =
   'INSERT INTO "proposalFlags" (id, "reason", "author", "authorIsPublic", "proposalHash") VALUES ($1, $2, $3, $4, $5) RETURNING *';

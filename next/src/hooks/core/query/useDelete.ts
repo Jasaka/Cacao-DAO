@@ -1,25 +1,23 @@
 import useAxiosQuery from "./useQuery"
 
-interface UsePutProps {
+interface UseDeleteProps {
   url: string;
   queryKey: string;
   responseType?: any;
   needsAuth?: boolean;
-  payload: any;
 }
 
-export default function usePut({ url, queryKey, payload, needsAuth = true, responseType }: UsePutProps) {
-  const {
+export default function useDelete({ url, queryKey, needsAuth, responseType }: UseDeleteProps) {
+  const [
     isLoading,
     error,
     data
-  } = useAxiosQuery({
+  ] = useAxiosQuery({
     url: url,
     queryKey: queryKey,
     responseType: responseType,
     needsAuth: needsAuth,
-    method: "put",
-    payload: payload
+    method: "delete"
   })
 
   return [isLoading, error, data]

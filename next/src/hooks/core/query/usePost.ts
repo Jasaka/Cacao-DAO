@@ -9,11 +9,11 @@ interface UsePostProps {
 }
 
 export default function usePost({ url, queryKey, payload, needsAuth = true, responseType }: UsePostProps) {
-  const {
+  const [
     isLoading,
     error,
     data
-  } = useAxiosQuery({
+  ] = useAxiosQuery({
     url: url,
     queryKey: queryKey,
     responseType: responseType,
