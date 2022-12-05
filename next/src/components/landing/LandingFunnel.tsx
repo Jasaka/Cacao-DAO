@@ -51,14 +51,13 @@ const features = [
   }
 ]
 
-export default function Townsquare() {
+export default function LandingFunnel() {
   const [proposalsAreLoading, proposalError, proposals] = useProposals()
   const { data: session, status } = useSession()
 
   return (
     <>
       <div className="relative bg-white py-8 sm:py-16 lg:py-24">
-        <div className={"text-center pb-16 text-xl"}>{status}</div>
         <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
           <h2 className="text-base font-semibold uppercase tracking-wider text-indigo-600">
             Find Consensus

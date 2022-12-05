@@ -4,6 +4,7 @@ import Voting from "./voting";
 import VoteDashboard from "../components/voting/VoteDashboard";
 
 const Home: NextPage = () => {
+
   return (
     <Layout view={"Voting"} pageTitle={"dOrg Voting"}>
       <VoteDashboard />
@@ -11,4 +12,5 @@ const Home: NextPage = () => {
   )
 }
 
+export { default as getServerSideProps } from "../lib/serverProps"
 export default Home

@@ -1,14 +1,15 @@
 import type { NextPage } from "next"
 import Layout from "../../components/layout/Layout";
-import Townsquare from "../../components/townsquare/Townsquare";
 import ProposalDetailView from "../../components/proposal/ProposalDetailView";
 
-const Home: NextPage = () => {
+const Proposal: NextPage = () => {
+
   return (
-    <Layout view={"Proposals"} pageTitle={"dOrg Townsquare"}>
+    <Layout view={"Proposals"} pageTitle={"dOrg LandingFunnel"}>
       <ProposalDetailView />
     </Layout>
   )
 }
 
-export default Home
+export { default as getServerSideProps } from "../../lib/serverProps"
+export default Proposal

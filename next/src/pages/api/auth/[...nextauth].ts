@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getCsrfToken } from "next-auth/react"
 import { SiweMessage } from "siwe"
+import pages from "../../index"
 
 export default async function auth(req: any, res: any) {
   const providers = [
@@ -57,12 +58,18 @@ export default async function auth(req: any, res: any) {
     session: {
       strategy: "jwt",
     },
+    pages: {
+      signIn: "/login",
+    },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
       async session({ session, token }: { session: any; token: any }) {
         session.address = token.sub
-        session.user.name = token.sub
-        session.user.image = "https://www.fillmurray.com/128/128"
+        session.user.wallet = token.sub
+        session.user.imageUrl = "https://avatars.githubusercontent.com/u/9197608?v=4"
+        session.user.isAdmin = true
+        session.user.name = "Jan Samak"
+        session.user.email = "jan@cacao-dao.org"
         return session
       },
     },

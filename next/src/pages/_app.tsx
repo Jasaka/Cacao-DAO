@@ -24,7 +24,7 @@ function CacaoDaoApp({ Component, pageProps }: AppProps<{session: Session}>) {
   return (
     <RecoilRoot>
       <WagmiConfig client={client}>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <SessionProvider session={pageProps.session} refetchInterval={60}>
           <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
           </QueryClientProvider>
