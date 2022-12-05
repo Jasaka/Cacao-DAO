@@ -22,8 +22,9 @@ export function Footer() {
           <div className="flex gap-x-6">
             <Link
               href="https://twitter.com"
+              target="_blank"
               className="group"
-              aria-label="TaxPal on Twitter"
+              aria-label="CacaoDAO on Twitter"
             >
               <svg
                 aria-hidden="true"
@@ -33,9 +34,10 @@ export function Footer() {
               </svg>
             </Link>
             <Link
-              href="https://github.com"
+              href="https://github.com/Jasaka/Cacao-DAO"
+              target="_blank"
               className="group"
-              aria-label="TaxPal on GitHub"
+              aria-label="CacaoDAO on GitHub"
             >
               <svg
                 aria-hidden="true"
@@ -46,7 +48,7 @@ export function Footer() {
             </Link>
           </div>
           <p className="mt-6 text-sm text-slate-500 sm:mt-0">
-            Copyright &copy; {new Date().getFullYear()} TaxPal. All rights
+            Copyright &copy; {new Date().getFullYear()} CacaoDAO. All rights
             reserved.
           </p>
         </div>

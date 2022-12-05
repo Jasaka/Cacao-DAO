@@ -10,10 +10,10 @@ import screenshotProfitLoss from '@/images/screenshots/profit-loss.png'
 
 const features = [
   {
-    name: 'Reporting',
-    summary: 'Stay on top of things with always up-to-date reporting features.',
+    name: 'Connection',
+    summary: 'Gather everyone in one place and connect to others who want to join your mission.',
     description:
-      'We talked about reporting in the section above but we needed three items here, so mentioning it one more time for posterity.',
+      "All community members and involved professionals at one place rather than on several different and complicated web services.",
     image: screenshotProfitLoss,
     icon: function ReportingIcon() {
       let id = useId()
@@ -44,11 +44,11 @@ const features = [
     },
   },
   {
-    name: 'Inventory',
+    name: 'Structure',
     summary:
-      'Never lose track of what’s in stock with accurate inventory tracking.',
+      "Never lose the overview when organizing a community. \nCacaoDAO is plain, simple and secure.",
     description:
-      'We don’t offer this as part of our software but that statement is inarguably true. Accurate inventory tracking would help you for sure.',
+      'If you are tired of getting lost in chaotic structures of even your own organisation, CacaoDAO is your perfect fit.',
     image: screenshotInventory,
     icon: function InventoryIcon() {
       return (
@@ -72,11 +72,11 @@ const features = [
     },
   },
   {
-    name: 'Contacts',
+    name: 'Shared responsibility',
     summary:
-      'Organize all of your contacts, service providers, and invoices in one place.',
+      "Shared decision making means shared responsibilities and can even significantly reduce your workload.",
     description:
-      'This also isn’t actually a feature, it’s just some friendly advice. We definitely recommend that you do this, you’ll feel really organized and professional.',
+      "With CacaoDAO working towards public goods does not have to be coordinated by a single entity but rather by the sum of all people involved.",
     image: screenshotContacts,
     icon: function ContactsIcon() {
       return (
@@ -99,13 +99,13 @@ const features = [
 function Feature({ feature, isActive, className, ...props }) {
   return (
     <div
-      className={clsx(className, !isActive && 'opacity-75 hover:opacity-100')}
+      className={clsx(className+" whitespace-pre-wrap", !isActive && 'opacity-75 hover:opacity-100')}
       {...props}
     >
       <div
         className={clsx(
           'w-9 rounded-lg',
-          isActive ? 'bg-blue-600' : 'bg-slate-500'
+          isActive ? 'bg-[#508C56]' : 'bg-slate-500'
         )}
       >
         <svg aria-hidden="true" className="h-9 w-9" fill="none">
@@ -115,7 +115,7 @@ function Feature({ feature, isActive, className, ...props }) {
       <h3
         className={clsx(
           'mt-6 text-sm font-medium',
-          isActive ? 'text-blue-600' : 'text-slate-600'
+          isActive ? 'text-[#508C56]' : 'text-slate-600'
         )}
       >
         {feature.name}
@@ -216,11 +216,10 @@ export function SecondaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Simplify everyday business tasks.
+            Relieve the disruptive parts about consens finding. 
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            Because you’d probably be a little confused if we suggested you
-            complicate your everyday business tasks instead.
+            We know how stressful even the simplest decisions can be. <br/> Our goal is to make your life easier, not more complicated than it already is.
           </p>
         </div>
         <FeaturesMobile />
