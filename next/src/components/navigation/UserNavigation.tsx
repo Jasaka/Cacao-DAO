@@ -14,11 +14,19 @@ interface UserNavigationProps {
   displaySize: "small" | "large";
 }
 
+interface UserProps {
+  name: string;
+  email: string;
+  wallet: string;
+  imageUrl: string;
+  isAdmin: boolean;
+}
+
 export default function UserNavigation(props: UserNavigationProps) {
   const { data: session, status } = useSession()
   const loading = status === "loading"
   const { disconnect } = useDisconnect()
-  const user  = session?.user
+  const user: UserProps  = session?.user
 
   let result
   if (props.displaySize === "large") {

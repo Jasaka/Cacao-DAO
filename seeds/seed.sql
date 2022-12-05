@@ -143,12 +143,13 @@ VALUES (0, 'Collecting Proposals'),
 
 INSERT INTO "navigation" ("label", "url", "order", "onlyLoggedIn", "onlyAdmin")
 VALUES ('Home', '/', 1, false, false),
-       ('Login', '/login', 2, false, false),
+       ('FAQ', '/faq', 2, false, false),
        ('Townsquare', '/townsquare', 1, true, false),
        ('Proposals', '/proposals', 2, true, false),
        ('Voting', '/voting', 3, true, false),
        ('Decisions', '/wallet', 4, true, false),
-       ('Admin', '/admin', 5, true, true);
+       ('FAQ', '/faq', 5, true, false),
+       ('Admin', '/admin', 6, true, true);
 
 INSERT INTO "users" ("id", "name", "secret", "wallet")
 VALUES ('00000000-0000-0000-0000-000000000000', 'Admin', 'cacao_admin_dao', 'admin');
