@@ -29,21 +29,24 @@ import type {
 
 export interface QuadraticVotingInterface extends utils.Interface {
   functions: {
-    "castVote(string,string,uint256,bool)": FunctionFragment;
-    "countVotesForProposal(string,string)": FunctionFragment;
-    "createProposal(string,string)": FunctionFragment;
-    "createVotingRound(string)": FunctionFragment;
-    "extendVotingRound(string,uint256)": FunctionFragment;
-    "getUserCredits()": FunctionFragment;
-    "getVotingRoundExpirationTime(string)": FunctionFragment;
-    "getVotingRoundStatus(string)": FunctionFragment;
+    "castVote(address,string,uint256,bool)": FunctionFragment;
+    "countVotesForProposal(bytes32,string)": FunctionFragment;
+    "createProposal(string)": FunctionFragment;
+    "cycles(bytes32)": FunctionFragment;
+    "extendCycle(uint256)": FunctionFragment;
+    "getCurrentCycleHash()": FunctionFragment;
+    "getCycleProposingDeadline(bytes32)": FunctionFragment;
+    "getCycleStatus(bytes32)": FunctionFragment;
+    "getCycleVotingDeadline(bytes32)": FunctionFragment;
     "owner()": FunctionFragment;
+    "proposalThreshold()": FunctionFragment;
+    "proposingPeriod()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "setRoundToActiveVoting(string,uint256,uint256)": FunctionFragment;
-    "setRoundToEnded(string)": FunctionFragment;
-    "setRoundToTally(string)": FunctionFragment;
+    "setProposalThreshold(uint256)": FunctionFragment;
+    "setProposingPeriod(uint256)": FunctionFragment;
+    "setVotingPeriod(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "votingRounds(string)": FunctionFragment;
+    "votingPeriod()": FunctionFragment;
   };
 
   getFunction(
@@ -51,18 +54,21 @@ export interface QuadraticVotingInterface extends utils.Interface {
       | "castVote"
       | "countVotesForProposal"
       | "createProposal"
-      | "createVotingRound"
-      | "extendVotingRound"
-      | "getUserCredits"
-      | "getVotingRoundExpirationTime"
-      | "getVotingRoundStatus"
+      | "cycles"
+      | "extendCycle"
+      | "getCurrentCycleHash"
+      | "getCycleProposingDeadline"
+      | "getCycleStatus"
+      | "getCycleVotingDeadline"
       | "owner"
+      | "proposalThreshold"
+      | "proposingPeriod"
       | "renounceOwnership"
-      | "setRoundToActiveVoting"
-      | "setRoundToEnded"
-      | "setRoundToTally"
+      | "setProposalThreshold"
+      | "setProposingPeriod"
+      | "setVotingPeriod"
       | "transferOwnership"
-      | "votingRounds"
+      | "votingPeriod"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -76,60 +82,68 @@ export interface QuadraticVotingInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "countVotesForProposal",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "createProposal",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "createVotingRound",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "extendVotingRound",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    functionFragment: "cycles",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getUserCredits",
+    functionFragment: "extendCycle",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCurrentCycleHash",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getVotingRoundExpirationTime",
-    values: [PromiseOrValue<string>]
+    functionFragment: "getCycleProposingDeadline",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getVotingRoundStatus",
-    values: [PromiseOrValue<string>]
+    functionFragment: "getCycleStatus",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCycleVotingDeadline",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "proposalThreshold",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proposingPeriod",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setRoundToActiveVoting",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
+    functionFragment: "setProposalThreshold",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setRoundToEnded",
-    values: [PromiseOrValue<string>]
+    functionFragment: "setProposingPeriod",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setRoundToTally",
-    values: [PromiseOrValue<string>]
+    functionFragment: "setVotingPeriod",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "votingRounds",
-    values: [PromiseOrValue<string>]
+    functionFragment: "votingPeriod",
+    values?: undefined
   ): string;
 
   decodeFunctionResult(functionFragment: "castVote", data: BytesLike): Result;
@@ -141,41 +155,50 @@ export interface QuadraticVotingInterface extends utils.Interface {
     functionFragment: "createProposal",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "cycles", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "createVotingRound",
+    functionFragment: "extendCycle",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "extendVotingRound",
+    functionFragment: "getCurrentCycleHash",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getUserCredits",
+    functionFragment: "getCycleProposingDeadline",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getVotingRoundExpirationTime",
+    functionFragment: "getCycleStatus",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getVotingRoundStatus",
+    functionFragment: "getCycleVotingDeadline",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "proposalThreshold",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proposingPeriod",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setRoundToActiveVoting",
+    functionFragment: "setProposalThreshold",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setRoundToEnded",
+    functionFragment: "setProposingPeriod",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setRoundToTally",
+    functionFragment: "setVotingPeriod",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -183,22 +206,48 @@ export interface QuadraticVotingInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "votingRounds",
+    functionFragment: "votingPeriod",
     data: BytesLike
   ): Result;
 
   events: {
+    "CycleCreated(bytes32)": EventFragment;
+    "ExtendedProposalPeriod(uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "ProposalCreated(string,string,uint256)": EventFragment;
+    "ProposalCreated(bytes32,string)": EventFragment;
+    "ProposalThresholdSet(uint256,uint256)": EventFragment;
+    "ProposingPeriodSet(uint256,uint256)": EventFragment;
     "VoteCast(address,string,bool,uint256)": EventFragment;
-    "VotingRoundCreated(string)": EventFragment;
+    "VotingPeriodSet(uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "CycleCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ExtendedProposalPeriod"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProposalCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProposalThresholdSet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProposingPeriodSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "VoteCast"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "VotingRoundCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VotingPeriodSet"): EventFragment;
 }
+
+export interface CycleCreatedEventObject {
+  cycleHash: string;
+}
+export type CycleCreatedEvent = TypedEvent<[string], CycleCreatedEventObject>;
+
+export type CycleCreatedEventFilter = TypedEventFilter<CycleCreatedEvent>;
+
+export interface ExtendedProposalPeriodEventObject {
+  additionalDays: BigNumber;
+}
+export type ExtendedProposalPeriodEvent = TypedEvent<
+  [BigNumber],
+  ExtendedProposalPeriodEventObject
+>;
+
+export type ExtendedProposalPeriodEventFilter =
+  TypedEventFilter<ExtendedProposalPeriodEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -213,16 +262,39 @@ export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface ProposalCreatedEventObject {
-  votingRoundHash: string;
+  cycleHash: string;
   proposalHash: string;
-  proposalNumber: BigNumber;
 }
 export type ProposalCreatedEvent = TypedEvent<
-  [string, string, BigNumber],
+  [string, string],
   ProposalCreatedEventObject
 >;
 
 export type ProposalCreatedEventFilter = TypedEventFilter<ProposalCreatedEvent>;
+
+export interface ProposalThresholdSetEventObject {
+  oldProposalThreshold: BigNumber;
+  newProposalThreshold: BigNumber;
+}
+export type ProposalThresholdSetEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  ProposalThresholdSetEventObject
+>;
+
+export type ProposalThresholdSetEventFilter =
+  TypedEventFilter<ProposalThresholdSetEvent>;
+
+export interface ProposingPeriodSetEventObject {
+  oldProposingPeriod: BigNumber;
+  newProposingPeriod: BigNumber;
+}
+export type ProposingPeriodSetEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  ProposingPeriodSetEventObject
+>;
+
+export type ProposingPeriodSetEventFilter =
+  TypedEventFilter<ProposingPeriodSetEvent>;
 
 export interface VoteCastEventObject {
   voter: string;
@@ -237,16 +309,16 @@ export type VoteCastEvent = TypedEvent<
 
 export type VoteCastEventFilter = TypedEventFilter<VoteCastEvent>;
 
-export interface VotingRoundCreatedEventObject {
-  votingRoundHash: string;
+export interface VotingPeriodSetEventObject {
+  oldVotingPeriod: BigNumber;
+  newVotingPeriod: BigNumber;
 }
-export type VotingRoundCreatedEvent = TypedEvent<
-  [string],
-  VotingRoundCreatedEventObject
+export type VotingPeriodSetEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  VotingPeriodSetEventObject
 >;
 
-export type VotingRoundCreatedEventFilter =
-  TypedEventFilter<VotingRoundCreatedEvent>;
+export type VotingPeriodSetEventFilter = TypedEventFilter<VotingPeriodSetEvent>;
 
 export interface QuadraticVoting extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -276,7 +348,7 @@ export interface QuadraticVoting extends BaseContract {
 
   functions: {
     castVote(
-      _votingRoundHash: PromiseOrValue<string>,
+      _voterAddress: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       _numTokens: PromiseOrValue<BigNumberish>,
       _voteDirection: PromiseOrValue<boolean>,
@@ -284,60 +356,72 @@ export interface QuadraticVoting extends BaseContract {
     ): Promise<ContractTransaction>;
 
     countVotesForProposal(
-      _votingRoundHash: PromiseOrValue<string>,
+      _cycleHash: PromiseOrValue<BytesLike>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     createProposal(
-      _votingRoundHash: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    createVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
+    cycles(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, BigNumber] & {
+        cycleHash: string;
+        proposingDeadline: BigNumber;
+        proposalCount: BigNumber;
+        votingCredits: BigNumber;
+      }
+    >;
+
+    extendCycle(
+      _additionalDays: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    extendVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
-      _additionalTime: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    getCurrentCycleHash(overrides?: CallOverrides): Promise<[string]>;
 
-    getUserCredits(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getVotingRoundExpirationTime(
-      _votingRoundHash: PromiseOrValue<string>,
+    getCycleProposingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getVotingRoundStatus(
-      _votingRoundHash: PromiseOrValue<string>,
+    getCycleStatus(
+      _cycleHash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
+    getCycleVotingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    proposalThreshold(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    proposingPeriod(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setRoundToActiveVoting(
-      _votingRoundHash: PromiseOrValue<string>,
-      _expirationTime: PromiseOrValue<BigNumberish>,
-      _votingCredits: PromiseOrValue<BigNumberish>,
+    setProposalThreshold(
+      _newProposalThreshold: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setRoundToEnded(
-      _votingRoundHash: PromiseOrValue<string>,
+    setProposingPeriod(
+      _newProposingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setRoundToTally(
-      _votingRoundHash: PromiseOrValue<string>,
+    setVotingPeriod(
+      _newVotingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -346,22 +430,11 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    votingRounds(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, number, BigNumber, BigNumber, BigNumber] & {
-        votingRoundHash: string;
-        status: number;
-        expirationTime: BigNumber;
-        votingCredits: BigNumber;
-        proposalCount: BigNumber;
-      }
-    >;
+    votingPeriod(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   castVote(
-    _votingRoundHash: PromiseOrValue<string>,
+    _voterAddress: PromiseOrValue<string>,
     _proposalHash: PromiseOrValue<string>,
     _numTokens: PromiseOrValue<BigNumberish>,
     _voteDirection: PromiseOrValue<boolean>,
@@ -369,60 +442,72 @@ export interface QuadraticVoting extends BaseContract {
   ): Promise<ContractTransaction>;
 
   countVotesForProposal(
-    _votingRoundHash: PromiseOrValue<string>,
+    _cycleHash: PromiseOrValue<BytesLike>,
     _proposalHash: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber]>;
 
   createProposal(
-    _votingRoundHash: PromiseOrValue<string>,
     _proposalHash: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  createVotingRound(
-    _votingRoundHash: PromiseOrValue<string>,
+  cycles(
+    arg0: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, BigNumber, BigNumber] & {
+      cycleHash: string;
+      proposingDeadline: BigNumber;
+      proposalCount: BigNumber;
+      votingCredits: BigNumber;
+    }
+  >;
+
+  extendCycle(
+    _additionalDays: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  extendVotingRound(
-    _votingRoundHash: PromiseOrValue<string>,
-    _additionalTime: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getCurrentCycleHash(overrides?: CallOverrides): Promise<string>;
 
-  getUserCredits(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getVotingRoundExpirationTime(
-    _votingRoundHash: PromiseOrValue<string>,
+  getCycleProposingDeadline(
+    _cycleHash: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getVotingRoundStatus(
-    _votingRoundHash: PromiseOrValue<string>,
+  getCycleStatus(
+    _cycleHash: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<number>;
 
+  getCycleVotingDeadline(
+    _cycleHash: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   owner(overrides?: CallOverrides): Promise<string>;
+
+  proposalThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+
+  proposingPeriod(overrides?: CallOverrides): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setRoundToActiveVoting(
-    _votingRoundHash: PromiseOrValue<string>,
-    _expirationTime: PromiseOrValue<BigNumberish>,
-    _votingCredits: PromiseOrValue<BigNumberish>,
+  setProposalThreshold(
+    _newProposalThreshold: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setRoundToEnded(
-    _votingRoundHash: PromiseOrValue<string>,
+  setProposingPeriod(
+    _newProposingPeriod: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setRoundToTally(
-    _votingRoundHash: PromiseOrValue<string>,
+  setVotingPeriod(
+    _newVotingPeriod: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -431,22 +516,11 @@ export interface QuadraticVoting extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  votingRounds(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<
-    [string, number, BigNumber, BigNumber, BigNumber] & {
-      votingRoundHash: string;
-      status: number;
-      expirationTime: BigNumber;
-      votingCredits: BigNumber;
-      proposalCount: BigNumber;
-    }
-  >;
+  votingPeriod(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
     castVote(
-      _votingRoundHash: PromiseOrValue<string>,
+      _voterAddress: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       _numTokens: PromiseOrValue<BigNumberish>,
       _voteDirection: PromiseOrValue<boolean>,
@@ -454,58 +528,70 @@ export interface QuadraticVoting extends BaseContract {
     ): Promise<void>;
 
     countVotesForProposal(
-      _votingRoundHash: PromiseOrValue<string>,
+      _cycleHash: PromiseOrValue<BytesLike>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     createProposal(
-      _votingRoundHash: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
 
-    createVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
+    cycles(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, BigNumber] & {
+        cycleHash: string;
+        proposingDeadline: BigNumber;
+        proposalCount: BigNumber;
+        votingCredits: BigNumber;
+      }
+    >;
+
+    extendCycle(
+      _additionalDays: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    extendVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
-      _additionalTime: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    getCurrentCycleHash(overrides?: CallOverrides): Promise<string>;
 
-    getUserCredits(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getVotingRoundExpirationTime(
-      _votingRoundHash: PromiseOrValue<string>,
+    getCycleProposingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getVotingRoundStatus(
-      _votingRoundHash: PromiseOrValue<string>,
+    getCycleStatus(
+      _cycleHash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<number>;
 
+    getCycleVotingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<string>;
+
+    proposalThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+
+    proposingPeriod(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    setRoundToActiveVoting(
-      _votingRoundHash: PromiseOrValue<string>,
-      _expirationTime: PromiseOrValue<BigNumberish>,
-      _votingCredits: PromiseOrValue<BigNumberish>,
+    setProposalThreshold(
+      _newProposalThreshold: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setRoundToEnded(
-      _votingRoundHash: PromiseOrValue<string>,
+    setProposingPeriod(
+      _newProposingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setRoundToTally(
-      _votingRoundHash: PromiseOrValue<string>,
+    setVotingPeriod(
+      _newVotingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -514,21 +600,20 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    votingRounds(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, number, BigNumber, BigNumber, BigNumber] & {
-        votingRoundHash: string;
-        status: number;
-        expirationTime: BigNumber;
-        votingCredits: BigNumber;
-        proposalCount: BigNumber;
-      }
-    >;
+    votingPeriod(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
+    "CycleCreated(bytes32)"(cycleHash?: null): CycleCreatedEventFilter;
+    CycleCreated(cycleHash?: null): CycleCreatedEventFilter;
+
+    "ExtendedProposalPeriod(uint256)"(
+      additionalDays?: null
+    ): ExtendedProposalPeriodEventFilter;
+    ExtendedProposalPeriod(
+      additionalDays?: null
+    ): ExtendedProposalPeriodEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
@@ -538,16 +623,32 @@ export interface QuadraticVoting extends BaseContract {
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
 
-    "ProposalCreated(string,string,uint256)"(
-      votingRoundHash?: null,
-      proposalHash?: null,
-      proposalNumber?: null
+    "ProposalCreated(bytes32,string)"(
+      cycleHash?: null,
+      proposalHash?: null
     ): ProposalCreatedEventFilter;
     ProposalCreated(
-      votingRoundHash?: null,
-      proposalHash?: null,
-      proposalNumber?: null
+      cycleHash?: null,
+      proposalHash?: null
     ): ProposalCreatedEventFilter;
+
+    "ProposalThresholdSet(uint256,uint256)"(
+      oldProposalThreshold?: null,
+      newProposalThreshold?: null
+    ): ProposalThresholdSetEventFilter;
+    ProposalThresholdSet(
+      oldProposalThreshold?: null,
+      newProposalThreshold?: null
+    ): ProposalThresholdSetEventFilter;
+
+    "ProposingPeriodSet(uint256,uint256)"(
+      oldProposingPeriod?: null,
+      newProposingPeriod?: null
+    ): ProposingPeriodSetEventFilter;
+    ProposingPeriodSet(
+      oldProposingPeriod?: null,
+      newProposingPeriod?: null
+    ): ProposingPeriodSetEventFilter;
 
     "VoteCast(address,string,bool,uint256)"(
       voter?: null,
@@ -562,15 +663,19 @@ export interface QuadraticVoting extends BaseContract {
       castVotes?: null
     ): VoteCastEventFilter;
 
-    "VotingRoundCreated(string)"(
-      votingRoundHash?: null
-    ): VotingRoundCreatedEventFilter;
-    VotingRoundCreated(votingRoundHash?: null): VotingRoundCreatedEventFilter;
+    "VotingPeriodSet(uint256,uint256)"(
+      oldVotingPeriod?: null,
+      newVotingPeriod?: null
+    ): VotingPeriodSetEventFilter;
+    VotingPeriodSet(
+      oldVotingPeriod?: null,
+      newVotingPeriod?: null
+    ): VotingPeriodSetEventFilter;
   };
 
   estimateGas: {
     castVote(
-      _votingRoundHash: PromiseOrValue<string>,
+      _voterAddress: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       _numTokens: PromiseOrValue<BigNumberish>,
       _voteDirection: PromiseOrValue<boolean>,
@@ -578,60 +683,65 @@ export interface QuadraticVoting extends BaseContract {
     ): Promise<BigNumber>;
 
     countVotesForProposal(
-      _votingRoundHash: PromiseOrValue<string>,
+      _cycleHash: PromiseOrValue<BytesLike>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     createProposal(
-      _votingRoundHash: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    createVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    extendVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
-      _additionalTime: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    getUserCredits(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getVotingRoundExpirationTime(
-      _votingRoundHash: PromiseOrValue<string>,
+    cycles(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getVotingRoundStatus(
-      _votingRoundHash: PromiseOrValue<string>,
+    extendCycle(
+      _additionalDays: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getCurrentCycleHash(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCycleProposingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getCycleStatus(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getCycleVotingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    proposalThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+
+    proposingPeriod(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setRoundToActiveVoting(
-      _votingRoundHash: PromiseOrValue<string>,
-      _expirationTime: PromiseOrValue<BigNumberish>,
-      _votingCredits: PromiseOrValue<BigNumberish>,
+    setProposalThreshold(
+      _newProposalThreshold: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setRoundToEnded(
-      _votingRoundHash: PromiseOrValue<string>,
+    setProposingPeriod(
+      _newProposingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setRoundToTally(
-      _votingRoundHash: PromiseOrValue<string>,
+    setVotingPeriod(
+      _newVotingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -640,15 +750,12 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    votingRounds(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    votingPeriod(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     castVote(
-      _votingRoundHash: PromiseOrValue<string>,
+      _voterAddress: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       _numTokens: PromiseOrValue<BigNumberish>,
       _voteDirection: PromiseOrValue<boolean>,
@@ -656,60 +763,67 @@ export interface QuadraticVoting extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     countVotesForProposal(
-      _votingRoundHash: PromiseOrValue<string>,
+      _cycleHash: PromiseOrValue<BytesLike>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     createProposal(
-      _votingRoundHash: PromiseOrValue<string>,
       _proposalHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    createVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    extendVotingRound(
-      _votingRoundHash: PromiseOrValue<string>,
-      _additionalTime: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    getUserCredits(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getVotingRoundExpirationTime(
-      _votingRoundHash: PromiseOrValue<string>,
+    cycles(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getVotingRoundStatus(
-      _votingRoundHash: PromiseOrValue<string>,
+    extendCycle(
+      _additionalDays: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getCurrentCycleHash(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCycleProposingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCycleStatus(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCycleVotingDeadline(
+      _cycleHash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    proposalThreshold(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    proposingPeriod(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setRoundToActiveVoting(
-      _votingRoundHash: PromiseOrValue<string>,
-      _expirationTime: PromiseOrValue<BigNumberish>,
-      _votingCredits: PromiseOrValue<BigNumberish>,
+    setProposalThreshold(
+      _newProposalThreshold: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setRoundToEnded(
-      _votingRoundHash: PromiseOrValue<string>,
+    setProposingPeriod(
+      _newProposingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setRoundToTally(
-      _votingRoundHash: PromiseOrValue<string>,
+    setVotingPeriod(
+      _newVotingPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -718,9 +832,6 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    votingRounds(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    votingPeriod(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

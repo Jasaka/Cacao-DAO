@@ -17,7 +17,7 @@ contract TestQuadraticVoting {
     // Run before every truffle function
     function beforeEach() public {
         qv = new QuadraticVoting();
-        qv.createVotingRound(votingRoundHash);
+        qv.createCycle(votingRoundHash);
         qv.createProposal(votingRoundHash, proposalHashes[0]);
         qv.createProposal(votingRoundHash,proposalHashes[1]);
         qv.createProposal(votingRoundHash,proposalHashes[2]);
@@ -87,7 +87,7 @@ contract TestQuadraticVoting {
 
     function testSetRoundToActiveVoting () public {
         qv.setRoundToActiveVoting(votingRoundHash, expirationTime, votingCredits);
-        uint256 time = qv.getVotingRoundExpirationTime(votingRoundHash);
+        uint256 time = qv.getCycleProposingDeadline(votingRoundHash);
         Assert.equal(time - block.timestamp, expirationTime*60, "Expiration time not correct");    //comparing seconds
     }
 
@@ -129,8 +129,8 @@ contract TestQuadraticVoting {
         setActiveVotingForTests();
         usersVote();
         uint256 additionalTime = 100;
-        qv.extendVotingRound(votingRoundHash, additionalTime);
-        uint256 time = qv.getVotingRoundExpirationTime(votingRoundHash);
+        qv.extendCycle(votingRoundHash, additionalTime);
+        uint256 time = qv.getCycleProposingDeadline(votingRoundHash);
         Assert.equal(time - block.timestamp, (expirationTime+additionalTime)*60, "Expiration time not correct");    //comparing seconds
     }
 

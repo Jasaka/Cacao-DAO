@@ -16,6 +16,8 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
+export type { CycleSettings } from "./contracts/CycleSettings";
+export { CycleSettings__factory } from "./factories/contracts/CycleSettings__factory";
 export type { Lock } from "./contracts/Lock";
 export { Lock__factory } from "./factories/contracts/Lock__factory";
 export type { QuadraticVoting } from "./contracts/QuadraticVoting";
