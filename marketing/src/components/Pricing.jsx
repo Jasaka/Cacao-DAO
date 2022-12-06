@@ -1,7 +1,10 @@
 import clsx from 'clsx'
+import Image from 'next/image'
+
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
+import backgroundImage from '@/images/background-faqs.jpg'
 
 function SwirlyDoodle({ className }) {
   return (
@@ -54,62 +57,84 @@ function Plan({ name, price, description, href, features, featured = false }) {
         featured ? 'order-first bg-[#5EC34D] py-8 lg:order-none' : 'lg:py-8'
       )}
     >
-      <h3 className="mt-5 font-display text-lg text-white">{name}</h3>
+      <h3 className={clsx("mt-5 font-display text-lg", featured ? "text-white" : "text-slate-700")}>{name}</h3>
       <p
         className={clsx(
           'mt-2 text-base',
-          featured ? 'text-white' : 'text-slate-400'
+          featured ? 'text-white' : 'text-slate-700'
         )}
       >
         {description}
       </p>
-      <p className="order-first font-display text-5xl font-light tracking-tight text-white">
+      <p className={clsx("order-first font-display text-5xl font-light tracking-tight", featured ? "text-white" : "text-slate-800")}>
         {price}
       </p>
       <ul
         role="list"
         className={clsx(
           'order-last mt-10 flex flex-col gap-y-3 text-sm',
-          featured ? 'text-white' : 'text-slate-200'
+          featured ? 'text-white' : 'text-slate-700'
         )}
       >
         {features.map((feature) => (
           <li key={feature} className="flex">
-            <CheckIcon className={featured ? 'text-white' : 'text-slate-400'} />
+            <CheckIcon className={featured ? 'text-white' : 'text-slate-700'} />
             <span className="ml-4">{feature}</span>
           </li>
         ))}
       </ul>
-      <Button
+      {featured ? (
+        <Button
         href={href}
-        variant={featured ? 'solid' : 'outline'}
+        variant="solid"
         color="white"
         className="mt-8"
         aria-label={`Get started with the ${name} plan for ${price}`}
       >
         Get started
       </Button>
+      ):(
+        <Button
+        href={href}
+        variant="solid"
+        color="green"
+        className="mt-8 bg-[#5EC34D] text-white"
+        aria-label={`Get started with the ${name} plan for ${price}`}
+      >
+        Get started
+      </Button>
+        )}
     </section>
   )
 }
 
 export function Pricing() {
   return (
+    <>
     <section
       id="pricing"
       aria-label="Pricing"
-      className="bg-[#2A5922] py-20 sm:py-32"
-    >
-      <Container>
+      //className="bg-[#2A5922] py-20 sm:py-32"
+      className="relative overflow-hidden bg-[#F5F5F5] py-20 sm:py-32"
+    > 
+      <Image
+        className="absolute top-0 left-1/2 max-w-none translate-x-[-30%] -translate-y-1/4"
+        src={backgroundImage}
+        alt=""
+        width={1558}
+        height={946}
+        unoptimized
+      />
+      <Container className="relative">
         <div className="md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
+          <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
             <span className="relative whitespace-nowrap">
-              <SwirlyDoodle className="absolute top-1/2 left-0 h-[1em] w-full fill-[#BCF3B3]" />
+              <SwirlyDoodle className="absolute top-1/2 left-0 h-[1em] w-full fill-[#5EC34D]" />
               <span className="relative">Simple pricing,</span>
             </span>{' '}
             for everyone.
           </h2>
-          <p className="mt-4 text-lg text-slate-400">
+          <p className="mt-4 text-lg text-slate-800">
             It doesn’t matter what size your business is, our software won’t
             work well for you.
           </p>
@@ -160,5 +185,6 @@ export function Pricing() {
         </div>
       </Container>
     </section>
+    </>
   )
 }
