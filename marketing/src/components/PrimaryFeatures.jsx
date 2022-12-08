@@ -26,7 +26,7 @@ const features = [
   {
     title: 'Co-Ownership',
     description:
-      "We aim for inclusive and sustainable economic growth through co-ownership. Everyone who engages with aproject is a stakeholder and has same rights.",
+      "We aim for inclusive and sustainable economic growth through co-ownership. Everyone who engages with a project is a stakeholder and has same rights.",
     image: screenshotVatReturns,
   },
   {

@@ -9,11 +9,48 @@ import screenshotInventory from '@/images/screenshots/inventory.png'
 import screenshotProfitLoss from '@/images/screenshots/profit-loss.png'
 
 const features = [
+  /*
   {
     name: 'Connection',
     summary: 'Gather everyone in one place and connect to others who want to join your mission.',
     description:
       "All community members and involved professionals at one place rather than on several different and complicated web services.",
+    image: screenshotProfitLoss,
+    icon: function ReportingIcon() {
+      let id = useId()
+      return (
+        <>
+          <defs>
+            <linearGradient
+              id={id}
+              x1="11.5"
+              y1={18}
+              x2={36}
+              y2="15.5"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset=".194" stopColor="#fff" />
+              <stop offset={1} stopColor="#6692F1" />
+            </linearGradient>
+          </defs>
+          <path
+            d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5"
+            stroke={`url(#${id})`}
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </>
+      )
+    },
+  },
+  */
+  {
+    name: 'Quadratic Voting',
+    summary:
+      "Quadratic voting ensures that decisions are made in the best interest of the entire community.",
+    description:
+      "It attempts to address the issue of \"one person, one vote\" not accurately reflecting the true preferences of a group and allows individuals to express their preferences more accurately.",
     image: screenshotProfitLoss,
     icon: function ReportingIcon() {
       let id = useId()

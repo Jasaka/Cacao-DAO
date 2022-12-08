@@ -135,15 +135,14 @@ export function Pricing() {
             for everyone.
           </h2>
           <p className="mt-4 text-lg text-slate-800">
-            It doesn’t matter what size your business is, our software won’t
-            work well for you.
+            No matter your size or own technical resources, CacaoDAO is a great fit.
           </p>
         </div>
         <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
           <Plan
-            name="Starter"
-            price="$9"
-            description="Good for anyone who is self-employed and just getting started."
+            name="Host yourself"
+            price="Free"
+            description="Good for anyone who has the ability and resources to use our open source project themselves."
             href="/register"
             features={[
               'Send 10 quotes and invoices',
@@ -155,9 +154,9 @@ export function Pricing() {
           />
           <Plan
             featured
-            name="Small business"
-            price="$15"
-            description="Perfect for small / medium sized businesses."
+            name="Use CacaoDAO platform"
+            price="$29"
+            description="Use the CacaoDAO platform as your medium - no technical knowledge required."
             href="/register"
             features={[
               'Send 25 quotes and invoices',
@@ -171,7 +170,7 @@ export function Pricing() {
           />
           <Plan
             name="Enterprise"
-            price="$39"
+            price="$69"
             description="For even the biggest enterprise companies."
             href="/register"
             features={[
