@@ -1,47 +1,12 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/chris/Git/Cacao-DAO/hardhat/contracts/Lock.sol": {
-      "lastModificationDate": 1665412879804,
-      "contentHash": "ae66265769cc28ebdaa34881df95bc5e",
-      "sourceName": "contracts/Lock.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.9"
-      ],
-      "artifacts": [
-        "Lock"
-      ]
-    },
     "/Users/chris/Git/Cacao-DAO/hardhat/contracts/QuadraticVoting.sol": {
       "lastModificationDate": 1670240451559,
       "contentHash": "2ad3c67e1437f560b7f18ef7ee2830a3",
       "sourceName": "contracts/QuadraticVoting.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -81,7 +46,7 @@
       "contentHash": "594a842d943b4cc18b6f97d1465163a5",
       "sourceName": "contracts/QV.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -118,7 +83,7 @@
       "contentHash": "2337f0279507b5edf14a07067adf0d05",
       "sourceName": "@openzeppelin/contracts/utils/math/SafeMath.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -153,7 +118,7 @@
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -190,7 +155,7 @@
       "contentHash": "95a6c227d1b8843e9385518a5bce4853",
       "sourceName": "@openzeppelin/contracts/access/AccessControl.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -230,7 +195,7 @@
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -265,7 +230,7 @@
       "contentHash": "57c84298234411cea19c7c284d86be8b",
       "sourceName": "@openzeppelin/contracts/access/IAccessControl.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -300,7 +265,7 @@
       "contentHash": "396031251978f8febfd90cb62cb240ec",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -337,7 +302,7 @@
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -374,7 +339,7 @@
       "contentHash": "b9c58920ce74d6dc819161786112e7ee",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -409,7 +374,7 @@
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -440,11 +405,11 @@
       ]
     },
     "/Users/chris/Git/Cacao-DAO/hardhat/contracts/CycleSettings.sol": {
-      "lastModificationDate": 1669914449365,
+      "lastModificationDate": 1670240522573,
       "contentHash": "a125e02b8d6d0d275b838ae96bd0403c",
       "sourceName": "contracts/CycleSettings.sol",
       "solcConfig": {
-        "version": "0.8.17",
+        "version": "0.8.9",
         "settings": {
           "optimizer": {
             "enabled": false,

@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { CycleSettings__factory } from "./CycleSettings__factory";
-export { Lock__factory } from "./Lock__factory";
 export { QuadraticVoting__factory } from "./QuadraticVoting__factory";

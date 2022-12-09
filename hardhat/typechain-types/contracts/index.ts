@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { CycleSettings } from "./CycleSettings";
-export type { Lock } from "./Lock";
 export type { QuadraticVoting } from "./QuadraticVoting";
