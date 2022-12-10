@@ -1,5 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 
+/**
+ * @swagger
+ * /api/navigation:
+ *   get:
+ *     description: Returns navigation items
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse

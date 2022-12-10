@@ -60,18 +60,26 @@ export default async function auth(req: any, res: any) {
     },
     pages: {
       signIn: "/login",
+      newUser: "/profile",
     },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
+      async signIn({ account, profile, user, email, credentials }) {
+        if (account?.provider === "credentials") {
+          // TODO: Check if user exists and add to DB if not
+          console.log("User signed in:", account.providerAccountId)
+        }
+        return true
+      },
       async session({ session, token }: { session: any; token: any }) {
         session.address = token.sub
-        session.user.wallet = token.sub
+        session.user.walletId = token.sub
         session.user.imageUrl = "https://avatars.githubusercontent.com/u/9197608?v=4"
         session.user.isAdmin = true
-        session.user.name = "Jan Samak"
+        session.user.name = ""
         session.user.email = "jan@cacao-dao.org"
         return session
-      },
+      }
     },
   })
 }

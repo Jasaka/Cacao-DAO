@@ -1,7 +1,6 @@
 import React, { Fragment } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { classNames } from "../../util/classNames"
-import NotificationButton from "./NotificationButton"
 import { useDisconnect } from "wagmi"
 import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
@@ -14,19 +13,15 @@ interface UserNavigationProps {
   displaySize: "small" | "large";
 }
 
-interface UserProps {
-  name: string;
-  email: string;
-  wallet: string;
-  imageUrl: string;
-  isAdmin: boolean;
-}
-
 export default function UserNavigation(props: UserNavigationProps) {
   const { data: session, status } = useSession()
   const loading = status === "loading"
   const { disconnect } = useDisconnect()
-  const user: UserProps  = session?.user
+  const user  = session?.user
+
+  if (!user) {
+    return null
+  }
 
   let result
   if (props.displaySize === "large") {
