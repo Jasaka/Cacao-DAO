@@ -1,37 +1,39 @@
 -- Create Tables
 CREATE TABLE IF NOT EXISTS "users"
 (
-    "id"             uuid NOT NULL DEFAULT gen_random_uuid(),
-    "name"           text NOT NULL,
-    "secret"         text NOT NULL,
-    "wallet"         text,
-    "profilePicture" uuid,
+    "id"       uuid    NOT NULL DEFAULT gen_random_uuid(),
+    "walletId" text    NOT NULL,
+    "name"     text,
+    "imageURL" text,
+    "role"     numeric NOT NULL,
+    "email"    text,
+    "about"    text,
 
     PRIMARY KEY ("id")
 );
 
-CREATE TABLE IF NOT EXISTS "files"
-(
-    "id"            uuid  NOT NULL DEFAULT gen_random_uuid(),
-    "file"          bytea NOT NULL,
-    "fileName"      text  NOT NULL,
-    "encoding"      text  NOT NULL,
-
-    PRIMARY KEY ("id")
-);
 
 CREATE TABLE IF NOT EXISTS "proposals"
 (
     "id"            uuid    NOT NULL DEFAULT gen_random_uuid(),
     "title"         text    NOT NULL,
     "description"   text    NOT NULL,
-    "author"        uuid    NOT NULL,
+    "authorId"      uuid    NOT NULL,
     "currentHash"   text    NOT NULL,
-    "predictedCost" numeric DEFAULT 0,
-    "upVotes"       numeric DEFAULT 0,
-    "downVotes"     numeric DEFAULT 0,
+    "predictedCost" numeric          DEFAULT 0,
     "status"        numeric NOT NULL,
     "cycleId"       text    NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "votes"
+(
+    "id"         uuid    NOT NULL DEFAULT gen_random_uuid(),
+    "proposalId" uuid    NOT NULL,
+    "voterId"    uuid    NOT NULL,
+    "voteValue"  numeric NOT NULL,
+    "cycleId"      text    NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -46,12 +48,13 @@ CREATE TABLE IF NOT EXISTS "proposalStates"
 
 CREATE TABLE IF NOT EXISTS "cycles"
 (
-    "cycleHash" text                     NOT NULL,
-    "status"    numeric                  NOT NULL,
-    "startDate" timestamp with time zone NOT NULL DEFAULT now(),
-    "endDate"   timestamp with time zone,
+    "cycleId"            text                     NOT NULL,
+    "status"           numeric                  NOT NULL,
+    "startDate"        timestamp with time zone NOT NULL DEFAULT now(),
+    "proposingEndDate" timestamp with time zone,
+    "votingEndDate"    timestamp with time zone,
 
-    PRIMARY KEY ("cycleHash")
+    PRIMARY KEY ("cycleId")
 );
 
 CREATE TABLE IF NOT EXISTS "cycleStates"
@@ -66,7 +69,7 @@ CREATE TABLE IF NOT EXISTS "proposalFlags"
 (
     "id"             uuid    NOT NULL DEFAULT gen_random_uuid(),
     "reason"         text    NOT NULL,
-    "author"         uuid    NOT NULL,
+    "authorId"       uuid    NOT NULL,
     "authorIsPublic" boolean NOT NULL DEFAULT false,
     "proposalHash"   text    NOT NULL,
 
@@ -83,18 +86,12 @@ CREATE TABLE IF NOT EXISTS "versionHistory"
     PRIMARY KEY ("hash")
 );
 
-CREATE TABLE IF NOT EXISTS "openSessions"
+CREATE TABLE IF NOT EXISTS "roles"
 (
-    "token"   text      NOT NULL,
-    "userId"  uuid      NOT NULL,
-    "expires" timestamp NOT NULL,
+    "id"   numeric NOT NULL,
+    "role" text    NOT NULL,
 
-    PRIMARY KEY ("token")
-);
-
-CREATE TABLE IF NOT EXISTS "productManagers"
-(
-    "userId" uuid NOT NULL
+    PRIMARY KEY ("id")
 );
 
 CREATE TABLE IF NOT EXISTS "navigation"
@@ -107,28 +104,27 @@ CREATE TABLE IF NOT EXISTS "navigation"
 );
 
 ALTER TABLE "users"
-    ADD FOREIGN KEY ("profilePicture") REFERENCES "files" ("id");
+    ADD FOREIGN KEY ("role") REFERENCES "roles" ("id");
 
 ALTER TABLE "proposals"
-    ADD FOREIGN KEY ("author") REFERENCES "users" ("id"),
+    ADD FOREIGN KEY ("authorId") REFERENCES "users" ("id"),
     ADD FOREIGN KEY ("currentHash") REFERENCES "versionHistory" ("hash"),
     ADD FOREIGN KEY ("status") REFERENCES "proposalStates" ("id"),
-    ADD FOREIGN KEY ("cycleId") REFERENCES "cycles" ("cycleHash");
+    ADD FOREIGN KEY ("cycleId") REFERENCES "cycles" ("cycleId");
 
 ALTER TABLE "cycles"
     ADD FOREIGN KEY ("status") REFERENCES "cycleStates" ("id");
 
+ALTER TABLE "votes"
+    ADD FOREIGN KEY ("proposalId") REFERENCES "proposals" ("id"),
+    ADD FOREIGN KEY ("voterId") REFERENCES "users" ("id"),
+    ADD FOREIGN KEY ("cycleId") REFERENCES "cycles" ("cycleId");
+
 ALTER TABLE "proposalFlags"
-    ADD FOREIGN KEY ("author") REFERENCES "users" ("id");
+    ADD FOREIGN KEY ("authorId") REFERENCES "users" ("id");
 
 ALTER TABLE "versionHistory"
     ADD FOREIGN KEY ("proposalId") REFERENCES "proposals" ("id");
-
-ALTER TABLE "openSessions"
-    ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
-
-ALTER TABLE "productManagers"
-    ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
 -- Seed Data
 INSERT INTO "proposalStates" ("id", "state")
@@ -147,12 +143,14 @@ VALUES ('Home', '/', 1, false, false),
        ('Townsquare', '/townsquare', 1, true, false),
        ('Proposals', '/proposals', 2, true, false),
        ('Voting', '/voting', 3, true, false),
-       ('Decisions', '/wallet', 4, true, false),
+       ('Decisions', '/decisions', 4, true, false),
        ('FAQ', '/faq', 5, true, false),
        ('Admin', '/admin', 6, true, true);
 
-INSERT INTO "users" ("id", "name", "secret", "wallet")
-VALUES ('00000000-0000-0000-0000-000000000000', 'Admin', 'cacao_admin_dao', 'admin');
+INSERT INTO "roles" ("id", "role")
+VALUES (1, 'User'),
+       (2, 'Admin');
 
-INSERT INTO "productManagers" ("userId")
-VALUES ('00000000-0000-0000-0000-000000000000');
+-- INSERT INTO "users" ("walletId", "name", "imageURL", "role")
+-- VALUES ('0x227c44A7FE766501381B51e8b5770094c6c6EA28', 'Jan Samak',
+--         'https://avatars.githubusercontent.com/u/9197608?v=4', 2);
