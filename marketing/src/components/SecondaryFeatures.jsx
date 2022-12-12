@@ -253,7 +253,7 @@ export function SecondaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Relieve the disruptive parts about consens finding. 
+            Relieve the disruptive parts about consensus finding. 
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
             We know how stressful even the simplest decisions can be. <br/> Our goal is to make your life easier, not more complicated than it already is.

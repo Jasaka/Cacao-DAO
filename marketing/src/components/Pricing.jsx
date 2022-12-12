@@ -60,13 +60,13 @@ function Plan({ name, price, description, href, features, featured = false }) {
       <h3 className={clsx("mt-5 font-display text-lg", featured ? "text-white" : "text-slate-700")}>{name}</h3>
       <p
         className={clsx(
-          'mt-2 text-base',
+          'h-24 mt-2 text-base',
           featured ? 'text-white' : 'text-slate-700'
         )}
       >
         {description}
       </p>
-      <p className={clsx("order-first font-display text-5xl font-light tracking-tight", featured ? "text-white" : "text-slate-800")}>
+      <p className={clsx("order-first font-display text-4xl font-light tracking-tight", featured ? "text-white" : "text-slate-800")}>
         {price}
       </p>
       <ul
@@ -142,20 +142,52 @@ export function Pricing() {
           <Plan
             name="Host yourself"
             price="Free"
-            description="Good for anyone who has the ability and resources to use our open source project themselves."
+            description="Good for anyone who has the ability and resources to host our open source project themselves."
             href="/register"
             features={[
-              'Send 10 quotes and invoices',
-              'Connect up to 2 bank accounts',
-              'Track up to 15 expenses per month',
-              'Manual payroll support',
-              'Export up to 3 reports',
+              "Complete control over every part of the application",
+              "Development environment setup on the fly",
+              "Open source under MIT license",
             ]}
           />
           <Plan
             featured
-            name="Use CacaoDAO platform"
-            price="$29"
+            name="Hosted by the experts"
+            price="$29/month"
+            description="Don't worry about technical requirements. Set-up, hosting and updates are covered by us."
+            href="/register"
+            features={[
+              "One domain included",
+              "Optimal for up to 1000 users/ month",
+              "",
+            ]}
+          />
+          <Plan
+            name="If you don't fit the mold"
+            price="Custom solution"
+            description="If you need a bespoke experience, we'll figure something out together."
+            href="/register"
+            features={[
+              'Send unlimited quotes and invoices',
+              'Connect up to 15 bank accounts',
+              'Track up to 200 expenses per month',
+              'Automated payroll support',
+              'Export up to 25 reports, including TPS',
+            ]}
+          />
+        </div>
+      </Container>
+      <Container className="relative">
+        <div className="md:text-center">
+          <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+            Add-ons & services
+          </h2>
+        </div>
+        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-1 xl:mx-0 xl:gap-x-8">
+          <Plan
+            //featured
+            name="Price depends on service "
+            price="Price on demand"
             description="Use the CacaoDAO platform as your medium - no technical knowledge required."
             href="/register"
             features={[
@@ -166,19 +198,6 @@ export function Pricing() {
               'Export up to 12 reports',
               'Bulk reconcile transactions',
               'Track in multiple currencies',
-            ]}
-          />
-          <Plan
-            name="Enterprise"
-            price="$69"
-            description="For even the biggest enterprise companies."
-            href="/register"
-            features={[
-              'Send unlimited quotes and invoices',
-              'Connect up to 15 bank accounts',
-              'Track up to 200 expenses per month',
-              'Automated payroll support',
-              'Export up to 25 reports, including TPS',
             ]}
           />
         </div>
