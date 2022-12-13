@@ -159,7 +159,9 @@ export function Pricing() {
             features={[
               "One domain included",
               "Optimal for up to 1000 users/ month",
-              "",
+              "Complete setup included",
+              "Updates included",
+              "Prioratized customer-support",
             ]}
           />
           <Plan
@@ -168,36 +170,11 @@ export function Pricing() {
             description="If you need a bespoke experience, we'll figure something out together."
             href="/register"
             features={[
-              'Send unlimited quotes and invoices',
-              'Connect up to 15 bank accounts',
-              'Track up to 200 expenses per month',
-              'Automated payroll support',
-              'Export up to 25 reports, including TPS',
-            ]}
-          />
-        </div>
-      </Container>
-      <Container className="relative">
-        <div className="md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Add-ons & services
-          </h2>
-        </div>
-        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-1 xl:mx-0 xl:gap-x-8">
-          <Plan
-            //featured
-            name="Price depends on service "
-            price="Price on demand"
-            description="Use the CacaoDAO platform as your medium - no technical knowledge required."
-            href="/register"
-            features={[
-              'Send 25 quotes and invoices',
-              'Connect up to 5 bank accounts',
-              'Track up to 50 expenses per month',
-              'Automated payroll support',
-              'Export up to 12 reports',
-              'Bulk reconcile transactions',
-              'Track in multiple currencies',
+              "Customizable users/ month",
+              "Prioratized customer-support",
+              "Personal support agent",
+              "Customized design",
+              "Customizable access control",
             ]}
           />
         </div>

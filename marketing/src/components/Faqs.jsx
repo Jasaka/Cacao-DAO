@@ -59,7 +59,7 @@ const faqs =
     answer: "Currently there shouldn't be any disputes concerning votes. We keep a blockchain-saved register of votes in a cycle as well as blockweave-stored version history of proposals. The vote-handling contracts are also open-source and auditable."
   },
   {
-    questions: "How do I contact the team behind the app for support or additional questions?",
+    question: "How do I contact the team behind the app for support or additional questions?",
     answer: "You can contact the team behind the app by sending an email to support@cacao-dao.org."
   }
 ]

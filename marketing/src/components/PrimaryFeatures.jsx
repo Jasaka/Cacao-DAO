@@ -14,7 +14,7 @@ const features = [
   {
     title: 'Trustless voting',
     description:
-      "No one, can modify votes once casted. CacaoDAO is build on a trustless and decentralized infrastructure that is less prone to corruption. \n Trust can be earned but can also be natural through technology.",
+      "No one can modify votes once casted. CacaoDAO is built on a trustless and decentralized infrastructure that is less prone to corruption. \n Trust can be earned but can also be natural through technology.",
     image: screenshotPayroll,
   },
   {
@@ -32,7 +32,7 @@ const features = [
   {
     title: 'Security',
     description:
-      "CacaoDAO is build on a solid public blockchain infrastructure and requires a multi-layer KYC which makes trustless anonymity possible. Even if you don't know any of the individuals involved you still don't have to fear any type of corruption or sybill attacks.",
+      "CacaoDAO is built on a solid public blockchain infrastructure and requires a multi-layer KYC which makes trustless anonymity possible. Even if you don't know any of the individuals involved you still don't have to fear any type of corruption or sybil attacks.",
     image: screenshotReporting,
   },
 ]
