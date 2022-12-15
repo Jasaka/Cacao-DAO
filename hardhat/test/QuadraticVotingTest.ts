@@ -150,6 +150,13 @@ describe("QuadraticVoting", function () {
         });
 
         describe("CycleSettings contract",async function () {
+            it("[initialize fixture]", async function () {
+                await loadFixture(deployQuadraticVotingFixture);
+            });
+
+            it("should revert when trying to vote while still in COLLECTING_PROPOSALS", async function () {
+                await expect(quadraticVoting.castVote(account1.address,"2", 9, true)).to.be.reverted;
+            });
 
         });
 

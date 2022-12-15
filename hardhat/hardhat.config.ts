@@ -21,5 +21,3 @@ const config: HardhatUserConfig = {
 };
 
 export default config;
-
-// For deployment on Goerli testnet: npx hardhat run scripts/deploy.ts --network goerli

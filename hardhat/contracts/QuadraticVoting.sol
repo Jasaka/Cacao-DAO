@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./CycleSettings.sol";
 
-//TODO: check gas fees of require?
 
 contract QuadraticVoting is CycleSettings {
     using SafeMath for uint256;
@@ -87,16 +86,15 @@ contract QuadraticVoting is CycleSettings {
     }
 
 
-    function createProposal(string calldata _proposalHash) external onlyOwner { //TODO: onlyOwner?
+    function createProposal(string calldata _proposalHash) external onlyOwner {
         if (getCycleStatus(cycleHash) == CycleStatus.ENDED) {
             createCycle(_proposalHash);
         }
         require(getCycleStatus(cycleHash) == CycleStatus.COLLECTING_PROPOSALS || getCycleStatus(cycleHash) == CycleStatus.EXTENSION_NEEDED, "Proposal collection phase not active");
         require(keccak256(bytes(cycles[cycleHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existence");
 
-        Proposal storage proposal = cycles[cycleHash].proposals[_proposalHash];     //TODO: storage - necessary for initialization?
+        Proposal storage proposal = cycles[cycleHash].proposals[_proposalHash];
         proposal.proposalHash = _proposalHash;
-        //cycles[cycleHash].proposals[_proposalHash].proposalHash = _proposalHash;  //TODO: any difference here?
 
         cycles[cycleHash].proposalCount++;
 
@@ -180,5 +178,13 @@ contract QuadraticVoting is CycleSettings {
 
     function getCurrentCycleHash() external view returns (bytes32) {
         return cycleHash;
+    }
+
+    function endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards() external onlyOwner {
+        cycles[cycleHash].proposingDeadline = block.timestamp;
+    }
+
+    function endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards() external onlyOwner {
+        cycles[cycleHash].proposingDeadline = block.timestamp - votingPeriod();
     }
 }
