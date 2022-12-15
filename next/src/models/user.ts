@@ -1,6 +1,9 @@
-export interface User {
+
+export interface BaseUser {
   userId: string;
   walletId: string;
+}
+export interface User extends BaseUser{
   name?: string;
   imageUrl?: string;
   isAdmin?: boolean;

@@ -1,12 +1,15 @@
 import { User } from "./user"
 
-export interface Proposal{
+export interface BaseProposal {
   id: string;
   title: string;
   description: string;
-  author: User;
   currentHash: string;
   predictedCost?: number;
+}
+
+export interface Proposal extends BaseProposal{
+  author: User;
   status: string;
   cycle: string;
   upvotes?: number;
