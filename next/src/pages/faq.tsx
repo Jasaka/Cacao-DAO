@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     question: "How do I submit a proposal for the community to vote on?",
-    answer: "To submit a proposal for the community to vote on, you will first need to log in to the app using metamask. Once you are logged in, you can click on the \"Submit proposal\" button on the main screen to access the proposal submission form. From here, you can enter the details of your proposal, such as the title, description, and any relevant supporting information. Once you have filled out the form, you can submit your proposal for review by the app's moderators. If your proposal is approved, it will be added to the list of available options for the community to vote on."
+    answer: "To submit a proposal for the community to vote on, you will first need to log in to the app using MetaMask. Once you are logged in, you can click on the \"Submit proposal\" button on the main screen to access the proposal submission form. From here, you can enter the details of your proposal, such as the title, description, and any relevant supporting information. Once you have filled out the form, you can submit the working copy of your proposal. This allows you to still edit a proposal. At this point your proposal will already be visible to other users. You can then finalize the proposal creation. Finalized proposals will be added to the list of available options for the community to vote on, once the voting phase starts."
   },
   {
     question: "Can I change my vote after I have cast it?",
@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     question: "How are the results of the vote calculated and implemented?",
-    answer: "The results of the vote are calculated by summing the squares of the number of votes assigned to each option. The option with the highest total number of votes is considered the winning option, and the app will implement this option according to the rules and procedures specified in the app's user agreement."
+    answer: "The results of the vote are calculated by summing the squares of the number of votes assigned to each option. The option with the highest total number of votes is considered the winning optio"
   },
   {
     question: "Is my personal information and voting history kept private?",
@@ -58,7 +58,7 @@ const faqs = [
   },
   {
     question: "What happens if there is a dispute over the results of a vote?",
-    answer: ""
+    answer: "Currently there shouldn't be any disputes concerning votes. We keep a blockchain-saved register of votes in a cycle as well as blockweave-stored version history of proposals. The vote-handling contracts are also open-source and auditable."
   },
   {
     questions: "How do I contact the team behind the app for support or additional questions?",

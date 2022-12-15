@@ -3,17 +3,9 @@ import { Disclosure } from "@headlessui/react"
 import { classNames } from "../../util/classNames"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
+import useNavigation from "../../hooks/useNavigation"
+import { Navigation as NavigationsProps } from "../../models/navigation"
 
-const navigations = [
-  { name: "Home", href: "/", onlyLoggedIn: false, onlyAdmin: false, current: false },
-  { name: "Townsquare", href: "/", onlyLoggedIn: true, onlyAdmin: false, current: false },
-  { name: "Proposals", href: "/proposals", onlyLoggedIn: true, onlyAdmin: false, current: false },
-  { name: "Voting", href: "/voting", onlyLoggedIn: true, onlyAdmin: false, current: false },
-  { name: "Decisions", href: "/decisions", onlyLoggedIn: true, onlyAdmin: false, current: false },
-  { name: "FAQ", href: "/faq", onlyLoggedIn: false, onlyAdmin: false, current: false },
-  { name: "FAQ", href: "/faq", onlyLoggedIn: true, onlyAdmin: false, current: false },
-  { name: "Admin", href: "/admin", onlyLoggedIn: true, onlyAdmin: true, current: false }
-]
 
 interface NavigationProps {
   displaySize: "small" | "large";
@@ -21,18 +13,14 @@ interface NavigationProps {
 }
 
 export default function Navigation(props: NavigationProps) {
-  const [navigation, setNavigation] = React.useState([navigations[0]])
+  const [navigationIsLoading, navigationError, navigations] = useNavigation()
+  const [navigation, setNavigation] = React.useState([] as NavigationsProps[])
   const { data: session, status } = useSession()
 
-  const currentViewIndex = navigation.findIndex(
-    (view) => view.name === props.currentView
-  )
-  if (currentViewIndex !== -1) {
-    navigation[currentViewIndex].current = true
-  }
 
   useEffect(() => {
-    const newNavigation: any = []
+    if(!navigationIsLoading && !navigationError) {
+    const newNavigation: NavigationsProps[] = []
     if (session?.user) {
       navigations.map((nav) => {
         if (nav.onlyLoggedIn && !nav.onlyAdmin) {
@@ -50,25 +38,25 @@ export default function Navigation(props: NavigationProps) {
       })
     }
     setNavigation(newNavigation)
-  }, [session, status])
+  }}, [session, status, navigationIsLoading, navigationError, navigations])
 
   if (props.displaySize === "large") {
     return (
       <div className="hidden md:block">
         <div className="ml-10 flex items-baseline space-x-4">
           {navigation.map((item) => (
-            <Link key={item.name} href={item.href}>
+            <Link key={item.label} href={item.url}>
               <a
-                key={item.name}
+                key={item.label}
                 className={classNames(
-                  item.current
+                  false//item.current
                     ? "bg-gray-900 text-white"
                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
                   "px-3 py-2 rounded-md text-sm font-medium"
                 )}
-                aria-current={item.current ? "page" : undefined}
+                //aria-current={item.current ? "page" : undefined}
               >
-                {item.name}
+                {item.label}
               </a>
             </Link>
           ))}
@@ -80,18 +68,18 @@ export default function Navigation(props: NavigationProps) {
       <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         {navigation.map((item) => (
           <Disclosure.Button
-            key={item.name}
+            key={item.label}
             as="a"
-            href={item.href}
+            href={item.url}
             className={classNames(
-              item.current
+              false//item.current
                 ? "bg-gray-900 text-white"
                 : "text-gray-300 hover:bg-gray-700 hover:text-white",
               "block px-3 py-2 rounded-md text-base font-medium"
             )}
-            aria-current={item.current ? "page" : undefined}
+            //aria-current={item.current ? "page" : undefined}
           >
-            {item.name}
+            {item.label}
           </Disclosure.Button>
         ))}
       </div>

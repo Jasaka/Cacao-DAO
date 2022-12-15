@@ -1,7 +1,6 @@
 import { useQuery } from "react-query"
 import axios from "axios"
-import { contextState } from "../../../atoms/ContextAtom"
-import { useRecoilValue } from "recoil"
+import { useSession } from "next-auth/react"
 
 interface UseQueryProps {
   url: string;
@@ -13,36 +12,29 @@ interface UseQueryProps {
 }
 
 export default function useAxiosQuery({ url, queryKey, responseType, needsAuth, method, payload }: UseQueryProps): any {
-  const context = useRecoilValue(contextState)
-
+  const { data: session, status } = useSession()
+  console.log("session", session)
   let config: any
 
-  if (needsAuth) {
-    config = {
-      headers: {
-        Authorization: "Bearer " + context.token
-      }
-    }
-  }
 
   switch (responseType) {
     case "blob":
-      config = { ...config, responseType: "blob" }
+      config = { responseType: "blob" }
       break
     case "arraybuffer":
-      config = { ...config, responseType: "arraybuffer" }
+      config = { responseType: "arraybuffer" }
       break
     case "document":
-      config = { ...config, responseType: "document" }
+      config = { responseType: "document" }
       break
     case "json":
-      config = { ...config, responseType: "json" }
+      config = { responseType: "json" }
       break
     case "text":
-      config = { ...config, responseType: "text" }
+      config = { responseType: "text" }
       break
     case "stream":
-      config = { ...config, responseType: "stream" }
+      config = { responseType: "stream" }
       break
     default:
       break

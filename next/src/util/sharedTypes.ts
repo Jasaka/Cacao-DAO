@@ -13,6 +13,5 @@ export interface ProposalProps {
 
 export interface UserBaseProps {
   id: string,
-  username: string,
   walletAddress: string,
 }

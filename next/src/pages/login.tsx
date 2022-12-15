@@ -6,6 +6,8 @@ import { InjectedConnector } from "@wagmi/core"
 import { useAccount, useConnect, useNetwork, useSignMessage } from "wagmi"
 import { SiweMessage } from "siwe"
 import LoginButton from "../components/base/Button/LoginButton"
+import StepList from "../components/login/StepList"
+
 
 const Login: NextPage = () => {
   const { signMessageAsync } = useSignMessage()
@@ -27,14 +29,14 @@ const Login: NextPage = () => {
         uri: window.location.origin,
         version: "1",
         chainId: chain?.id,
-        nonce: await getCsrfToken(),
+        nonce: await getCsrfToken()
       })
       const signature = await signMessageAsync({ message: message.prepareMessage() })
       signIn("credentials", {
         message: JSON.stringify(message),
         redirect: true,
         signature,
-        callbackUrl,
+        callbackUrl
       })
     } catch (error) {
     }
@@ -72,6 +74,13 @@ const Login: NextPage = () => {
               }}
               label={"Sign in with MetaMask"}
             />
+          </div>
+          <div className={"pt-8"}>
+            <hr className="my-8 h-px bg-gray-200 border-0 dark:bg-gray-300" />
+            <h2 className="mt-6 pb-8 text-center text-xl font-extrabold text-gray-900">
+              Or sign up with Metamask
+            </h2>
+            <StepList />
           </div>
         </div>
       </div>
