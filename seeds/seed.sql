@@ -2,10 +2,10 @@
 CREATE TABLE IF NOT EXISTS "users"
 (
     "id"       uuid    NOT NULL DEFAULT gen_random_uuid(),
-    "walletId" text    NOT NULL,
+    "walletId" text    NOT NULL UNIQUE,
     "name"     text,
     "imageURL" text,
-    "role"     numeric NOT NULL,
+    "role"     numeric NOT NULL DEFAULT 1,
     "email"    text,
     "about"    text,
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "votes"
     "proposalId" uuid    NOT NULL,
     "voterId"    uuid    NOT NULL,
     "voteValue"  numeric NOT NULL,
-    "cycleId"      text    NOT NULL,
+    "cycleId"    text    NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS "proposalStates"
 
 CREATE TABLE IF NOT EXISTS "cycles"
 (
-    "cycleId"            text                     NOT NULL,
+    "cycleId"          text                     NOT NULL,
     "status"           numeric                  NOT NULL,
     "startDate"        timestamp with time zone NOT NULL DEFAULT now(),
     "proposingEndDate" timestamp with time zone,
