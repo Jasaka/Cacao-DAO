@@ -10,7 +10,7 @@ export default function Register() {
   return (
     <>
       <Head>
-        <title>Sign Up - TaxPal</title>
+        <title>Sign Up - CacaoDAO</title>
       </Head>
       <AuthLayout>
         <div className="flex flex-col">
@@ -25,7 +25,7 @@ export default function Register() {
               Already registered?{' '}
               <Link
                 href="/login"
-                className="font-medium text-blue-600 hover:underline"
+                className="font-medium text-green-600 hover:underline"
               >
                 Sign in
               </Link>{' '}
