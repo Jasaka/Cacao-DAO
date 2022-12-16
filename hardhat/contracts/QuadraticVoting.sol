@@ -9,7 +9,7 @@ import "./CycleSettings.sol";
 contract QuadraticVoting is CycleSettings {
     using SafeMath for uint256;
 
-    bytes32 cycleHash;
+    bytes32 currentCycleHash;
 
     mapping(address => uint256) private voteCredits;
     mapping(bytes32 => Cycle) public cycles;
@@ -48,12 +48,14 @@ contract QuadraticVoting is CycleSettings {
         CycleSettings(initialProposingPeriod, initialVotingPeriod, initialProposalThreshold)
     {}
 
-    function createCycle(string memory _proposalHash) private {
-        cycleHash = keccak256(bytes(_proposalHash));
-        Cycle storage cycle = cycles[cycleHash];
-        cycle.cycleHash = cycleHash;
+    function createCycle(bytes32 _cycleHash) external onlyOwner {
+        require(getCycleStatus(currentCycleHash) == CycleStatus.ENDED, "Current cycle needs to end before new cycle can be created");
+        require(cycles[_cycleHash].cycleHash == "", "Given cycle hash has already been used");
+        currentCycleHash = _cycleHash;
+        Cycle storage cycle = cycles[currentCycleHash];
+        cycle.cycleHash = _cycleHash;
         cycle.proposingDeadline = block.timestamp + proposingPeriod();
-        cycles[cycleHash].votingCredits = 100;
+        cycle.votingCredits = 100;
 
         emit CycleCreated("cycleHash");
     }
@@ -79,38 +81,35 @@ contract QuadraticVoting is CycleSettings {
     }
 
     function extendCycle(uint256 _additionalDays) external onlyOwner {
-        require(getCycleStatus(cycleHash) == CycleStatus.EXTENSION_NEEDED, "no extension needed");
-        cycles[cycleHash].proposingDeadline += _additionalDays * 1 days;
+        require(getCycleStatus(currentCycleHash) == CycleStatus.EXTENSION_NEEDED, "No extension needed");
+        cycles[currentCycleHash].proposingDeadline += _additionalDays * 1 days;
 
         emit ExtendedProposalPeriod(_additionalDays);
     }
 
 
     function createProposal(string calldata _proposalHash) external onlyOwner {
-        if (getCycleStatus(cycleHash) == CycleStatus.ENDED) {
-            createCycle(_proposalHash);
-        }
-        require(getCycleStatus(cycleHash) == CycleStatus.COLLECTING_PROPOSALS || getCycleStatus(cycleHash) == CycleStatus.EXTENSION_NEEDED, "Proposal collection phase not active");
-        require(keccak256(bytes(cycles[cycleHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existence");
+        require(getCycleStatus(currentCycleHash) == CycleStatus.COLLECTING_PROPOSALS || getCycleStatus(currentCycleHash) == CycleStatus.EXTENSION_NEEDED, "Proposal collection phase not active");
+        require(keccak256(bytes(cycles[currentCycleHash].proposals[_proposalHash].proposalHash)) != keccak256(bytes(_proposalHash)), "Proposal already in existence");
 
-        Proposal storage proposal = cycles[cycleHash].proposals[_proposalHash];
+        Proposal storage proposal = cycles[currentCycleHash].proposals[_proposalHash];
         proposal.proposalHash = _proposalHash;
 
-        cycles[cycleHash].proposalCount++;
+        cycles[currentCycleHash].proposalCount++;
 
-        emit ProposalCreated(cycleHash, _proposalHash);
+        emit ProposalCreated(currentCycleHash, _proposalHash);
     }
 
 
     /**
      * Voting on a particular proposal only possible once.
-     * _voteDirection: true for positive votes, false for negative votes
+     * _voteDirection bool: true for positive votes, false for negative votes
      */
     function castVote(address _voterAddress, string calldata _proposalHash, uint256 _numTokens, bool _voteDirection) external {
-        require(getCycleStatus(cycleHash) == CycleStatus.ACTIVE_VOTING, "voting period not yet started or expired");
+        require(getCycleStatus(currentCycleHash) == CycleStatus.ACTIVE_VOTING, "voting period not yet started or expired");
         require(!userHasVotedOnProposal(_voterAddress, _proposalHash), "user already voted on this proposal");
 
-        if (cycles[cycleHash].creditSuppliedUsers[_voterAddress] == false) {
+        if (cycles[currentCycleHash].creditSuppliedUsers[_voterAddress] == false) {
             supplyCredits(_voterAddress);
         }
 
@@ -121,7 +120,7 @@ contract QuadraticVoting is CycleSettings {
         voteCredits[_voterAddress] = b;
         uint256 castVotes = sqrt(_numTokens);
 
-        Proposal storage proposal = cycles[cycleHash].proposals[_proposalHash];
+        Proposal storage proposal = cycles[currentCycleHash].proposals[_proposalHash];
         proposal.voterInfo[_voterAddress] = Voter({
             hasVoted: true,
             voteDirection: _voteDirection,
@@ -133,7 +132,7 @@ contract QuadraticVoting is CycleSettings {
     }
 
     function userHasVotedOnProposal(address _voterAddress, string calldata _proposalHash) internal view returns (bool) {
-        return (cycles[cycleHash].proposals[_proposalHash].voterInfo[_voterAddress].hasVoted);
+        return (cycles[currentCycleHash].proposals[_proposalHash].voterInfo[_voterAddress].hasVoted);
     }
 
 
@@ -163,8 +162,8 @@ contract QuadraticVoting is CycleSettings {
      * voteCredits = global variable. potential remainders get overridden as soon as user votes in different round.
      */
     function supplyCredits(address _voterAddress) internal {
-        cycles[cycleHash].creditSuppliedUsers[_voterAddress] = true;
-        voteCredits[_voterAddress] = cycles[cycleHash].votingCredits;
+        cycles[currentCycleHash].creditSuppliedUsers[_voterAddress] = true;
+        voteCredits[_voterAddress] = cycles[currentCycleHash].votingCredits;
     }
 
     function sqrt(uint256 x) internal pure returns (uint256 y) {
@@ -177,14 +176,14 @@ contract QuadraticVoting is CycleSettings {
     }
 
     function getCurrentCycleHash() external view returns (bytes32) {
-        return cycleHash;
+        return currentCycleHash;
     }
 
     function endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards() external onlyOwner {
-        cycles[cycleHash].proposingDeadline = block.timestamp;
+        cycles[currentCycleHash].proposingDeadline = block.timestamp;
     }
 
     function endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards() external onlyOwner {
-        cycles[cycleHash].proposingDeadline = block.timestamp - votingPeriod();
+        cycles[currentCycleHash].proposingDeadline = block.timestamp - votingPeriod();
     }
 }

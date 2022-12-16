@@ -31,8 +31,11 @@ export interface QuadraticVotingInterface extends utils.Interface {
   functions: {
     "castVote(address,string,uint256,bool)": FunctionFragment;
     "countVotesForProposal(bytes32,string)": FunctionFragment;
+    "createCycle(bytes32)": FunctionFragment;
     "createProposal(string)": FunctionFragment;
     "cycles(bytes32)": FunctionFragment;
+    "endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards()": FunctionFragment;
+    "endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards()": FunctionFragment;
     "extendCycle(uint256)": FunctionFragment;
     "getCurrentCycleHash()": FunctionFragment;
     "getCycleProposingDeadline(bytes32)": FunctionFragment;
@@ -53,8 +56,11 @@ export interface QuadraticVotingInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "castVote"
       | "countVotesForProposal"
+      | "createCycle"
       | "createProposal"
       | "cycles"
+      | "endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards"
+      | "endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards"
       | "extendCycle"
       | "getCurrentCycleHash"
       | "getCycleProposingDeadline"
@@ -85,12 +91,24 @@ export interface QuadraticVotingInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "createCycle",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "createProposal",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "cycles",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "extendCycle",
@@ -152,10 +170,22 @@ export interface QuadraticVotingInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "createCycle",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "createProposal",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "cycles", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "extendCycle",
     data: BytesLike
@@ -361,6 +391,11 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
+    createCycle(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     createProposal(
       _proposalHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -377,6 +412,14 @@ export interface QuadraticVoting extends BaseContract {
         votingCredits: BigNumber;
       }
     >;
+
+    endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     extendCycle(
       _additionalDays: PromiseOrValue<BigNumberish>,
@@ -447,6 +490,11 @@ export interface QuadraticVoting extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber]>;
 
+  createCycle(
+    _cycleHash: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   createProposal(
     _proposalHash: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -463,6 +511,14 @@ export interface QuadraticVoting extends BaseContract {
       votingCredits: BigNumber;
     }
   >;
+
+  endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   extendCycle(
     _additionalDays: PromiseOrValue<BigNumberish>,
@@ -533,6 +589,11 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
+    createCycle(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     createProposal(
       _proposalHash: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -549,6 +610,14 @@ export interface QuadraticVoting extends BaseContract {
         votingCredits: BigNumber;
       }
     >;
+
+    endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     extendCycle(
       _additionalDays: PromiseOrValue<BigNumberish>,
@@ -688,6 +757,11 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    createCycle(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     createProposal(
       _proposalHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -696,6 +770,14 @@ export interface QuadraticVoting extends BaseContract {
     cycles(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     extendCycle(
@@ -768,6 +850,11 @@ export interface QuadraticVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    createCycle(
+      _cycleHash: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     createProposal(
       _proposalHash: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -776,6 +863,14 @@ export interface QuadraticVoting extends BaseContract {
     cycles(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    endProposingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    endVotingCycleManuallyONLYForDemoPurposesDeleteAfterwards(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     extendCycle(

@@ -35,21 +35,24 @@ abstract contract CycleSettings is Ownable{
     function setProposingPeriod(uint256 _newProposingPeriod) public onlyOwner {
         // proposing period must be at least one day long
         require(_newProposingPeriod > 0, "CycleSettings: proposing period too low");
-        emit ProposingPeriodSet(_proposingPeriod, _newProposingPeriod);
         _proposingPeriod = _newProposingPeriod;
+
+        emit ProposingPeriodSet(_proposingPeriod, _newProposingPeriod);
     }
 
     function setVotingPeriod(uint256 _newVotingPeriod) public onlyOwner {
         // voting period must be at least one day long
         require(_newVotingPeriod > 0, "CycleSettings: voting period too low");
-        emit VotingPeriodSet(_votingPeriod, _newVotingPeriod);
         _votingPeriod = _newVotingPeriod;
+
+        emit VotingPeriodSet(_votingPeriod, _newVotingPeriod);
     }
 
     function setProposalThreshold(uint256 _newProposalThreshold) public onlyOwner {
         // proposal threshold must be at least one proposal
         require(_newProposalThreshold > 0, "CycleSettings: proposal threshold too low");
-        emit ProposalThresholdSet(_proposalThreshold, _newProposalThreshold);
         _proposalThreshold = _newProposalThreshold;
+
+        emit ProposalThresholdSet(_proposalThreshold, _newProposalThreshold);
     }
 }

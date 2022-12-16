@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/chris/Git/Cacao-DAO/hardhat/contracts/QuadraticVoting.sol": {
-      "lastModificationDate": 1670240451559,
-      "contentHash": "2ad3c67e1437f560b7f18ef7ee2830a3",
+      "lastModificationDate": 1671192267499,
+      "contentHash": "8c60a21a7903dff4601a475f8481c6e3",
       "sourceName": "contracts/QuadraticVoting.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -405,8 +405,8 @@
       ]
     },
     "/Users/chris/Git/Cacao-DAO/hardhat/contracts/CycleSettings.sol": {
-      "lastModificationDate": 1670240522573,
-      "contentHash": "a125e02b8d6d0d275b838ae96bd0403c",
+      "lastModificationDate": 1671195296302,
+      "contentHash": "8af487454d881377cdb82c5b57481065",
       "sourceName": "contracts/CycleSettings.sol",
       "solcConfig": {
         "version": "0.8.9",

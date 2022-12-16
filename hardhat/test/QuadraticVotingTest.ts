@@ -11,6 +11,8 @@ describe("QuadraticVoting", function () {
     let account1: SignerWithAddress;
     let account2: SignerWithAddress;
     let account3: SignerWithAddress;
+    let cycleHash1 = ethers.utils.formatBytes32String("1");
+    let cycleHash2 = ethers.utils.formatBytes32String("2");
 
     async function deployQuadraticVotingFixture() {
         // Contracts are deployed using the first signer/account by default
@@ -34,6 +36,12 @@ describe("QuadraticVoting", function () {
             it("should start with ENDED (2) before first proposals", async function () {
                 const statusOne = await quadraticVoting.getCycleStatus(quadraticVoting.getCurrentCycleHash());
                 expect(statusOne).to.equal(2);
+            });
+
+            it("should switch to COLLECTING_PROPOSALS (0) after cycle initiation", async function () {
+                await quadraticVoting.createCycle(cycleHash1);
+                const cycleStatus = await quadraticVoting.getCycleStatus(quadraticVoting.getCurrentCycleHash());
+                expect(cycleStatus).to.equal(0);
             });
 
             it("should switch to COLLECTING_PROPOSALS (0) after first proposal", async function () {
@@ -69,12 +77,26 @@ describe("QuadraticVoting", function () {
             it("should allow voting when in ACTIVE_VOTING", async function () {
                 await expect(quadraticVoting.castVote(owner.address, "2", 9, true)).to.not.be.reverted;
             });
+
+            it("should not be allowed to initiate cycle while currentCycleStatus not ENDED (2)", async function () {
+                await expect(quadraticVoting.createCycle(cycleHash2)).to.be.reverted;
+            });
+
+            it("should not be allowed to initiate cycle with hash that's already been used", async function () {
+                await time.increaseTo(await quadraticVoting.getCycleVotingDeadline(quadraticVoting.getCurrentCycleHash()));
+                await expect(quadraticVoting.createCycle(cycleHash1)).to.be.reverted;
+            });
+
+            it("should be possible to initiate next cycle (with new hash) after first iteration", async function () {
+                await expect(quadraticVoting.createCycle(cycleHash2)).to.not.be.reverted;
+            });
         });
 
         describe("Proposing", function () {
 
             it("[initialize fixture]", async function () {
                 await loadFixture(deployQuadraticVotingFixture);
+                await quadraticVoting.createCycle(cycleHash1);
                 await quadraticVoting.createProposal("1");
                 await quadraticVoting.createProposal("2");
                 await quadraticVoting.createProposal("3");
@@ -96,6 +118,7 @@ describe("QuadraticVoting", function () {
 
             it("[initialize fixture]", async function () {
                 await loadFixture(deployQuadraticVotingFixture);
+                await quadraticVoting.createCycle(cycleHash1);
                 await quadraticVoting.createProposal("1");
                 await quadraticVoting.createProposal("2");
                 await quadraticVoting.createProposal("3");
@@ -145,34 +168,30 @@ describe("QuadraticVoting", function () {
             });
         });
 
-        describe("Owning",function () {
-
-        });
-
         describe("CycleSettings contract",async function () {
             it("[initialize fixture]", async function () {
                 await loadFixture(deployQuadraticVotingFixture);
             });
 
-            it("should revert when trying to vote while still in COLLECTING_PROPOSALS", async function () {
-                await expect(quadraticVoting.castVote(account1.address,"2", 9, true)).to.be.reverted;
+            it("should set new proposing period correctly", async function () {
+                let newPeriodInDays = 25;
+                let newPeriodInSeconds = newPeriodInDays * 60 * 60 * 24;
+                await (quadraticVoting.setProposingPeriod(newPeriodInDays));
+                expect(await quadraticVoting.proposingPeriod()).to.equal(newPeriodInSeconds);
             });
 
-        });
+            it("should set new voting period correctly", async function () {
+                let newPeriodInDays = 30;
+                let newPeriodInSeconds = newPeriodInDays * 60 * 60 * 24;
+                await (quadraticVoting.setVotingPeriod(newPeriodInDays));
+                expect(await quadraticVoting.votingPeriod()).to.equal(newPeriodInSeconds);
+            });
 
+            it("should set new proposal threshold correctly", async function () {
+                let newThreshold = 10;
+                await (quadraticVoting.setProposalThreshold(newThreshold));
+                expect(await quadraticVoting.proposalThreshold()).to.equal(newThreshold);
+            });
+        });
     });
-
-    /*
-        it("Should emit an event on withdrawals", async function () {
-            const { lock, unlockTime, lockedAmount } = await loadFixture(
-                deployOneYearLockFixture
-            );
-
-            await time.increaseTo(unlockTime);
-
-            await expect(lock.withdraw())
-                .to.emit(lock, "Withdrawal")
-                .withArgs(lockedAmount, anyValue); // We accept any value as `when` arg
-        });
-    */
 });
