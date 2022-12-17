@@ -71,7 +71,7 @@ The structure of the most important projects is listed here:
 
 ### For Smart contract development:
 
-Follow the [guide in `/hardhat`](https://github.com/Jasaka/Cacao-DAO/blob/main/hardhat/README.md)
+For using hardhat to compile, test, deploy & run a local blockchain node check our respective [hardhat README](hardhat/README.md).
 
 For further information on Hardhat see the official [documentation](https://hardhat.org/hardhat-runner/docs/getting-started).
 
@@ -99,11 +99,13 @@ We will add a swagger file for the API soon.
 
 Currently our smart contract only supports a single project so you will need to deploy it yourself. We recommend using [Hardhat](https://hardhat.org/) for this. And have added a way to deploy using the hardhat config.
 
+
 You will also need an Arweave Wallet. A great tutorial can be found [here](https://docs.arweave.org/info/wallets/arweave-wallet#getting-started).
 
 We recommend using [Railway](https://railway.app/) for deployment. It is a simple and easy to use platform.
 
 For your convenience we have created a template project for you to use:
+
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ZiHqSQ?referralCode=x2OFXr)
 
