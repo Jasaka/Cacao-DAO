@@ -2,8 +2,9 @@ import {HardhatUserConfig} from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-gas-reporter"
 
-const ALCHEMY_API_KEY = "85R7m6-xyv5NbkgTBKaOmBs7Y6z6mLjw";
-const GOERLI_PRIVATE_KEY = "bdb08c55bfbea8dd662770e94ca1d1e0929d3d67dc1f8aaa30da89d3eba348ed";
+// Keys need to be added
+const ALCHEMY_API_KEY = "";
+const GOERLI_PRIVATE_KEY = "";
 
 
 const config: HardhatUserConfig = {
