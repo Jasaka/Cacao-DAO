@@ -1,74 +1,88 @@
-import React from 'react';
-import { Disclosure } from '@headlessui/react';
-import {classNames} from "../../util/util";
+import React, { useEffect } from "react"
+import { Disclosure } from "@headlessui/react"
+import { classNames } from "../../util/classNames"
+import Link from "next/link"
+import { useSession } from "next-auth/react"
+import useNavigation from "../../hooks/useNavigation"
+import { Navigation as NavigationsProps } from "../../models/navigation"
 
-const navigation = [
-  { name: 'Townsquare', href: '/', current: false },
-  { name: 'Proposals', href: '/proposals', current: false },
-  { name: 'Voting', href: '/voting', current: false },
-  { name: 'Projects pending funding', href: '/pending', current: false },
-  { name: 'Funded Projects', href: '/projects', current: false },
-];
 
 interface NavigationProps {
-  displaySize: 'small' | 'large';
+  displaySize: "small" | "large";
   currentView: string;
 }
 
 export default function Navigation(props: NavigationProps) {
-  let result;
+  const [navigationIsLoading, navigationError, navigations] = useNavigation()
+  const [navigation, setNavigation] = React.useState([] as NavigationsProps[])
+  const { data: session, status } = useSession()
 
-  const currentViewIndex = navigation.findIndex(
-    (view) => view.name === props.currentView,
-  );
-  if (currentViewIndex !== -1) {
-    navigation[currentViewIndex].current = true;
-  }
 
-  if (props.displaySize === 'large') {
-    result = (
-      <div className='hidden md:block'>
-        <div className='ml-10 flex items-baseline space-x-4'>
+  useEffect(() => {
+    if(!navigationIsLoading && !navigationError) {
+    const newNavigation: NavigationsProps[] = []
+    if (session?.user) {
+      navigations.map((nav) => {
+        if (nav.onlyLoggedIn && !nav.onlyAdmin) {
+          newNavigation.push(nav)
+        }
+        if (nav.onlyLoggedIn && nav.onlyAdmin && session?.user?.isAdmin) {
+          newNavigation.push(nav)
+        }
+      })
+    } else {
+      navigations.map((nav) => {
+        if (!nav.onlyLoggedIn) {
+          newNavigation.push(nav)
+        }
+      })
+    }
+    setNavigation(newNavigation)
+  }}, [session, status, navigationIsLoading, navigationError, navigations])
+
+  if (props.displaySize === "large") {
+    return (
+      <div className="hidden md:block">
+        <div className="ml-10 flex items-baseline space-x-4">
           {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={classNames(
-                item.current
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'px-3 py-2 rounded-md text-sm font-medium',
-              )}
-              aria-current={item.current ? 'page' : undefined}
-            >
-              {item.name}
-            </a>
+            <Link key={item.label} href={item.url}>
+              <a
+                key={item.label}
+                className={classNames(
+                  false//item.current
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  "px-3 py-2 rounded-md text-sm font-medium"
+                )}
+                //aria-current={item.current ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </Link>
           ))}
         </div>
       </div>
-    );
+    )
   } else {
-    result = (
-      <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
+    return (
+      <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         {navigation.map((item) => (
           <Disclosure.Button
-            key={item.name}
-            as='a'
-            href={item.href}
+            key={item.label}
+            as="a"
+            href={item.url}
             className={classNames(
-              item.current
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-              'block px-3 py-2 rounded-md text-base font-medium',
+              false//item.current
+                ? "bg-gray-900 text-white"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+              "block px-3 py-2 rounded-md text-base font-medium"
             )}
-            aria-current={item.current ? 'page' : undefined}
+            //aria-current={item.current ? "page" : undefined}
           >
-            {item.name}
+            {item.label}
           </Disclosure.Button>
         ))}
       </div>
-    );
+    )
   }
-
-  return result;
 }

@@ -4,90 +4,126 @@
 ### Initial Steps
 1. Clone the Repo
 2. Make sure you have installed [node.js](https://nodejs.org/en/) (and [npm, optionally using nvm](https://www.npmjs.com/package/npm))
-
-#### For Smart contract development:
-
-Install hardhat: 
-
-- Via npm: `npm install --save-dev hardhat`
-- Via yarn: `yarn add --dev hardhat`
-
-For further information see the official [hardhat installation guide](https://hardhat.org/hardhat-runner/docs/getting-started#installation).
-
-#### For API development
-Move into `api/` and run `npm install` to install needed packages.
-
-You will need to run the following command to enable the `.env` file:
-`cp .env.dist .env`
-
-For database (sql) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A `PostgreSQL` database dump can be found under `api/cacao-dao-api-db.dump`.
-
-For request-testing against the API you could use [Insomnia](https://insomnia.rest/). An Insomnia request collection can be found under `api/insomnia-api-request-collection.json`.
-
-[Further Information on API development can be found here.](https://github.com/Jasaka/Cacao-DAO/blob/main/api/README.md)
-
-#### For Client development
-Move into `client/` and run `npm install` to install needed packages.
-
-The client is written in [TypeScript](https://www.typescriptlang.org/) and uses the [React](https://reactjs.org/) framework.
-We leverage [Tailwind CSS](https://tailwindcss.com/docs/) for styling.
-
-[Further Information on Client development can be found here.](https://github.com/Jasaka/Cacao-DAO/blob/main/client/README.md)
-
+3. Make sure you have installed [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable) `npm install --global yarn`
+4. Make sure you have installed [docker](https://docs.docker.com/engine/install/ubuntu/) and [docker-compose](https://docs.docker.com/compose/install/). Also install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for more convenience if you want.
+5. You are ready to go! You can now run docker-compose up to start the dev environment (Postgres & Hardhat).
 ---
 
 ### Repo Structure
-Smart Contract Development:
--   `hardhat.config.ts`: Hardhat configuration file
--   `contracts/`: Contains the [Solidity](https://solidity.readthedocs.io/) source files for our smart contracts.
--   `scripts/`: Contains scripts for deployment of smart contracts.
--   `test/`: Contains both JavaScript and Solidity tests for our smart contracts.
+This repository is a monorepo for every part of Cacao DAO. It is structured as follows:
 
-Client Development
--   `client/public/`: The built frontend client
--   `client/src/`: Client source files
+    .
+    ├── ...
+    ├── .github                 # Action for Demo-Cronjobs and MarketingPages
+    ├── hardhat                 # Solidity Contracts and Hardhat Config for testing and deployment
+    ├── next                    # Front- and Backend for the plattform
+    ├── marketing               # Static Marketing Page
+    ├── resources               # Resources for Wiki and Readme
+    ├── seeds                   # Basic Seed Data for the Database
+    ├── docker-compose.yml      # Docker-Compose for local development
+    ├── README.md               # This file
+    ├── LICENSE                 # MIT License
+    └── ...
 
-API Development
-- `api/`: All api-related files
-- `api/server.js`: All code related to basic server functions - routing, hashing, validation
-- `api/dbQueries.mjs`: All `SQL` code for off-chain-persistance
-- `api/arweaveQueries.mjs`: All `GraphQL` queries for Arweave interaction
+We will probably switch to a [TurboRepo](https://turbo.build/) managed structure in the near future.
+
+The structure of the most important projects is listed here:
+
+    .
+    ├── ...
+    ├── hardhat                 # Solidity Contracts and Hardhat Config for testing and deployment
+    │   ├── contracts           # Solidity Contracts
+    │   ├── scripts             # Scripts for deployment
+    │   ├── test                # Tests for Contracts
+    │   ├── hardhat.config.js   # Hardhat Config
+    │   └── ...
+    ├── next                    # Front- and Backend for the plattform
+    │   ├── public              # Public static files
+    │   ├── styles              # Stylesheets
+    │   ├── src                 # All source code
+    │   │   ├── components      # React Components, split into subfolders by function
+    │   │   ├── data            # All static data, later will include language files, currently only AppSettings
+    │   │   ├── hooks           # Custom React Hooks
+    │   │   ├── lib             # Server-side helper code
+    │   │   ├── pages           # Next.js Pages
+    │   │   │   ├── api         # All API Routes
+    │   │   │   └── ...         # All frontend views
+    │   │   ├── models          # Models for API/Database use
+    │   │   ├── util            # Utility functions
+    │   │   ├── middleware.ts   # Next.js Middleware for authentification
+    │   │   └── ...
+    │   ├── tailwind.config.js  # Tailwind Config
+    │   ├── next-auth.d.ts      # Types for Next-Auth
+    │   ├── dist.env.local      # Environment distribution file for local development
+    │   ├── package.json        # Package.json
+    │   └── ...
+    ├── marketing               # Static Marketing Page
+    │   ├── components          # React Components
+    │   ├── pages               # Next.js Pages
+    │   ├── public              # Static Files
+    │   ├── package.json        # Package.json
+    │   └── ...
+    └── ...
+
 
 ---
+## Development
 
-## Smart Contracts
-### Basic Usage
-Smart contracts are deployed to the network using hardhat.
-They are written in [Solidity](https://docs.soliditylang.org/en/v0.8.15/).
-
-#### Initial Steps
-1. Install open zeppelin security audited smart contracts:
-  `$ npm install @openzeppelin/contracts`
-2. Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
-
+### For Smart contract development:
 
 For using hardhat to compile, test, deploy & run a local blockchain node check our respective [hardhat README](hardhat/README.md).
 
+For further information on Hardhat see the official [documentation](https://hardhat.org/hardhat-runner/docs/getting-started).
 
-## API
-Currently supported routes are:
-| Route                                         | Type | Body                                                           | Response         |
-| --------------------------------------------- | ---- | -------------------------------------------------------------- | ---------------- |
-| /users                                        | GET  |                                                                |                  |
-| /users/{id}                                   | GET  |                                                                |                  |
-| /login                                        | POST | {userName: string, password: string}                         | {token, expirationDate} |
-| /proposals                                     | GET  |                                                                |                  |
-| /proposals/{id}                               | GET  |                                                                |                  |
-| /proposals                                    | POST | {title: string, description: string, predictedCost?: number}  |                  |
-| /proposals/{id}/flags                     | GET  |                                                                |                  |
-| /proposals/{id}/flags                     | POST | {proposalHash: string, flagMessage: string, flagAuthorId?: uuid} |                  |
-| /proposalFlags                                        | GET  |                                                                |                  |
+### For Next.js development:
+Move into `next/` and run `yarn install` to install needed packages.
 
-The API can be reached via https://cacao-dao-api.herokuapp.com/
+You will need to run the following command to enable the `.env.local` file:
+`cp dist.env.local .env.local`
 
-To run the API locally run `npm run start:local`.
+After starting the docker-compose environment, you can run `yarn dev` to start the development server.
 
-___
+The server will be available at `localhost:3000`.
+
+This project is written in [TypeScript](https://www.typescriptlang.org/) and uses [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Next-Auth](https://next-auth.js.org/) and [React](https://reactjs.org/).
+For connecting to Arweave, we use [arweave-js](https://github.com/ArweaveTeam/arweave-js). For Ethereum, we use [web3.js](https://web3js.readthedocs.io/en/v1.5.2/).
+
+For database (PostgreSQL) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A seed file can be found under `seeds/seed.sql` you will find a DB diagram in the same folder.
+
+We will add a swagger file for the API soon.
+
+[Further Information on Next.js development can be found here.](https://github.com/Jasaka/Cacao-DAO/blob/main/next/README.md)
+
+---
+## Deployment
+
+Currently our smart contract only supports a single project so you will need to deploy it yourself. We recommend using [Hardhat](https://hardhat.org/) for this. And have added a way to deploy using the hardhat config.
+
+
+You will also need an Arweave Wallet. A great tutorial can be found [here](https://docs.arweave.org/info/wallets/arweave-wallet#getting-started).
+
+We recommend using [Railway](https://railway.app/) for deployment. It is a simple and easy to use platform.
+
+For your convenience we have created a template project for you to use:
+
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ZiHqSQ?referralCode=x2OFXr)
+
+This will take care of setting up the database and Next.js server for you.
+
+You will need to set the following environment variables:
+
+- `DATABASE_URL`: The URL to your database. You can find this in the database settings.
+- `ARW_USE`: 0 or 1. If you want to use Arweave or not.
+- `ARW_WALLET_KEY`: Your Arweave Wallet Key. You can find this in the wallet settings.
+- `ETH_KEY`: Your Ethereum Wallet Key. You can find this in the wallet settings.
+- `CONTRACT_ADDRESS`: The address of your smart contract. You can find this in the smart contract settings.
+- `NEXTAUTH_SECRET`: A secret for Next-Auth.
+- `NEXTAUTH_URL`: The URL of your Next.js server. You can find this in the server settings.
+- `NEXT_PUBLIC_API_HOST`: The URL of your Next.js server plus '/api/'
+- `CRON_KEY`: A secret for the cronjobs.
+
+---
 
 ## Contributing
 

@@ -2,9 +2,7 @@ import { Pool } from "pg"
 
 let poolConfig = {
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: false,
 }
 
 let connection = new Pool(poolConfig)

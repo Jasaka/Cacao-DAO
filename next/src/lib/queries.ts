@@ -1,46 +1,39 @@
+// User Queries
 export const getUsers = 'SELECT * FROM users';
 
-export const getUserById = 'SELECT * FROM users WHERE id = $1';
+export const getUserById = 'SELECT users.id, users."walletId", users.name, users."imageURL", users.about, roles.role FROM (users INNER JOIN roles ON users.role = roles.id) WHERE users.id = $1 LIMIT 1';
 
-export const getProposals = 'SELECT * FROM proposals';
+export const getUserByWalletId = 'SELECT users.id, users."walletId", users.name, users.email, users."imageURL", users.about, roles.role FROM (users INNER JOIN roles ON users.role = roles.id) WHERE users."walletId" = $1 LIMIT 1';
 
-export const getProposalById = 'SELECT * FROM proposals WHERE id = $1';
+export const createUser = 'INSERT INTO users ("walletId") VALUES ($1) RETURNING *';
+
+export const updateUser = 'UPDATE users SET name = $1, "imageURL" = $2, about = $3, email = $4 WHERE "walletId" = $5 RETURNING *';
+
+// Proposal Queries
+
+export const getProposals = 'SELECT * FROM (proposals INNER JOIN users ON proposals."authorId" = users.id)';
+
+export const getProposalById = 'SELECT * FROM (proposals INNER JOIN users ON proposals."authorId" = users.id) WHERE proposals.id = $1';
 
 export const getProposalByHash =
-  'SELECT * FROM proposals WHERE "currentHash" = $1';
+  'SELECT * FROM (proposals INNER JOIN users ON proposals."authorId" = users.id) WHERE "currentHash" = $1';
 
-export const getProposalFlags = 'SELECT * FROM "proposalFlags"';
+export const getProposalFlags = 'SELECT * FROM ("proposalFlags" INNER JOIN users ON "proposalFlags"."authorId" = users.id INNER JOIN proposals ON "proposalFlags"."proposalHash" = proposals."currentHash") ';
 
-export const getProposalFlagsByProposalId =
-  'SELECT\n' +
-  '    *\n' +
-  'FROM\n' +
-  '    "proposalFlags"\n' +
-  'WHERE\n' +
-  '    "proposalHash" IN (\n' +
-  '        SELECT\n' +
-  '            proposals."currentHash"\n' +
-  '        FROM\n' +
-  '            proposals\n' +
-  '        WHERE\n' +
-  '            id = $1\n' +
-  '    )';
-
-// validate Login select true if username and passwordHash match provided values
-export const validateLogin =
-  'SELECT * FROM users WHERE username = $1 AND "passwordHash" = $2';
+export const getProposalFlagsByProposalId = 'SELECT * FROM ("proposalFlags" INNER JOIN users ON "proposalFlags"."authorId" = users.id INNER JOIN proposals ON "proposalFlags"."proposalHash" = proposals."currentHash") WHERE proposals.id = $1';
 
 export const createProposal =
-  'INSERT INTO "proposals" (id, title, description, "predictedCost", "currentHash", "arweaveId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  'INSERT INTO "proposals" (id, title, description, "authorId", "currentHash", "predictedCost", "status", "cycleId") VALUES ($1, $2, $3, $4, $5, $6, 1) RETURNING *';
 
 export const createProposalFlag =
-  'INSERT INTO "proposalFlags" (id, "proposalId", "proposalHash", "flagMessage", "flagAuthorId") VALUES ($1, $2, $3, $4, $5) RETURNING *';
+  'INSERT INTO "proposalFlags" (id, "reason", "authorId", "authorIsPublic", "proposalHash") VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
-export const initiateNewSession =
-  'INSERT INTO "openSessions" ("sessionToken", "userId", "expirationDate") VALUES ($1, $2, $3) RETURNING *';
+export const createVersionHistoryEntry =
+  'INSERT INTO "versionHistory" (hash, "arweaveId", "proposalId") VALUES ($1, $2, $3) RETURNING *';
 
-export const validateSession =
-  'SELECT * FROM "openSessions" WHERE "sessionToken" = $1';
+export const getAllProposalFlags = 'SELECT * FROM "proposalFlags"';
 
-export const deleteSession =
-  'DELETE FROM "openSessions" WHERE "sessionToken" = $1';
+// Cycle Queries
+
+// Navigation Query
+export const getNavigation = 'SELECT * FROM navigation ORDER BY "order"';

@@ -2,7 +2,8 @@ import type { NextPage } from "next"
 import ProposalMask from "../../components/proposal/ProposalMask";
 import Layout from "../../components/layout/Layout";
 
-const Home: NextPage = () => {
+const NewProposal: NextPage = () => {
+
   return (
     <Layout view={"Projects pending funding"} pageTitle={"dOrg Projects pending funding"}>
       <ProposalMask />
@@ -10,4 +11,5 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export { default as getServerSideProps } from "../../lib/serverProps"
+export default NewProposal

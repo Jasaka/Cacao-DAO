@@ -1,25 +1,45 @@
-import type {NextApiRequest, NextApiResponse} from "next"
-import connection from "../../../lib/db";
-import {getUserById} from "../../../lib/queries";
+import type { NextApiRequest, NextApiResponse } from "next"
+import connection from "../../../lib/db"
+import { getUserById } from "../../../lib/queries"
+import { getSession } from "next-auth/react"
+import { isNotGet } from "../../../lib/util"
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const {userId} = req.query
+  const { userId } = req.query
+  const session = await getSession({ req })
 
-  if (req.method !== "GET") {
-    res.status(405).json({endpoint: "Method not allowed"})
+  if (isNotGet(req)) {
+    res.status(405).json({ endpoint: "Method not allowed" })
   }
 
-  if (req.method === "GET") {
+  if (session) {
     connection
       .query(getUserById, [userId])
       .then((result: { rows: any }) => {
         res.status(200).json(result.rows)
       })
       .catch((err: { message: any }) => {
-        res.status(404).json({error: err.message})
+        res.status(404).json({ error: err.message })
+      })
+  } else {
+    connection
+      .query(getUserById, [userId])
+      .then((result: { rows: any }) => {
+        let cleanUser = result.rows.map((user: any) => {
+          return {
+            walletId: user.walletid,
+            name: user.name,
+            imageUrl: user.imageurl,
+            about: user.about
+          }
+        })
+        res.status(200).json(cleanUser)
+      })
+      .catch((err: { message: any }) => {
+        res.status(404).json({ error: err.message })
       })
   }
 }

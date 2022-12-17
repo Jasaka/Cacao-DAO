@@ -53,7 +53,7 @@ export default async function saveProposalToArweave(proposal: ProposalProps) {
     if (useArweave) {
       console.log('No wallet key found');
     } else {
-      console.log('Arweave disabled');
+      console.log('Arweave disabled', proposal);
     }
     return {transactionId: null, hash: proposal.currentHash};
   }
