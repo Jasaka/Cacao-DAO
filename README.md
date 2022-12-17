@@ -12,7 +12,7 @@ Install hardhat:
 - Via npm: `npm install --save-dev hardhat`
 - Via yarn: `yarn add --dev hardhat`
 
-For further information see the official [installation guide](https://hardhat.org/hardhat-runner/docs/getting-started#installation).
+For further information see the official [hardhat installation guide](https://hardhat.org/hardhat-runner/docs/getting-started#installation).
 
 #### For API development
 Move into `api/` and run `npm install` to install needed packages.
@@ -65,12 +65,8 @@ They are written in [Solidity](https://docs.soliditylang.org/en/v0.8.15/).
   `$ npm install @openzeppelin/contracts`
 2. Import contracts in Solidity via: `import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
 
-To compile the entire project, build all artifacts run:
-`npx hardhat compile` (in the hardhat directory)
 
-To run typescript tests, run:
-`npx hardhat test` (in the root directory)
-
+For using hardhat to compile, test, deploy & run a local blockchain node check our respective [hardhat README](hardhat/README.md).
 
 
 ## API
