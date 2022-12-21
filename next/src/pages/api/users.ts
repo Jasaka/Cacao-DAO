@@ -4,12 +4,13 @@ import { getUsers, updateUser } from "../../lib/queries"
 import { isGet, isNotGet, isNotPut, isPut } from "../../lib/util"
 import { getSession } from "next-auth/react"
 
-export default async function handler(
+export default async function userHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (isNotGet(req) && isNotPut(req)) {
     res.status(405).json({ endpoint: "Method not allowed" })
+    return
   }
 
   const session = await getSession({ req })

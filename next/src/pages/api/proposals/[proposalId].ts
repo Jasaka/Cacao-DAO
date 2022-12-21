@@ -1,22 +1,24 @@
 import type {NextApiRequest, NextApiResponse} from "next"
 import connection from "../../../lib/db";
 import {getProposalById} from "../../../lib/queries";
+import { isGet, isNotGet } from "../../../lib/util"
 
 type Data = {
   endpoint: string
 }
 
-export default function handler(
+export default function proposalIdHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const {proposalId} = req.query
 
-  if (req.method !== "GET") {
+  if (isNotGet(req)) {
     res.status(405).json({endpoint: "Method not allowed"})
+    return
   }
 
-  if (req.method === "GET") {
+  if (isGet(req)) {
     connection
       .query(getProposalById, [proposalId])
       .then((result: { rows: any }) => {

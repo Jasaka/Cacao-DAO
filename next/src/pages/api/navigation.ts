@@ -12,12 +12,13 @@ import { getNavigation } from "../../lib/queries"
  *       200:
  *         description: hello world
  */
-export default function handler(
+export default function navigationHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (isNotGet(req)) {
     res.status(405).json({ endpoint: "Method not allowed" })
+    return
   }
 
   connection.query(getNavigation, (err, results) => {

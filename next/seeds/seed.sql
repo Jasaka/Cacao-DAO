@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS "users"
     PRIMARY KEY ("id")
 );
 
-
 CREATE TABLE IF NOT EXISTS "proposals"
 (
     "id"            uuid    NOT NULL DEFAULT gen_random_uuid(),
@@ -151,6 +150,6 @@ INSERT INTO "roles" ("id", "role")
 VALUES (1, 'User'),
        (2, 'Admin');
 
--- INSERT INTO "users" ("walletId", "name", "imageURL", "role")
--- VALUES ('0x227c44A7FE766501381B51e8b5770094c6c6EA28', 'Jan Samak',
---         'https://avatars.githubusercontent.com/u/9197608?v=4', 2);
+INSERT INTO "users" ("walletId", "name", "imageURL", "role")
+VALUES ('0x227c44A7FE766501381B51e8b5770094c6c6EA28', 'Jan Samak',
+        'https://avatars.githubusercontent.com/u/9197608?v=4', 2);

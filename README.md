@@ -18,7 +18,6 @@ This repository is a monorepo for every part of Cacao DAO. It is structured as f
     ├── hardhat                 # Solidity Contracts and Hardhat Config for testing and deployment
     ├── next                    # Front- and Backend for the plattform
     ├── resources               # Resources for Wiki and Readme
-    ├── seeds                   # Basic Seed Data for the Database
     ├── docker-compose.yml      # Docker-Compose for local development
     ├── README.md               # This file
     ├── LICENSE                 # MIT License
@@ -38,6 +37,7 @@ The structure of the most important projects is listed here:
     │   └── ...
     ├── next                    # Front- and Backend for the plattform
     │   ├── public              # Public static files
+    │   ├── seeds               # Database seeds
     │   ├── styles              # Stylesheets
     │   ├── src                 # All source code
     │   │   ├── components      # React Components, split into subfolders by function
@@ -93,16 +93,30 @@ The server will be available at `localhost:3000`.
 This project is written in [TypeScript](https://www.typescriptlang.org/) and uses [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Next-Auth](https://next-auth.js.org/) and [React](https://reactjs.org/).
 For connecting to Arweave, we use [arweave-js](https://github.com/ArweaveTeam/arweave-js). For Ethereum, we use [web3.js](https://web3js.readthedocs.io/en/v1.5.2/).
 
-For database (PostgreSQL) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A seed file can be found under `seeds/seed.sql` you will find a DB diagram in the same folder.
+For database (PostgreSQL) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A seed file can be found under `next/seeds/seed.sql` you will find a DB diagram in the `resources` folder.
 
 We will add a swagger file for the API soon.
 
 [Further Information on Next.js development can be found here.](https://github.com/Jasaka/Cacao-DAO/blob/main/next/README.md)
 
+### Architecture
+
+Due to many moving parts in our dApp we follow a hybrid infrastructure approach.
+
+On one side we have constant data storage on arweave, where we store submitted proposals as json, including their sha256 hash, to facilitate trustless voting. Then we have the smart contract on an ethereum derivate, which is able to hold our voting cycle and manages votes and voters including their respective ids.
+
+On the other side, we have a more traditional client-server architecture, which is responsible for displaying information which is easily understandable by a user, handling user input and providing a powerful API to facilitate our user interactions.
+
+![Architecture](/resources/CacaoDAO_Architecture.png)
+
+The Database mirrors our business logic and is the single source of truth for the whole application. It is used to store all data which is not stored on arweave, such as user data, proposals, votes and flags. It is also used to store the state of the platform, such as the current voting cycle, the current voting period and the corresponding proposals.
+
+![Database](/resources/db_diagram.png)
+
 ---
 ## Deployment
 
-Currently our smart contract only supports a single project so you will need to deploy it yourself. We recommend using [Hardhat](https://hardhat.org/) for this. And have added a way to deploy using the hardhat config.
+Currently, our smart contract only supports a single project so you will need to deploy it yourself. We recommend using [Hardhat](https://hardhat.org/) for this. And have added a way to deploy using the hardhat config.
 
 
 You will also need an Arweave Wallet. A great tutorial can be found [here](https://docs.arweave.org/info/wallets/arweave-wallet#getting-started).
@@ -123,6 +137,8 @@ You will need to set the following environment variables:
 - `ARW_WALLET_KEY`: Your Arweave Wallet Key. You can find this in the wallet settings.
 - `ETH_KEY`: Your Ethereum Wallet Key. You can find this in the wallet settings.
 - `CONTRACT_ADDRESS`: The address of your smart contract. You can find this in the smart contract settings.
+- `ALCHEMY_URL`: The URL to your Alchemy API. You can find this in the Alchemy project settings.
+- `ALCHEMY_KEY`: The key to your Alchemy API. You can find this in the Alchemy project settings.
 - `NEXTAUTH_SECRET`: A secret for Next-Auth.
 - `NEXTAUTH_URL`: The URL of your Next.js server. You can find this in the server settings.
 - `NEXT_PUBLIC_API_HOST`: The URL of your Next.js server plus '/api/'

@@ -20,6 +20,7 @@ The vote results are then displayed and acted on by the platform provider. There
     ├── ...
     ├── next                    # Front- and Backend for the plattform
     │   ├── public              # Public static files
+    │   ├── seeds               # Database seeds
     │   ├── styles              # Stylesheets
     │   ├── src                 # All source code
     │   │   ├── components      # React Components, split into subfolders by function
@@ -42,7 +43,7 @@ The vote results are then displayed and acted on by the platform provider. There
 
 ### Starting the development environment
 
-First, start docker, then run the development server:
+First, start docker in the repository root, then run the development server:
 
 ```bash
 yarn dev

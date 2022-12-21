@@ -2,25 +2,37 @@ import type {NextApiRequest, NextApiResponse} from "next"
 import connection from "../../../../lib/db";
 import {createProposalFlag, getProposalFlagsByProposalId} from "../../../../lib/queries";
 import {generateUUID} from "../../../../lib/generators";
+import { isGet, isNotGet, isNotPost, isPost } from "../../../../lib/util"
+import { getSession } from "next-auth/react"
 
 type Data = {
   endpoint: string
 }
 
-export default function handler(
+export default async function flagForProposalIdHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const {proposalId} = req.query
+  const { proposalId } = req.query
 
-  if (req.method !== "GET" && req.method !== "POST") {
-    res.status(405).json({endpoint: "Method not allowed"})
+  if (isNotGet(req) && isNotPost(req)) {
+    res.status(405).json({ endpoint: "Method not allowed" })
+    return
   }
+
+  const session = await getSession({ req })
+
+  if (!session) {
+    res.status(401).json({ error: "Unauthorized" })
+    return
+  }
+
   if (!proposalId) {
-    res.status(404).json({endpoint: "Proposal not found"})
+    res.status(404).json({ endpoint: "Proposal not found" })
+    return
   }
 
-  if (req.method === "GET") {
+  if (isGet(req)) {
     connection
       .query(getProposalFlagsByProposalId, [proposalId])
       .then((result: { rows: any }) => {
@@ -28,14 +40,14 @@ export default function handler(
       })
       .catch((err: { message: any }) => {
         console.error(err);
-        res.status(500).json({error: err.message});
+        res.status(500).json({ error: err.message });
       });
   }
 
-  if (req.method === "POST") {
-    const {proposalHash, flagMessage, flagAuthorId} = req.body;
+  if (isPost(req)) {
+    const { proposalHash, flagMessage, flagAuthorId } = req.body;
     if (!proposalHash || !flagMessage || !flagAuthorId) {
-      res.status(400).json({error: "Missing required fields"});
+      res.status(400).json({ error: "Missing required fields" });
     }
     connection
       .query(createProposalFlag, [generateUUID(), proposalId, proposalHash, flagMessage, flagAuthorId])
@@ -44,7 +56,7 @@ export default function handler(
       })
       .catch((err: { message: any }) => {
         console.error(err);
-        res.status(500).json({error: err.message});
+        res.status(500).json({ error: err.message });
       });
   }
 }

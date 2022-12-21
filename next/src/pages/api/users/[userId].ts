@@ -4,7 +4,7 @@ import { getUserById } from "../../../lib/queries"
 import { getSession } from "next-auth/react"
 import { isNotGet } from "../../../lib/util"
 
-export default async function handler(
+export default async function userIdHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -13,6 +13,7 @@ export default async function handler(
 
   if (isNotGet(req)) {
     res.status(405).json({ endpoint: "Method not allowed" })
+    return
   }
 
   if (session) {
