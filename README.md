@@ -19,7 +19,6 @@ This repository is a monorepo for every part of Cacao DAO. It is structured as f
     ├── next                    # Front- and Backend for the plattform
     ├── marketing               # Static Marketing Page
     ├── resources               # Resources for Wiki and Readme
-    ├── seeds                   # Basic Seed Data for the Database
     ├── docker-compose.yml      # Docker-Compose for local development
     ├── README.md               # This file
     ├── LICENSE                 # MIT License
@@ -39,6 +38,7 @@ The structure of the most important projects is listed here:
     │   └── ...
     ├── next                    # Front- and Backend for the plattform
     │   ├── public              # Public static files
+    │   ├── seeds               # Database seeds
     │   ├── styles              # Stylesheets
     │   ├── src                 # All source code
     │   │   ├── components      # React Components, split into subfolders by function
@@ -94,10 +94,24 @@ We will add a swagger file for the API soon.
 
 [Further Information on Next.js development can be found here.](https://github.com/Jasaka/Cacao-DAO/blob/main/next/README.md)
 
+### Architecture
+
+Due to many moving parts in our dApp we follow a hybrid infrastructure approach.
+
+On one side we have constant data storage on arweave, where we store submitted proposals as json, including their sha256 hash, to facilitate trustless voting. Then we have the smart contract on an ethereum derivate, which is able to hold our voting cycle and manages votes and voters including their respective ids.
+
+On the other side, we have a more traditional client-server architecture, which is responsible for displaying information which is easily understandable by a user, handling user input and providing a powerful API to facilitate our user interactions.
+
+![Architecture](./resources/CacaoDAO_Architecture.png)
+
+The Database mirrors our business logic and is the single source of truth for the whole application. It is used to store all data which is not stored on arweave, such as user data, proposals, votes and flags. It is also used to store the state of the platform, such as the current voting cycle, the current voting period and the corresponding proposals.
+
+![Database](resources/db_diagram.png)
+
 ---
 ## Deployment
 
-Currently our smart contract only supports a single project so you will need to deploy it yourself. We recommend using [Hardhat](https://hardhat.org/) for this. And have added a way to deploy using the hardhat config.
+Currently, our smart contract only supports a single project so you will need to deploy it yourself. We recommend using [Hardhat](https://hardhat.org/) for this. And have added a way to deploy using the hardhat config.
 
 
 You will also need an Arweave Wallet. A great tutorial can be found [here](https://docs.arweave.org/info/wallets/arweave-wallet#getting-started).

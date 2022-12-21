@@ -18,16 +18,17 @@ function generateProposalHash(uuid: string, title: string, description: string, 
   return generateHash(JSON.stringify(proposal))
 }
 
-export default async function handler(
+export default async function proposalHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const session = await getSession({ req })
-  console.log(session)
 
   if (isNotGet(req) && isNotPost(req)) {
     res.status(405).json({ endpoint: "Method not allowed" })
+    return
   }
+
   if (session) {
     if (isGet(req)) {
       connection

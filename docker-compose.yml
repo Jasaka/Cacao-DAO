@@ -10,7 +10,6 @@ services:
       - "5432:5432"
     build:
         context: .
-        dockerfile: no.Dockerfile
     environment:
       - POSTGRES_USER=cacao
       - POSTGRES_PASSWORD=cacao_dao

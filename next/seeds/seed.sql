@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS "users"
     PRIMARY KEY ("id")
 );
 
-
 CREATE TABLE IF NOT EXISTS "proposals"
 (
     "id"            uuid    NOT NULL DEFAULT gen_random_uuid(),

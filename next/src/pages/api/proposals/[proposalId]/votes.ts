@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { isNotGet, isNotPut } from "../../lib/util"
+import { isNotGet, isNotPut } from "../../../../lib/util"
 import { getSession } from "next-auth/react"
 
-export default async function cycleHandler(req: NextApiRequest, res: NextApiResponse) {
+export default async function votesForProposalIdHandler(req: NextApiRequest, res: NextApiResponse) {
   if (isNotGet(req) && isNotPut(req)) {
     res.status(405).json({ endpoint: "Method not allowed" })
     return
@@ -11,7 +11,7 @@ export default async function cycleHandler(req: NextApiRequest, res: NextApiResp
   const session = await getSession({ req })
 
   if (session) {
-    res.status(200).json({route: "cycles", success: 'true' })
+    res.status(200).json({route: "Votes for ProposalID", success: 'true' })
   } else {
     res.status(401).json({ error: "Unauthorized" })
   }

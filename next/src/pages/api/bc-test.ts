@@ -5,12 +5,13 @@ import quadraticVotingContract, {
   getCycleStatus
 } from "../../lib/ethereum"
 
-export default async function handler(
+export default async function blockChainHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (isNotGet(req)) {
     res.status(405).json({ endpoint: "Method not allowed" })
+    return
   }
 
   const currentCycleHash = await getCurrentCycleHash()
