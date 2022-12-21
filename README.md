@@ -88,7 +88,7 @@ The server will be available at `localhost:3000`.
 This project is written in [TypeScript](https://www.typescriptlang.org/) and uses [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Next-Auth](https://next-auth.js.org/) and [React](https://reactjs.org/).
 For connecting to Arweave, we use [arweave-js](https://github.com/ArweaveTeam/arweave-js). For Ethereum, we use [web3.js](https://web3js.readthedocs.io/en/v1.5.2/).
 
-For database (PostgreSQL) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A seed file can be found under `seeds/seed.sql` you will find a DB diagram in the same folder.
+For database (PostgreSQL) development and viewing of the dataset you could use [TablePlus](https://tableplus.com/). A seed file can be found under `next/seeds/seed.sql` you will find a DB diagram in the `resources` folder.
 
 We will add a swagger file for the API soon.
 
@@ -102,11 +102,11 @@ On one side we have constant data storage on arweave, where we store submitted p
 
 On the other side, we have a more traditional client-server architecture, which is responsible for displaying information which is easily understandable by a user, handling user input and providing a powerful API to facilitate our user interactions.
 
-![Architecture](./resources/CacaoDAO_Architecture.png)
+![Architecture](/resources/CacaoDAO_Architecture.png)
 
 The Database mirrors our business logic and is the single source of truth for the whole application. It is used to store all data which is not stored on arweave, such as user data, proposals, votes and flags. It is also used to store the state of the platform, such as the current voting cycle, the current voting period and the corresponding proposals.
 
-![Database](resources/db_diagram.png)
+![Database](/resources/db_diagram.png)
 
 ---
 ## Deployment
@@ -132,6 +132,8 @@ You will need to set the following environment variables:
 - `ARW_WALLET_KEY`: Your Arweave Wallet Key. You can find this in the wallet settings.
 - `ETH_KEY`: Your Ethereum Wallet Key. You can find this in the wallet settings.
 - `CONTRACT_ADDRESS`: The address of your smart contract. You can find this in the smart contract settings.
+- `ALCHEMY_URL`: The URL to your Alchemy API. You can find this in the Alchemy project settings.
+- `ALCHEMY_KEY`: The key to your Alchemy API. You can find this in the Alchemy project settings.
 - `NEXTAUTH_SECRET`: A secret for Next-Auth.
 - `NEXTAUTH_URL`: The URL of your Next.js server. You can find this in the server settings.
 - `NEXT_PUBLIC_API_HOST`: The URL of your Next.js server plus '/api/'

@@ -4,7 +4,7 @@ import "hardhat-gas-reporter"
 import dotenv from "dotenv";
 
 // Keys need to be added
-const ALCHEMY_API_KEY = "" + dotenv.config().parsed?.ALCHEMY_URL + dotenv.config().parsed?.ALCHEMY_KEY || "";
+const ALCHEMY_URL_AND_KEY = "" + dotenv.config().parsed?.ALCHEMY_URL + dotenv.config().parsed?.ALCHEMY_KEY || "";
 const ETH_KEY = dotenv.config().parsed?.ETH_KEY || "";
 
 
@@ -15,7 +15,7 @@ const config: HardhatUserConfig = {
     },
     networks: {
         goerli: {
-            url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+            url: `${ALCHEMY_URL_AND_KEY}`,
             accounts: [ETH_KEY]
         }
     }
