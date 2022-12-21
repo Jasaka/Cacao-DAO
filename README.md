@@ -17,7 +17,6 @@ This repository is a monorepo for every part of Cacao DAO. It is structured as f
     ├── .github                 # Action for Demo-Cronjobs and MarketingPages
     ├── hardhat                 # Solidity Contracts and Hardhat Config for testing and deployment
     ├── next                    # Front- and Backend for the plattform
-    ├── marketing               # Static Marketing Page
     ├── resources               # Resources for Wiki and Readme
     ├── seeds                   # Basic Seed Data for the Database
     ├── docker-compose.yml      # Docker-Compose for local development
@@ -57,6 +56,12 @@ The structure of the most important projects is listed here:
     │   ├── dist.env.local      # Environment distribution file for local development
     │   ├── package.json        # Package.json
     │   └── ...
+
+
+### GitHub Pages
+We also have a marketing-page branch for Cacao DAO. It is hosted on GitHub Pages and can be found [here](https://jasaka.github.io/Cacao-DAO/).
+The structure of the marketing page is as follows, using [Next.js](https://nextjs.org/):
+
     ├── marketing               # Static Marketing Page
     │   ├── components          # React Components
     │   ├── pages               # Next.js Pages
