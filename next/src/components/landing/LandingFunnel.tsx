@@ -7,10 +7,7 @@ import {
   CashIcon,
   LinkIcon
 } from "@heroicons/react/outline"
-import ProposalList from "../proposal/ProposalList"
-import useProposals from "../../hooks/proposals/useProposals"
 import Link from "next/link"
-import { useSession } from "next-auth/react"
 import AppSettings from "../../data/settings"
 import Image from "next/image"
 
@@ -54,9 +51,6 @@ const features = [
 ]
 
 export default function LandingFunnel() {
-  const [proposalsAreLoading, proposalError, proposals] = useProposals()
-  const { data: session, status } = useSession()
-
   return (
     <>
       <div className="relative bg-white py-8 sm:py-16 lg:py-24">
@@ -115,15 +109,6 @@ export default function LandingFunnel() {
           </p>
         </div>
       </div>
-      {proposals && (proposals.length > 0) && (
-        <div className="relative">
-          <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8 pb-16">
-            <h2 className="text-base font-semibold uppercase tracking-wider text-indigo-600">
-              Recent Proposals
-            </h2>
-            <ProposalList />
-          </div>
-        </div>)}
       <div className="relative py-16 bg-white">
         <div
           className="hidden absolute top-0 inset-x-0 h-1/2 bg-gray-50 lg:block"

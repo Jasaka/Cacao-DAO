@@ -5,7 +5,7 @@ const alchemyProvider = new ethers.providers.AlchemyProvider(process.env.NETWORK
 // @ts-ignore
 const signer = new ethers.Wallet(process.env.ETH_KEY, alchemyProvider)
 // @ts-ignore
-const quadraticVotingContract = new ethers.Contract(process.env.CONTRACT_ADDRESS, contract.output.abi, signer)
+const quadraticVotingContract = new ethers.Contract(process.env.CONTRACT_ADDRESS, contract.abi, signer)
 
 // TODO: Correct typecasting
 const getCurrentCycleHash = async (): Promise<string> => {

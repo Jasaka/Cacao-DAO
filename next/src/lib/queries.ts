@@ -34,6 +34,11 @@ export const createVersionHistoryEntry =
 export const getAllProposalFlags = 'SELECT * FROM "proposalFlags"';
 
 // Cycle Queries
+export const getLatestCycle = 'SELECT * FROM cycles ORDER BY "startDate" DESC LIMIT 1';
+
+export const createCycle = 'INSERT INTO cycles (status) VALUES (1) RETURNING *';
+
+export const updateCycle = 'UPDATE cycles SET status = $1 WHERE "cycleId" = $2 RETURNING *';
 
 // Navigation Query
 export const getNavigation = 'SELECT * FROM navigation ORDER BY "order"';

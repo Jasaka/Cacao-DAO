@@ -139,7 +139,7 @@ VALUES (0, 'Collecting Proposals'),
 INSERT INTO "navigation" ("label", "url", "order", "onlyLoggedIn", "onlyAdmin")
 VALUES ('Home', '/', 1, false, false),
        ('FAQ', '/faq', 2, false, false),
-       ('Townsquare', '/townsquare', 1, true, false),
+       ('Townsquare', '/', 1, true, false),
        ('Proposals', '/proposals', 2, true, false),
        ('Voting', '/voting', 3, true, false),
        ('Decisions', '/decisions', 4, true, false),

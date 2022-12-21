@@ -1,12 +1,21 @@
 import React from 'react';
 import SubmitButton from "../base/Button/SubmitButton";
+import { useMutation } from "react-query"
+import axios from "axios"
 
 export default function ProposalMask() {
+  const [proposalTitle, setProposalTitle] = React.useState("");
+  const [proposalDescription, setProposalDescription] = React.useState("");
+  const [estimatedCost, setEstimatedCost] = React.useState("0");
+
+  const proposalMutation = useMutation({
+    mutationFn: (newProposal): any => {
+      return axios.post("/api/proposals", newProposal)
+    }
+  })
+
   return (
     <div className=''>
-      <p className='mt-4 text-lg text-gray-500 sm:mt-3'>
-        Something-something, this is how it works.
-      </p>
       <form
         action='#'
         method='POST'
@@ -24,6 +33,8 @@ export default function ProposalMask() {
               type='text'
               name='title'
               id='title'
+              value={proposalTitle}
+              onChange={(e) => setProposalTitle(e.target.value)}
               className='block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
             />
           </div>
@@ -50,8 +61,9 @@ export default function ProposalMask() {
               name='proposal-description'
               aria-describedby='proposal-description-description'
               rows={4}
+              value={proposalDescription}
+              onChange={(e) => setProposalDescription(e.target.value)}
               className='block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md'
-              defaultValue={''}
             />
           </div>
         </div>
@@ -75,6 +87,8 @@ export default function ProposalMask() {
               type='number'
               name='estimated-cost'
               id='estimated-cost'
+              value={estimatedCost}
+              onChange={(e) => setEstimatedCost(e.target.value)}
               aria-describedby='estimated-cost-description'
               className='block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
             />
@@ -82,7 +96,13 @@ export default function ProposalMask() {
         </div>
 
         <div className='text-right sm:col-span-2'>
-          <SubmitButton label={'Submit'} />
+          <SubmitButton label={'Submit'} onClick={()=>{
+            // @ts-ignore
+            proposalMutation.mutate({
+              title: proposalTitle,
+              description: proposalDescription,
+              estimatedCost: estimatedCost
+            })}} />
         </div>
       </form>
     </div>

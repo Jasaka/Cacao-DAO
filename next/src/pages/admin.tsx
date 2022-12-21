@@ -6,6 +6,8 @@ import { useRouter } from "next/router"
 import { ActionPanel } from "../components/base/ActionPanel/ActionPanel"
 import { StatDisplay } from "../components/base/StatDisplay/StatDisplay"
 import { useFlags } from "@headlessui/react/dist/hooks/use-flags"
+import axios from "axios"
+import { useMutation } from "react-query"
 
 const stats = [
   { name: "Proposal Amount", stat: "12" },
@@ -33,6 +35,24 @@ const Admin: NextPage = () => {
     router.push("/")
   }
 
+  const cycleStartMutation = useMutation({
+    mutationFn: (): any => {
+      return axios.post("/api/cycle", {action: "new"})
+    }
+  })
+
+  const voteStartMutation = useMutation({
+    mutationFn: (): any => {
+      return axios.post("/api/cycle", {action: "voting"})
+    }
+  })
+
+  const voteEndMutation = useMutation({
+    mutationFn: (): any => {
+      return axios.post("/api/cycle", {action: "ended"})
+    }
+  })
+
   return (
     <Layout view={"Admin Dashboard"} pageTitle={"Admin Dashboard"} pageHeading={"Admin Dashboard"}>
       <div className={"flex flex-col w-full justify-center"}>
@@ -40,10 +60,13 @@ const Admin: NextPage = () => {
         <div className={"pt-16 flex flex-row justify-center"}>
           <ActionPanel title={"Start new Cycle"}
                        description={"Start a new cycle for the DAO. This will create a new cycle and end the current cycle and voting phase, enabling the submission of new proposals. "}
-                       buttonLabel={"Start New Cycle"} onclick={() => console.log("Clicked")} />
+                       buttonLabel={"Start New Cycle"} onclick={() => cycleStartMutation.mutate()} />
           <ActionPanel title={"Start Voting"}
                        description={"Start the voting phase for the current cycle. This will finalize all proposals and start the voting phase."}
-                       buttonLabel={"Start Voting Phase"} onclick={() => console.log("Clicked")} classNames={"ml-16"} />
+                       buttonLabel={"Start Voting Phase"} onclick={() => voteStartMutation.mutate()} classNames={"ml-16"} />
+          <ActionPanel title={"End Voting"}
+                       description={"End the voting phase for the current cycle. This will send all proposals of to the smart contract and start the count."}
+                       buttonLabel={"End Voting Phase"} onclick={() => voteEndMutation.mutate()} classNames={"ml-16"} />
         </div>
       </div>
     </Layout>

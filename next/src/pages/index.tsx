@@ -4,6 +4,7 @@ import LandingFunnel from "../components/landing/LandingFunnel";
 import { useSession } from "next-auth/react"
 import PlaceHolder from "../components/layout/PlaceHolder"
 import { useRouter } from "next/router"
+import ProposalList from "../components/proposal/ProposalList"
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
@@ -15,10 +16,10 @@ const Home: NextPage = () => {
   }
 
   return (
-    <Layout view={"LandingFunnel"} pageTitle={"dOrg LandingFunnel"}>
+    <Layout view={"LandingFunnel"} pageTitle={"dOrg LandingFunnel"} actionButton={!loading && session?.user && "Create "}>
       {loading && "Lade"}
       {!loading && session?.user ? (
-        <PlaceHolder placeholderName={"Townsquare"} />
+        <ProposalList />
       ) : (
         <LandingFunnel />
       )}

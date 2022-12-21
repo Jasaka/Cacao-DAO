@@ -36,7 +36,7 @@ export default function UserNavigation(props: UserNavigationProps) {
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="h-8 w-8 rounded-full"
-                  src={user.imageUrl}
+                  src={"https://avatars.githubusercontent.com/u/9197608?v=4" || user.imageUrl}
                   alt=""
                 />
               </Menu.Button>
@@ -97,7 +97,7 @@ export default function UserNavigation(props: UserNavigationProps) {
             <div className="flex-shrink-0">
               <img
                 className="h-10 w-10 rounded-full"
-                src={user.imageUrl}
+                src={"https://avatars.githubusercontent.com/u/9197608?v=4" || user.imageUrl}
                 alt=""
               />
             </div>
