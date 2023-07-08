@@ -2,26 +2,31 @@ import React from 'react';
 import SubmitButton from "../base/Button/SubmitButton";
 import { useMutation } from "react-query"
 import axios from "axios"
+import { useRouter } from "next/router"
 
 export default function ProposalMask() {
   const [proposalTitle, setProposalTitle] = React.useState("");
   const [proposalDescription, setProposalDescription] = React.useState("");
   const [estimatedCost, setEstimatedCost] = React.useState("0");
+  const router = useRouter()
 
   const proposalMutation = useMutation({
     mutationFn: (newProposal): any => {
       return axios.post("/api/proposals", newProposal)
+    },
+    onSuccess: () => {
+      router.push("/proposals")
     }
   })
 
   return (
-    <div className=''>
+    <div className='flex flex-col mx-auto items-center lg:w-1/3'>
       <form
         action='#'
         method='POST'
         className='mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8'
       >
-        <div>
+        <div  className='sm:col-span-2'>
           <label
             htmlFor='title'
             className='block text-sm font-medium text-gray-700'
@@ -50,7 +55,7 @@ export default function ProposalMask() {
             </label>
             <span
               id='proposal-description-description'
-              className='text-sm text-gray-500'
+              className='text-sm text-gray-500 ml-8'
             >
               Try to stay above 500 characters.
             </span>

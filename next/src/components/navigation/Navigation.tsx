@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Disclosure } from "@headlessui/react"
 import { classNames } from "../../util/classNames"
 import Link from "next/link"
@@ -9,12 +9,11 @@ import { Navigation as NavigationsProps } from "../../models/navigation"
 
 interface NavigationProps {
   displaySize: "small" | "large";
-  currentView: string;
 }
 
 export default function Navigation(props: NavigationProps) {
   const [navigationIsLoading, navigationError, navigations] = useNavigation()
-  const [navigation, setNavigation] = React.useState([] as NavigationsProps[])
+  const [navigation, setNavigation] = useState([] as NavigationsProps[])
   const { data: session, status } = useSession()
 
 
@@ -49,9 +48,7 @@ export default function Navigation(props: NavigationProps) {
               <a
                 key={item.label}
                 className={classNames(
-                  false//item.current
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  "text-gray-300 hover:bg-gray-700 hover:text-white",
                   "px-3 py-2 rounded-md text-sm font-medium"
                 )}
                 //aria-current={item.current ? "page" : undefined}
@@ -72,12 +69,9 @@ export default function Navigation(props: NavigationProps) {
             as="a"
             href={item.url}
             className={classNames(
-              false//item.current
-                ? "bg-gray-900 text-white"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+              "text-gray-300 hover:bg-gray-700 hover:text-white",
               "block px-3 py-2 rounded-md text-base font-medium"
             )}
-            //aria-current={item.current ? "page" : undefined}
           >
             {item.label}
           </Disclosure.Button>

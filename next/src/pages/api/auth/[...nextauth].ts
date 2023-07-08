@@ -2,8 +2,9 @@ import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getCsrfToken } from "next-auth/react"
 import { SiweMessage } from "siwe"
-import { createUser, getUserByWalletId } from "../../../lib/queries"
-import connection from "../../../lib/db"
+import { createUser, getUserByWalletId } from "../../../lib/db/queries"
+import connection from "../../../lib/db/db"
+import { errorLog, verboseLog } from "../../../lib/util/util"
 
 export default async function auth(req: any, res: any) {
   let isNewUser = false
@@ -69,19 +70,19 @@ export default async function auth(req: any, res: any) {
         if (account?.provider === "credentials") {
           const user = await connection.query(getUserByWalletId, [account.providerAccountId]).then(res => res.rows[0])
           if (user.length === 0) {
-            console.log("User with corresponding wallet not found")
-            console.log("Creating new user")
+            verboseLog("User with corresponding wallet not found")
+            verboseLog("Creating new user")
             let newUser = await connection.query(createUser, [account.providerAccountId]).then(res => res.rows[0])
             if (newUser.length === 0) {
-              console.log("Error creating new user")
+              errorLog("Error creating new user")
               return false
             } else {
-              console.log("New user with ID: " + newUser.id + " created")
+              verboseLog("New user with ID: " + newUser.id + " created")
               isNewUser = true
             }
           }
         }
-        console.log("Sign in successful: " + account?.providerAccountId)
+        verboseLog("Sign in successful: " + account?.providerAccountId)
         return true
       },
       async session({ session, token }: { session: any; token: any }) {
@@ -89,7 +90,7 @@ export default async function auth(req: any, res: any) {
         const user = await connection.query(getUserByWalletId, [token.sub]).then(res => res.rows[0])
         session.user.id = user.id
         session.user.walletId = user.walletId
-        session.user.imageUrl = user.imageUrl || "https://source.boringavatars.com/bauhaus/260/" + user.walletId
+        session.user.imageUrl = user.imageUrl
         session.user.isAdmin = user.role === "Admin"
         session.user.name = user.name || user.walletId
         session.user.email = user.email || "you@example.com"

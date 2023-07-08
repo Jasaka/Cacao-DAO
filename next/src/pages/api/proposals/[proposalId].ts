@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from "next"
-import connection from "../../../lib/db";
-import {getProposalById} from "../../../lib/queries";
-import { isGet, isNotGet } from "../../../lib/util"
+import connection from "../../../lib/db/db";
+import {getProposalById} from "../../../lib/db/queries";
+import { isGet, isNotGet } from "../../../lib/util/util"
 
 type Data = {
   endpoint: string
@@ -22,7 +22,8 @@ export default function proposalIdHandler(
     connection
       .query(getProposalById, [proposalId])
       .then((result: { rows: any }) => {
-        res.status(200).json(result.rows)
+        console.log("result", result)
+        res.status(200).json(result.rows[0])
       })
       .catch((err: { message: any }) => {
         res.status(404).json({error: err.message})

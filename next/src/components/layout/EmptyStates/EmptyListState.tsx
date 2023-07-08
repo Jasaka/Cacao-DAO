@@ -1,12 +1,6 @@
 import React from "react"
-import {
-  PlusIcon,
-  UserAddIcon,
-  FolderAddIcon,
-  DocumentAddIcon,
-  ViewGridAddIcon
-} from "@heroicons/react/outline"
 import Link from "next/link"
+import { PlusIcon } from "@heroicons/react/24/outline"
 
 interface EmptyListStateProps {
   icon?: "folder" | "document" | "grid" | "user";

@@ -9,13 +9,11 @@ interface UseQueryProps {
   needsAuth?: boolean;
   responseType?: "blob" | "arraybuffer" | "document" | "json" | "text" | "stream";
   payload?: any;
+  enabled?: boolean;
 }
 
-export default function useAxiosQuery({ url, queryKey, responseType, needsAuth, method, payload }: UseQueryProps): any {
-  const { data: session, status } = useSession()
-  console.log("session", session)
+export default function useAxiosQuery({ url, queryKey, responseType, method, payload, enabled }: UseQueryProps): any {
   let config: any
-
 
   switch (responseType) {
     case "blob":
@@ -63,7 +61,7 @@ export default function useAxiosQuery({ url, queryKey, responseType, needsAuth, 
     isLoading,
     error,
     data
-  } = useQuery(queryKey, queryFunction)
+  } = useQuery(queryKey, queryFunction, { enabled: enabled })
 
 
   return [isLoading, error, data]

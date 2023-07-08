@@ -4,6 +4,7 @@ import { classNames } from "../../util/classNames"
 import { useDisconnect } from "wagmi"
 import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
+import { UserAvatar } from "../user/UserAvatar"
 
 const userNavigation = [
   { name: "Your Profile", href: "/profile" }
@@ -34,11 +35,7 @@ export default function UserNavigation(props: UserNavigationProps) {
               <Menu.Button
                 className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span className="sr-only">Open user menu</span>
-                <img
-                  className="h-8 w-8 rounded-full"
-                  src={"https://avatars.githubusercontent.com/u/9197608?v=4" || user.imageUrl}
-                  alt=""
-                />
+                <UserAvatar userId={ user.id } avatarUrl={ user.imageUrl } size="sm" />
               </Menu.Button>
             </div>
             <Transition

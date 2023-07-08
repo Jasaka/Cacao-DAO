@@ -1,12 +1,7 @@
 import React from "react"
-import { ChevronRightIcon } from "@heroicons/react/solid"
-import {
-  AdjustmentsIcon,
-  CashIcon,
-  DocumentAddIcon
-} from "@heroicons/react/outline"
 import { classNames } from "../../../util/classNames"
 import Link from "next/link"
+import { AdjustmentsHorizontalIcon, ChevronRightIcon, DocumentPlusIcon } from "@heroicons/react/24/outline"
 
 const items = [
   {
@@ -14,14 +9,14 @@ const items = [
     description: "If you have an idea for a proposal, start here.",
     href: "/proposals/new",
     iconColor: "bg-pink-500",
-    icon: DocumentAddIcon
+    icon: DocumentPlusIcon
   },
   {
     name: "Vote on existing proposals",
     description: "Use your voting Credits to vote on existing proposals.",
     href: "/voting",
     iconColor: "bg-purple-500",
-    icon: AdjustmentsIcon
+    icon: AdjustmentsHorizontalIcon
   }
 ]
 

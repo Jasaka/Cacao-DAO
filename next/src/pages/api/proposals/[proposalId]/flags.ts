@@ -1,8 +1,8 @@
 import type {NextApiRequest, NextApiResponse} from "next"
-import connection from "../../../../lib/db";
-import {createProposalFlag, getProposalFlagsByProposalId} from "../../../../lib/queries";
-import {generateUUID} from "../../../../lib/generators";
-import { isGet, isNotGet, isNotPost, isPost } from "../../../../lib/util"
+import connection from "../../../../lib/db/db";
+import {createProposalFlag, getProposalFlagsByProposalId} from "../../../../lib/db/queries";
+import {generateUUID} from "../../../../lib/util/generators";
+import { errorLog, isGet, isNotGet, isNotPost, isPost } from "../../../../lib/util/util"
 import { getSession } from "next-auth/react"
 
 type Data = {
@@ -39,7 +39,7 @@ export default async function flagForProposalIdHandler(
         res.json(result.rows);
       })
       .catch((err: { message: any }) => {
-        console.error(err);
+        errorLog(err);
         res.status(500).json({ error: err.message });
       });
   }
@@ -55,7 +55,7 @@ export default async function flagForProposalIdHandler(
         res.json(result.rows);
       })
       .catch((err: { message: any }) => {
-        console.error(err);
+        errorLog(err);
         res.status(500).json({ error: err.message });
       });
   }

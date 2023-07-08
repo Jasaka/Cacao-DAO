@@ -1,6 +1,12 @@
 import { classNames } from "../../util/classNames"
 import React from "react"
-import { CloudDownloadIcon } from "@heroicons/react/outline"
+import {
+  ArrowUpRightIcon,
+  CloudArrowDownIcon, CloudIcon,
+  FingerPrintIcon,
+  PlusIcon,
+  WalletIcon
+} from "@heroicons/react/24/outline"
 
 
 export interface StepProps {
@@ -17,8 +23,8 @@ export interface StepProps {
 const loginSteps = [
   {
     content: "Go to the MetaMask website and click on the \"Get MetaMask\" button. This will take you to the Chrome web store where you can install the MetaMask extension for Chrome.",
-    icon: CloudDownloadIcon,
-    iconBackground: "bg-blue-500",
+    icon: CloudArrowDownIcon,
+    iconBackground: "bg-green-500",
     link: {
       href: "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
       linkText: "Or click here to go directly to the webstore."
@@ -26,28 +32,28 @@ const loginSteps = [
   },
   {
     content: "Once the extension is installed, click on the MetaMask icon in the top right corner of your Chrome browser. This will open the MetaMask window.",
-    icon: CloudDownloadIcon,
-    iconBackground: "bg-blue-500"
+    icon: ArrowUpRightIcon,
+    iconBackground: "bg-green-500"
   },
   {
     content: "Click on the \"Create Wallet\" button to create a new wallet.",
-    icon: CloudDownloadIcon,
-    iconBackground: "bg-blue-500"
+    icon: PlusIcon,
+    iconBackground: "bg-green-500"
   },
   {
     content: "Follow the on-screen instructions to set up your wallet. This will include creating a password and backing up your seed phrase. Make sure to save your seed phrase in a safe place, as it is the only way to recover your wallet if you forget your password.",
-    icon: CloudDownloadIcon,
-    iconBackground: "bg-blue-500"
+    icon: WalletIcon,
+    iconBackground: "bg-green-500"
   },
   {
     content: "Once your wallet is set up, you will be asked to choose a network. Select the \"Main Ethereum Network\" from the dropdown menu.",
-    icon: CloudDownloadIcon,
-    iconBackground: "bg-blue-500"
+    icon: CloudIcon,
+    iconBackground: "bg-green-500"
   },
   {
     content: "Congratulations, your MetaMask wallet is now set up and ready to use! You can use it to sign in via the button above.",
-    icon: CloudDownloadIcon,
-    iconBackground: "bg-blue-500"
+    icon: FingerPrintIcon,
+    iconBackground: "bg-green-500"
   }
 ]
 

@@ -1,17 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { isNotGet } from "../../lib/util"
-import connection from "../../lib/db"
-import { getNavigation } from "../../lib/queries"
+import { isNotGet } from "../../lib/util/util"
+import connection from "../../lib/db/db"
+import { getNavigation } from "../../lib/db/queries"
 
-/**
- * @swagger
- * /api/navigation:
- *   get:
- *     description: Returns navigation items
- *     responses:
- *       200:
- *         description: hello world
- */
 export default function navigationHandler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -24,6 +15,7 @@ export default function navigationHandler(
   connection.query(getNavigation, (err, results) => {
     if (err) {
       res.status(500).json({ endpoint: "Internal server error" })
+      return
     }
 
     res.status(200).json(results.rows)

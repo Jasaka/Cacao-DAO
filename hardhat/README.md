@@ -38,7 +38,7 @@ For deployment on Goerli testnet (as configured in [hardhat.config.ts](hardhat.c
 ```shell
 npx hardhat run scripts/deploy.ts --network goerli
 ```
-###
+
 ### Local Ethereum network node for development
 To start the node, just type:
 ```shell
@@ -49,3 +49,9 @@ This will start a HTTP and WebSocket JSON-RPC server (default port http://127.0.
 
 If you want to connect further Hardhat tasks to this node, you just need to run using 
 `--network localhost`.
+
+### Verification on Etherscan
+To verify the contract on Etherscan, you need to add your [Etherscan API key](https://docs.alchemy.com/docs/submitting-your-smart-contract-to-etherscan#step-1-generate-an-api-key-on-your-etherscan-account) to the `.env` file. Then run:
+```shell
+npx hardhat verify --network goerli <contractAddressHere> 14 10 4
+```

@@ -1,7 +1,6 @@
 import { Transition, Dialog } from '@headlessui/react';
 import React, { Fragment } from 'react';
-
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from "@heroicons/react/24/outline"
 
 interface ModalProps {
   isOpen: boolean;
@@ -53,7 +52,7 @@ export default function Modal(props: ModalProps) {
                       onClick={() => handleClose()}
                     >
                       <span className='sr-only'>Close</span>
-                      <XIcon className='h-6 w-6' aria-hidden='true' />
+                      <XMarkIcon className='h-6 w-6' aria-hidden='true' />
                     </button>
                   </div>
                   <div className='sm:flex sm:items-start'>

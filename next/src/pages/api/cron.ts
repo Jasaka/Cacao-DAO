@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { isNotPost } from "../../lib/util"
+import { isNotPost, verboseLog } from "../../lib/util/util"
 
 export default function cronHandler(req:NextApiRequest, res:NextApiResponse) {
 
@@ -13,7 +13,7 @@ export default function cronHandler(req:NextApiRequest, res:NextApiResponse) {
 
   try {
     if (ACTION_KEY === CRON_KEY) {
-      console.log("Cron job started at", new Date());
+      verboseLog("Cron job started at", new Date());
       res.status(200).json({ success: 'true' })
     } else {
       res.status(401).json({ error: "Unauthorized" })

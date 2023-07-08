@@ -5,9 +5,10 @@ interface UseGetProps {
   queryKey: string;
   responseType?: any;
   needsAuth?: boolean;
+  enabled?: boolean;
 }
 
-export default function useGet({ url, queryKey, needsAuth = false, responseType = "json" }: UseGetProps) {
+export default function useGet({ url, queryKey, needsAuth = false, responseType = "json", enabled }: UseGetProps) {
   const [
     isLoading,
     error,
@@ -17,7 +18,8 @@ export default function useGet({ url, queryKey, needsAuth = false, responseType 
     queryKey: queryKey,
     responseType: responseType,
     needsAuth: needsAuth,
-    method: "get"
+    method: "get",
+    enabled: enabled
   })
 
   return [isLoading, error, data]

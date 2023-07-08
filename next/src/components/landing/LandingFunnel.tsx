@@ -1,15 +1,15 @@
 import React from "react"
-import {
-  LibraryIcon,
-  RefreshIcon,
-  ServerIcon,
-  ShieldCheckIcon,
-  CashIcon,
-  LinkIcon
-} from "@heroicons/react/outline"
 import Link from "next/link"
 import AppSettings from "../../data/settings"
 import Image from "next/image"
+import {
+  ArrowPathIcon,
+  BanknotesIcon,
+  BuildingLibraryIcon,
+  LinkIcon,
+  ServerIcon,
+  ShieldCheckIcon
+} from "@heroicons/react/24/outline"
 
 const features = [
   {
@@ -22,13 +22,13 @@ const features = [
     name: "Completely Free",
     description:
       "No fees for users – all costs covered by "+ AppSettings.content.organizationName,
-    icon: CashIcon
+    icon: BanknotesIcon
   },
   {
     name: "Smart Voting",
     description:
       "Quadratic voting to ensure that every vote counts",
-    icon: LibraryIcon
+    icon: BuildingLibraryIcon
   },
   {
     name: "Persisted on the blockchain",
@@ -40,7 +40,7 @@ const features = [
     name: "Social Change",
     description:
       "Powered by the community. View results of past cycles and stay informed about upcoming proposals",
-    icon: RefreshIcon
+    icon: ArrowPathIcon
   },
   {
     name: "Forever on Arweave",
@@ -55,7 +55,7 @@ export default function LandingFunnel() {
     <>
       <div className="relative bg-white py-8 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-          <h2 className="text-base font-semibold uppercase tracking-wider text-indigo-600">
+          <h2 className="text-base font-semibold uppercase tracking-wider text-lime-600">
             Be a part of the solution
           </h2>
           <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -75,7 +75,7 @@ export default function LandingFunnel() {
                     <div className="-mt-6">
                       <div>
                         <span
-                          className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-3 shadow-lg">
+                          className="inline-flex items-center justify-center rounded-md bg-lime-500 p-3 shadow-lg">
                           <feature.icon
                             className="h-6 w-6 text-white"
                             aria-hidden="true"
@@ -101,7 +101,7 @@ export default function LandingFunnel() {
             confident that you know exactly what you&apos;re voting on. Voting is facilitated via a smart contract on the
             Ethereum blockchain, so the whole process is transparent and easy to understand.
             <br /><br />
-            <Link href={"/login"}><a className={"text-indigo-500 hover:text-indigo-700"}>Signing up</a></Link> is easy – simply connect your MetaMask wallet and you&apos;re ready to start casting your votes. And
+            <Link href={"/login"}><a className={"text-lime-500 hover:text-lime-700"}>Signing up</a></Link> is easy – simply connect your MetaMask wallet and you&apos;re ready to start casting your votes. And
             don&apos;t worry about fees – we cover all costs, so you can focus on making your voice heard.
             <br /><br />
             See the results of past cycles and stay informed about upcoming proposals.
@@ -114,7 +114,7 @@ export default function LandingFunnel() {
           className="hidden absolute top-0 inset-x-0 h-1/2 bg-gray-50 lg:block"
           aria-hidden="true"
         />
-        <div className="max-w-7xl mx-auto bg-indigo-600 lg:bg-transparent lg:px-8">
+        <div className="max-w-7xl mx-auto bg-lime-600 lg:bg-transparent lg:px-8">
           <div className="lg:grid lg:grid-cols-12">
             <div className="relative z-10 lg:col-start-1 lg:row-start-1 lg:col-span-4 lg:py-16 lg:bg-transparent">
               <div
@@ -134,7 +134,7 @@ export default function LandingFunnel() {
             </div>
 
             <div
-              className="relative bg-indigo-600 lg:col-start-3 lg:row-start-1 lg:col-span-10 lg:rounded-3xl lg:grid lg:grid-cols-10 lg:items-center">
+              className="relative bg-lime-600 lg:col-start-3 lg:row-start-1 lg:col-span-10 lg:rounded-3xl lg:grid lg:grid-cols-10 lg:items-center">
               <div
                 className="hidden absolute inset-0 overflow-hidden rounded-3xl lg:block"
                 aria-hidden="true"
@@ -161,7 +161,7 @@ export default function LandingFunnel() {
                         y={0}
                         width={4}
                         height={4}
-                        className="text-indigo-500"
+                        className="text-lime-500"
                         fill="currentColor"
                       />
                     </pattern>
@@ -194,7 +194,7 @@ export default function LandingFunnel() {
                         y={0}
                         width={4}
                         height={4}
-                        className="text-indigo-500"
+                        className="text-lime-500"
                         fill="currentColor"
                       />
                     </pattern>
@@ -220,7 +220,7 @@ export default function LandingFunnel() {
                 </p>
                 <Link href={"/login"}>
                   <a
-                    className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-indigo-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
+                    className="block w-full py-3 px-5 text-center bg-white border border-transparent rounded-md shadow-md text-base font-medium text-lime-700 hover:bg-gray-50 sm:inline-block sm:w-auto"
                   >
                     Sign in to participate!
                   </a>

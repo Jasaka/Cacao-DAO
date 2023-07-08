@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import connection from "../../../lib/db"
-import { getUserById } from "../../../lib/queries"
+import connection from "../../../lib/db/db"
+import { getUserById } from "../../../lib/db/queries"
 import { getSession } from "next-auth/react"
-import { isNotGet } from "../../../lib/util"
+import { isNotGet } from "../../../lib/util/util"
 
 export default async function userIdHandler(
   req: NextApiRequest,
@@ -20,7 +20,7 @@ export default async function userIdHandler(
     connection
       .query(getUserById, [userId])
       .then((result: { rows: any }) => {
-        res.status(200).json(result.rows)
+        res.status(200).json(result.rows[0])
       })
       .catch((err: { message: any }) => {
         res.status(404).json({ error: err.message })
@@ -37,7 +37,7 @@ export default async function userIdHandler(
             about: user.about
           }
         })
-        res.status(200).json(cleanUser)
+        res.status(200).json(cleanUser[0])
       })
       .catch((err: { message: any }) => {
         res.status(404).json({ error: err.message })

@@ -6,11 +6,11 @@ import { ProposalProps } from "../proposal/ProposalDetailView"
 import ProposalDialogDetailView from "../proposal/ProposalDialogDetailView"
 import Modal from "../base/Modal/Modal"
 import Button from "../base/Button/Button"
-import useProposals from "../../hooks/proposals/useProposals"
 
-
-export default function VoteDashboard() {
-  const [proposalsAreLoading, proposalError, proposalList] = useProposals()
+interface VoteDashboardProps {
+  proposals: any
+}
+export default function VoteDashboard({ proposals }: VoteDashboardProps) {
   const [currentlyOpenVoteCredits] = useRecoilState(openVoteCredits)
   const [voteList, setVoteList] = useRecoilState(votes)
   const [voted, setVoted] = useState(false)
@@ -29,9 +29,9 @@ export default function VoteDashboard() {
   }, [currentlyOpenVoteCredits])
 
   useEffect(() => {
-    if(!proposalList) return
+    if(!proposals) return
     const newVoteList = [...voteList]
-    proposalList.forEach((proposal: ProposalProps) => {
+    proposals.forEach((proposal: ProposalProps) => {
       if (newVoteList.find((vote) => vote.id === proposal.id)) {
         return
       }
@@ -41,7 +41,7 @@ export default function VoteDashboard() {
       })
     })
     setVoteList(newVoteList)
-  }, [proposalList])
+  }, [proposals])
 
   const [modal, setModal] = useState({ open: false, id: "" })
 
@@ -58,8 +58,8 @@ export default function VoteDashboard() {
     return (
       <div className="flex flex-col">
         <div className="flex flex-col">
-          <h2>Thank you for voting</h2>
-          <p>You have voted on all proposals.</p>
+          <p className={"text-center font-bold mt-8 text-4xl"}>Thank you for voting!</p>
+          <p className={"text-center font-bold mt-8 text-xl"}>You have voted on all proposals.</p>
         </div>
       </div>
     )
@@ -70,30 +70,7 @@ export default function VoteDashboard() {
       <Modal onClose={closeModal} isOpen={modal.open}>
         <ProposalDialogDetailView proposalId={modal.id} />
       </Modal>
-      <div className={"rounded p-16 mx-12 mt-4 bg-gray-100 border"}>
-        <p>
-          Quadratic voting is a collective decision-making procedure which
-          involves individuals allocating votes to express the degree of their
-          preferences, rather than just the direction of their preferences. By
-          doing so, quadratic voting seeks to address issues of voting paradox
-          and majority rule.
-        </p>
-        <br />
-        <h2 className={"text-xl"}>How it works</h2>
-        <img
-          src={"img/voting_interaction.gif"}
-          alt="logo"
-          className={"w-auto h-16 rounded my-4"}
-        />
-        <p>
-          You can vote on any proposal you want. You do not need to spend all
-          points and there might be instances where you will not be able to spend
-          all points. Casting more votes on a single proposal will increase the
-          price of voting on that proposal exponentially. Specifically the price
-          of voting on a proposal will increase by the square of the number of
-          votes you have cast on that proposal.
-        </p>
-      </div>
+
       <div className={"relative flex flex-row flex-row-reverse my-8 lg:mx-24"}>
         <div className={"flex justify-end ml-8 top-8 right-8 sticky h-16"}>
           <div
@@ -110,7 +87,7 @@ export default function VoteDashboard() {
             return (
               <VoteListItem
                 key={vote.id}
-                proposal={proposalList.find(
+                proposal={proposals.find(
                   (proposal: ProposalProps) => vote.id === proposal.id
                 )}
                 vote={vote.vote}

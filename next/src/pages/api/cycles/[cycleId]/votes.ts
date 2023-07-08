@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { isNotGet, isNotPut } from "../../../../lib/util"
+import { isNotGet, isNotPut } from "../../../../lib/util/util"
 import { getSession } from "next-auth/react"
 
 export default async function votesForCycleIdHandler(req: NextApiRequest, res: NextApiResponse) {

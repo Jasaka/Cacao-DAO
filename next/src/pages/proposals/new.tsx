@@ -5,11 +5,11 @@ import Layout from "../../components/layout/Layout";
 const NewProposal: NextPage = () => {
 
   return (
-    <Layout view={"Projects pending funding"} pageTitle={"dOrg Projects pending funding"}>
+    <Layout pageTitle={"dOrg Projects pending funding"} pageHeading={"Submit a new Proposal"}>
       <ProposalMask />
     </Layout>
   )
 }
 
-export { default as getServerSideProps } from "../../lib/serverProps"
+export { default as getServerSideProps } from "../../lib/util/serverProps"
 export default NewProposal

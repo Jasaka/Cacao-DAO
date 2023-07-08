@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { isNotGet, isNotPut } from "../../../../lib/util"
+import { errorLog, isNotGet, isNotPut } from "../../../../lib/util/util"
 import { getSession } from "next-auth/react"
 import votesForProposalIdHandler from "./votes"
+import connection from "../../../../lib/db/db"
+import { getProposalFlagsByProposalId, getVersionHistoryByProposalId } from "../../../../lib/db/queries"
 
 export default async function versionForProposalIdHandler(req: NextApiRequest, res: NextApiResponse) {
   if (isNotGet(req) && isNotPut(req)) {
@@ -10,9 +12,18 @@ export default async function versionForProposalIdHandler(req: NextApiRequest, r
   }
 
   const session = await getSession({ req })
+  const { proposalId } = req.query
 
   if (session) {
-    res.status(200).json({route: "Versions for ProposalID", success: 'true' })
+    connection
+      .query(getVersionHistoryByProposalId, [proposalId])
+      .then((result: { rows: any }) => {
+        res.json(result.rows);
+      })
+      .catch((err: { message: any }) => {
+        errorLog(err);
+        res.status(500).json({ error: err.message });
+      });
   } else {
     res.status(401).json({ error: "Unauthorized" })
   }

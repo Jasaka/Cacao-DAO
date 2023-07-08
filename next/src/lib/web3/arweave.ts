@@ -1,5 +1,6 @@
 import Arweave from 'arweave';
-import {ProposalProps} from "../util/sharedTypes";
+import {ProposalProps} from "../../util/sharedTypes";
+import { errorLog, verboseLog } from "../util/util"
 
 const arweaveWalletKey = process.env.ARW_WALLET_KEY;
 const useArweave = process.env.ARW_USE === "1";
@@ -15,9 +16,9 @@ export default async function saveProposalToArweave(proposal: ProposalProps) {
   if (arweaveWalletKey && useArweave) {
     const wallet = JSON.parse(arweaveWalletKey);
     const walletAddress = await arweave.wallets.jwkToAddress(wallet);
-    console.log(`Wallet: ${walletAddress}`);
+    verboseLog(`Wallet: ${walletAddress}`);
     const balance = await arweave.wallets.getBalance(wallet);
-    console.log(`Balance: ${balance}`);
+    verboseLog(`Balance: ${balance}`);
 
     const transaction = await arweave.createTransaction(
       {
@@ -27,33 +28,34 @@ export default async function saveProposalToArweave(proposal: ProposalProps) {
     );
 
     await arweave.transactions.sign(transaction, wallet).then(() => {
-      console.log('Transaction successfully signed');
+      verboseLog('Transaction successfully signed');
       const transactionId = transaction.id;
-      console.log(`Transaction ID: ${transactionId}`);
+      verboseLog(`Transaction ID: ${transactionId}`);
       const transactionData = transaction.get('data', {
         decode: true,
         string: true,
       });
-      console.log(`Transaction Data: ${transactionData}`);
+      verboseLog(`Transaction Data: ${transactionData}`);
     });
 
     await arweave.transactions.post(transaction).then(() => {
-      console.log('Transaction posted successfully');
+      verboseLog('Transaction posted successfully');
       const transactionId = transaction.id;
-      console.log(`Transaction ID: ${transactionId}`);
+      verboseLog(`Transaction ID: ${transactionId}`);
       const transactionData = transaction.get('data', {
         decode: true,
         string: true,
       });
-      console.log(`Transaction Data: ${transactionData}`);
-
-      return {transactionId: transactionId, hash: proposal.currentHash};
+      verboseLog(`Transaction Data: ${transactionData}`);
+      const transactionResult = {transactionId: transactionId, hash: proposal.currentHash}
+      console.log('transactionResult', transactionResult)
+      return transactionResult
     });
   } else {
     if (useArweave) {
-      console.log('No wallet key found');
+      errorLog('No wallet key found');
     } else {
-      console.log('Arweave disabled', proposal);
+      verboseLog('Arweave disabled', proposal);
     }
     return {transactionId: null, hash: proposal.currentHash};
   }

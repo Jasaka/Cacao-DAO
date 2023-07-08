@@ -1,7 +1,7 @@
 import type { NextPage } from "next"
 import Layout from "../components/layout/Layout"
 import { Disclosure } from "@headlessui/react"
-import { ChevronDownIcon } from "@heroicons/react/outline"
+import { ChevronDownIcon } from "@heroicons/react/24/outline"
 
 const faqs = [
   {
@@ -61,7 +61,7 @@ const faqs = [
     answer: "Currently there shouldn't be any disputes concerning votes. We keep a blockchain-saved register of votes in a cycle as well as blockweave-stored version history of proposals. The vote-handling contracts are also open-source and auditable."
   },
   {
-    questions: "How do I contact the team behind the app for support or additional questions?",
+    question: "How do I contact the team behind the app for support or additional questions?",
     answer: "You can contact the team behind the app by sending an email to support@cacao-dao.org."
   }
 ]
@@ -73,14 +73,14 @@ function classNames(...classes: string[]) {
 const FAQ: NextPage = () => {
 
   return (
-    <Layout view={"LandingFunnel"} pageTitle={"dOrg LandingFunnel"}>
+    <Layout pageTitle={"dOrg LandingFunnel"}>
       <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
         <div className="lg:grid lg:grid-cols-3 lg:gap-8">
           <div>
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">Frequently asked questions</h2>
             <p className="mt-4 text-lg text-gray-500">
               Can’t find the answer you’re looking for? Reach out to our{" "}
-              <a href="mailto:support@cacao-dao.org" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="mailto:support@cacao-dao.org" className="font-medium text-lime-600 hover:text-lime-500">
                 support
               </a>{" "}
               team.
@@ -118,5 +118,5 @@ const FAQ: NextPage = () => {
   )
 }
 
-export { default as getServerSideProps } from "../lib/serverProps"
+export { default as getServerSideProps } from "../lib/util/serverProps"
 export default FAQ

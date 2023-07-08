@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { isNotGet } from "../../lib/util"
-import connection from "../../lib/db"
-import { getProposalFlags } from "../../lib/queries"
+import { isNotGet } from "../../lib/util/util"
+import connection from "../../lib/db/db"
+import { getProposalFlags } from "../../lib/db/queries"
 import { getSession } from "next-auth/react"
 
 export default async function flagHandler(

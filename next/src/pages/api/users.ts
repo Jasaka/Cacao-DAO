@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import connection from "../../lib/db"
-import { getUsers, updateUser } from "../../lib/queries"
-import { isGet, isNotGet, isNotPut, isPut } from "../../lib/util"
+import connection from "../../lib/db/db"
+import { getUsers, updateUser } from "../../lib/db/queries"
+import { isGet, isNotGet, isNotPut, isPut } from "../../lib/util/util"
 import { getSession } from "next-auth/react"
 
 export default async function userHandler(
@@ -28,7 +28,7 @@ export default async function userHandler(
     }
 
     if (isPut(req)) {
-      connection.query(updateUser, [req.body.name, req.body.imageURL, req.body.about, req.body.email, req.body.walletId]).then((result: { rows: any }) => {
+      connection.query(updateUser, [req.body.name, req.body.imageUrl, req.body.about, req.body.email, req.body.walletId]).then((result: { rows: any }) => {
         res.status(200).json(result.rows[0])
       }).catch((err: { message: any }) => {
         res.status(404).json({ error: err.message })
